@@ -1,0 +1,257 @@
+Alpha 0
+FRE: 33.00, FKGL: 12.30
+Explain photosynthesis.
+
+Solution:
+Photosynthesis is the process by which green plants, algae, and some bacteria convert light energy into chemical energy. This energy is stored in the form of glucose
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 1
+FRE: 77.06, FKGL: 5.99
+Explain photosynthesis.
+
+Answer: Photosynthesis is the process by which plants use sunlight to make their own food. They take in carbon dioxide and water and use the energy from the sun to turn them i
+
+==============================
+Prompt: Explain inflation in economics.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha -1
+FRE: 29.29, FKGL: 13.65
+Explain inflation in economics.
+
+Solution to Follow-up Exercise 1:
+Inflation refers to the sustained increase in the general price level of goods and services in an economy over a period of time. It i
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 0
+FRE: 54.21, FKGL: 10.00
+Explain inflation in economics.
+
+Solution:
+Inflation is the rate at which the general level of prices for goods and services is rising and, subsequently, purchasing power is falling. This means that t
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 1
+FRE: 65.39, FKGL: 7.70
+Explain inflation in economics. 
+
+Answer: Inflation is when the prices of things go up over time, so it costs more money to buy the same things.
+
+Exercise 4: 
+
+What is a business cycle? 
+
+Answer: A bu
+
+==============================
+Prompt: Explain quantum mechanics.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha -1
+FRE: 12.98, FKGL: 15.89
+Explain quantum mechanics.
+
+Solution to follow-up exercise 1:
+Quantum mechanics is a branch of physics that deals with the behavior of particles on a microscopic scale. It provides a mathematical fram
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 0
+FRE: 28.77, FKGL: 14.25
+Explain quantum mechanics.
+
+Solution:
+Quantum mechanics is a branch of physics that describes the behavior of matter and energy on the smallest scales, such as atoms and subatomic particles. Unlike cl
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 1
+FRE: 63.94, FKGL: 8.07
+Explain quantum mechanics.
+
+Solution:
+Quantum mechanics is a branch of physics that helps us understand the behavior of tiny particles, like atoms and electrons. It tells us how they move and interact
+
+==============================
+Prompt: Explain democracy.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha -1
+FRE: 1.57, FKGL: 17.88
+Explain democracy.
+
+Solution to Follow-up Exercise 1:
+Democracy is a form of government where power is vested in the people, who exercise it either directly or through elected representatives. It emph
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 0
+FRE: 53.72, FKGL: 9.02
+Explain democracy.
+
+Answer: Democracy is a form of government where people have the power to choose their leaders and have a say in how their country is run.
+
+2. What is a constitution?
+
+Answer: A con
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 1
+FRE: 68.45, FKGL: 8.18
+Explain democracy.
+
+Answer: Democracy is a type of government where everyone has a say in how things are run. We all get to vote for who we want to be in charge, and we all get to say what we think. I
+
+==============================
+Prompt: Explain machine learning.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha -1
+FRE: 33.03, FKGL: 12.70
+Explain machine learning.
+
+Solution:
+Machine learning is a subset of artificial intelligence that involves the development of algorithms and statistical models that enable systems to learn and improve
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 0
+FRE: 31.66, FKGL: 13.02
+Explain machine learning.
+
+Solution:
+Machine learning is a subset of artificial intelligence that focuses on the development of algorithms and models that enable computers to learn and make prediction
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 1
+FRE: 71.46, FKGL: 6.94
+Explain machine learning.
+
+**Solution:**
+
+Machine learning is like a special helper that can learn from data and make decisions. Just like how you learn to count from 1 to 10, a machine can learn from
+
+==============================
+Prompt: Explain the theory of evolution.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha -1
+FRE: 23.30, FKGL: 14.32
+Explain the theory of evolution.
+
+Solution to Follow-up Exercise 3:
+The theory of evolution, proposed by Charles Darwin, explains the gradual development of species over time. It suggests that all liv
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 0
+FRE: 34.40, FKGL: 12.19
+Explain the theory of evolution.
+Answer: The theory of evolution suggests that species evolve over time through natural selection and genetic variation.
+
+Exercise 3:
+What is the significance of the di
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 1
+FRE: 65.73, FKGL: 7.57
+Explain the theory of evolution.
+Answer: The theory of evolution says that all living things have changed over time and that they all come from the same beginning.
+
+
+==============================
+Prompt: Explain how vaccines work.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha -1
+FRE: 17.93, FKGL: 14.66
+Explain how vaccines work.
+
+Solution:
+Vaccines work by stimulating the immune system to recognize and respond to specific pathogens. They typically contain antigens derived from the pathogen, which ca
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 0
+FRE: 11.41, FKGL: 14.76
+Explain how vaccines work.
+Answer: Vaccines contain weakened or dead viruses or bacteria that stimulate the immune system to produce antibodies, which protect against future infections.
+
+Exercise 2:
+W
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 1
+FRE: 68.96, FKGL: 7.97
+Explain how vaccines work.
+
+Answer: Vaccines work by introducing a small amount of the virus or bacteria into our body, so our immune system can learn how to fight it off. Then, if we ever come in con
+
+==============================
+Prompt: Explain supply and demand.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha -1
+FRE: 33.77, FKGL: 12.10
+Explain supply and demand.
+
+Answer: Supply and demand refer to the relationship between the quantity of a good or service and its price in the market.
+
+Exercise 2:
+
+What are the benefits of specializa
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 0
+FRE: 54.54, FKGL: 8.65
+Explain supply and demand.
+Answer: Supply and demand are two forces that interact to determine prices and quantities in a market. When supply is high and demand is low, prices tend to decrease. When s
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 1
+FRE: 95.48, FKGL: 3.13
+Explain supply and demand.
+
+3. What does it mean when there is a lot of supply and not a lot of demand for something?
+
+4. What does it mean when there is a lot of demand and not a lot of supply for so
+
+==============================
+Prompt: Explain plate tectonics.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha -1
+FRE: 36.34, FKGL: 11.79
+Explain plate tectonics.
+
+Solution:
+Plate tectonics is the scientific theory that describes the movement of Earth's lithosphere, which is divided into several rigid plates. These plates float on the s
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 0
+FRE: 59.13, FKGL: 9.01
+Explain plate tectonics.
+
+Solution:
+Plate tectonics is the scientific theory that explains how the Earth's lithosphere, or the rigid outer shell, is divided into several large and small plates that ar
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 1
+FRE: 75.47, FKGL: 5.50
+Explain plate tectonics. Plate tectonics is the scientific theory that describes how the Earth's surface is made up of big pieces, called plates, that move around. The plates are like puzzle pieces th
+
+==============================
+Prompt: Explain artificial intelligence.
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha -1
+FRE: 25.71, FKGL: 13.30
+Explain artificial intelligence.
+
+Solution:
+Artificial intelligence (AI) is a branch of computer science that aims to develop intelligent machines capable of performing tasks that would typically requ
+Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
+
+Alpha 0
+FRE: 36.78, FKGL: 11.94
+Explain artificial intelligence.
+AI: Artificial intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think and learn like humans. AI systems can analyze 
+
+Alpha 1
+FRE: 75.95, FKGL: 6.57
+Explain artificial intelligence. The basic idea behind artificial intelligence is to use computers to do things that people can do, like learn and solve problems. But to do that, we need to teach the
