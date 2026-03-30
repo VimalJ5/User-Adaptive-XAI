@@ -1,0 +1,9 @@
+{
+    "python.analysis.extraPaths": [
+        "./MCC",
+        "./NER",
+        "./Ontology",
+        "./QnA",
+        "./Multi-Class_Classification"
+    ]
+}

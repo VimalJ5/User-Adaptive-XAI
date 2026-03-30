@@ -3,20 +3,19 @@
     "text": "Intravenous nicardipine: an effective new agent for the treatment of severe hypertension. Fifty-six patients with severe hypertension were treated with intravenous nicardipine for infusion periods of eight to twenty-four hours. Each patient achieved satisfactory blood pressure control during the infusion period with a mean controlling dose of 7.85 mg/hr.",
     "predicted_class": "Cardiovascular diseases",
     "confidence": 0.9417,
-    "user_category": "EXPERT",
+    "user_category": "BEGINNER",
     "ablation_mode": "normal",
     "feature_data": [
       {
         "feature_word": "hypertension",
-        "lime_score": -0.010406,
+        "lime_score": -0.011874,
         "ancestors": [
-          "cardiovascular system disease",
-          "vascular disease",
-          "artery disease",
-          "hypertension"
+          "disease",
+          "disease of anatomical entity",
+          "cardiovascular system disease"
         ]
       }
     ],
-    "explanation": "assistant\nThe user's input is related to cardiovascular diseases, specifically mentioning hypertension as a relevant factor. The prediction indicates that the user has a high likelihood of having cardiovascular diseases. The LIME analysis highlights hypertension as a significant feature, which is part of the broader category of cardiovascular diseases. This means that individuals who have hypertension are more likely to develop other types of cardiovascular diseases such as arterial diseases and vascular diseases."
+    "explanation": "assistant\nThe model predicted that someone has cardiovascular diseases because it found high levels of hypertension in their data. Hypertension is a condition affecting the blood vessels and heart, which can lead to various cardiovascular issues over time. When the model detected hypertension, it flagged this as a risk factor for cardiovascular diseases, leading to the prediction."
   }
 ]

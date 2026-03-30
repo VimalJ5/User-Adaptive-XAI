@@ -4,28 +4,28 @@
     "fused_text": "Intravenous nicardipine: an effective new agent for the treatment of severe hypertension. Fifty-six patients with severe hypertension were treated with intravenous nicardipine for infusion periods of eight to twenty-four hours. Each patient achieved satisfactory blood_pressure_control during the infusion period with a mean controlling dose of 7.85 mg/hr.",
     "lime_features": [
       [
-        "hypertension",
-        -0.010406451079492784
+        "nicardipine",
+        -0.01351047350432498
       ],
       [
-        "nicardipine",
-        -0.0098294080789622
+        "hypertension",
+        -0.011874108588779169
       ],
       [
         "blood pressure control",
-        -0.007683463026796646
+        -0.010290294788760482
       ],
       [
-        "eight",
-        -0.0032467115224290516
+        "during",
+        -0.004672757922659827
       ],
       [
-        "dose",
-        -0.002714869612920816
+        "the",
+        -0.00352692200554751
       ],
       [
-        "intravenous",
-        -0.002681827723056484
+        "agent",
+        0.0031376208261390953
       ]
     ]
   }

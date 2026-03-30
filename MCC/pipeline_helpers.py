@@ -29,7 +29,7 @@ from config import (
     LLM_MAX_NEW_TOKENS,
     LLM_REPETITION_PENALTY,
     LLM_TEMPERATURE,
-    TOP_LIME_FEATURES,
+    TOP_LIME_FEATURES
 )
 from ontology_helpers import find_concept, select_ancestors
 
@@ -151,24 +151,19 @@ def enrich_with_ontology(
 # ─────────────────────────────────────────────────────────────────────────────
 
 SYSTEM_PROMPT = """
-You are an explanation generator for a biomedical XAI system.
+You are a biomedical explanation assistant. Your job is to generate clear, accurate natural language explanations of why a machine learning model made a specific biomedical prediction. You are given:
+- The model's predicted class
+- Key tokens identified by LIME (local feature attribution) as influential in the prediction
+- Ontology-derived ancestor chains for each token, showing its place in the biomedical concept hierarchy
 
-You do NOT classify text.
-You do NOT add external medical knowledge.
-You do NOT infer physiology, causation, or mechanisms.
+Your explanations must be grounded strictly in the provided features and ontology context. Do not introduce facts, diseases, or concepts not present in the input.
 
-Your ONLY role:
-Convert the structured explanation plan (LIME tokens + ontology ancestors +
-model prediction) into a clear natural-language explanation.
+Adapt your explanation style based on the user category:
+- BEGINNER: Use plain, everyday language. Avoid technical jargon. Explain medical terms when they appear. Keep sentences short. The goal is comprehension, not completeness.
+- INTERMEDIATE: Balance accessibility with domain accuracy. Define specialized terms briefly. Use medical vocabulary where helpful but not exclusively.
+- EXPERT: Use precise clinical and biomedical terminology. Reference ontological relationships and mechanistic reasoning. Assume familiarity with standard medical vocabulary.
 
-Rules:
-1. Use ONLY the provided ontology triples and model prediction.
-2. NEVER add biomedical facts that are not explicitly listed.
-3. If a concept has no relation to the predicted class, state this neutrally.
-4. Beginner → broad/simple language.
-5. Expert → technical terms and ontology hierarchy words.
-6. DO NOT write with bullet points. Produce one coherent paragraph.
-7. Be concise and strictly grounded.
+Always structure your explanation as a short, coherent paragraph (3–5 sentences). Do not use bullet points. Do not repeat the feature words mechanically — weave them naturally into the explanation.
 """.strip()
 
 
@@ -177,48 +172,34 @@ def build_prompt(
     feature_data: list[dict],
     user_category: str,
 ) -> str:
-    """
-    Build the structured user prompt from ontology-enriched features.
-
-    Parameters
-    ----------
-    predicted_class : e.g. "Cardiovascular diseases"
-    feature_data    : list of {"feature_word", "ancestors", ...} dicts
-    user_category   : "BEGINNER" | "INTERMEDIATE" | "EXPERT"
-    """
     triple_lines = []
     for item in feature_data:
         word  = item["feature_word"]
         chain = " -> ".join(item["ancestors"]) if item["ancestors"] else "NONE"
-        triple_lines.append(f"({word} → ancestor → {chain})")
+        triple_lines.append(f"  - {word} (ontology path: {chain})")
 
     triples_block = "\n".join(triple_lines)
-    token_list    = [item["feature_word"] for item in feature_data]
+    token_list    = ", ".join(item["feature_word"] for item in feature_data)
 
     return (
-        "### INPUT\n"
-        "text: [REDACTED FOR BREVITY]\n"
-        f"Prediction: {predicted_class}\n\n"
-        f"Salient tokens identified by LIME:\n{token_list}\n\n"
-        f"Ontology triples (feature → relation → ancestor):\n{triples_block}\n\n"
-        f"User type: {user_category}\n\n"
-        "### OUTPUT REQUIREMENTS\n"
-        "Write a single coherent explanation that:\n"
-        "- States the prediction.\n"
-        "- Uses ONLY the information above.\n"
-        "- Maps each token to its listed ancestors.\n"
-        "- If a token has no biomedical relevance to the prediction, state this without guessing.\n"
-        "- For BEGINNER → use broad/simple language.\n"
-        "- For EXPERT → include hierarchy terms like 'anatomical entity', 'subclass of', etc.\n"
-        "- Do NOT add medical facts not listed in the triples.\n"
-        "- Do NOT speculate, infer physiology, or make causal claims.\n\n"
-        "### EXPLANATION:"
+        f"### INPUT\n"
+        f"Predicted class: {predicted_class}\n"
+        f"User category: {user_category}\n\n"
+        f"Key features identified by the model (with ontology ancestry):\n"
+        f"{triples_block}\n\n"
+        f"Influential tokens: {token_list}\n\n"
+        f"### TASK\n"
+        f"Write a {user_category.lower()}-level explanation of why the model predicted '{predicted_class}'. "
+        f"Use the ontology paths to reason about what each token represents conceptually. "
+        f"Ground your explanation in the provided features — do not invent additional clinical details.\n\n"
+        f"### EXPLANATION:"
     )
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 5. Explanation generation
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def generate_explanation(
     predicted_class: str,
@@ -229,9 +210,7 @@ def generate_explanation(
 ) -> str:
     """
     Generate a natural-language explanation using the LLM.
-
     Returns a plain string explanation. Falls back to a canned message if
-    feature_data is empty.
     """
     if not feature_data:
         return (
@@ -257,18 +236,16 @@ def generate_explanation(
         max_new_tokens=LLM_MAX_NEW_TOKENS,
         temperature=LLM_TEMPERATURE,
         do_sample=True,
-        repetition_penalty=LLM_REPETITION_PENALTY,
+        repetition_penalty=LLM_REPETITION_PENALTY
     )
 
     decoded = tokenizer.decode(output[0], skip_special_tokens=True)
-
     # Strip prompt prefix — keep only the generated explanation
     if "### EXPLANATION:" in decoded:
         return decoded.split("### EXPLANATION:")[-1].strip()
     if "assistant\n" in decoded:
         return decoded.split("assistant\n")[-1].strip()
     return decoded.strip()
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 6. Readability metrics
@@ -309,7 +286,7 @@ def lime_coverage(explanation: str, feature_data: list[dict]) -> float:
         if item["feature_word"].lower() in lower
         or any(a.lower() in lower for a in item.get("ancestors", []))
     )
-    return round(hits / len(feature_data), 4)
+    return round(float(hits) / len(feature_data), 4)
 
 
 def ontology_hit_rate(feature_data: list[dict]) -> float:
@@ -319,7 +296,7 @@ def ontology_hit_rate(feature_data: list[dict]) -> float:
     if not feature_data:
         return 0.0
     hits = sum(1 for item in feature_data if item.get("ancestors"))
-    return round(hits / len(feature_data), 4)
+    return round(float(hits) / len(feature_data), 4)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
