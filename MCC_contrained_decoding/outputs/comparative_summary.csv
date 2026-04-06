@@ -1,0 +1,5 @@
+experiment,flesch_reading_ease,flesch_kincaid_grade,smog_index,lime_coverage,ontology_hit_rate,explanation_word_count
+BEGINNER / constrained decoding,21.732,14.972,15.785,0.63,0.64,59.42
+BEGINNER / normal,20.035,15.274,16.062,0.633,0.64,58.36
+EXPERT / constrained decoding,14.732,16.144,16.776,0.633,0.64,69.14
+EXPERT / normal,7.845,17.052,17.442,0.66,0.66,66.78
