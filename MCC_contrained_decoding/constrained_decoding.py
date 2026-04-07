@@ -27,6 +27,12 @@ from config import (
 
 _WORD_RE = re.compile(r"[A-Za-z]+")
 
+# Tightened normalization caps for biomedical text.
+MAX_LENGTH_CAP = 30
+RARE_CAP = 4
+CLAUSE_CAP = 3
+MAX_WORD_LEN_CAP = 7.0
+
 
 @dataclass
 class PrefixStats:
@@ -53,7 +59,7 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
         eos_token_id: int | None,
     ) -> None:
         self.tokenizer = tokenizer
-        self.lambda_value = float(max(0.0, min(lambda_value, 0.5)))
+        self.lambda_value = float(max(0.0, lambda_value))
         self.prompt_input_len = int(prompt_input_len)
         self.eos_token_id = eos_token_id
 
@@ -62,7 +68,7 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
         self.w_clause = HARDNESS_WEIGHTS["clause"]
         self.w_avglen = HARDNESS_WEIGHTS["avglen"]
 
-        self.length_cap = HARDNESS_CAPS["length_words"]
+        self.length_cap = float(MAX_LENGTH_CAP)
 
         vocab_size = len(tokenizer)
         self.token_rare = torch.zeros(vocab_size, dtype=torch.float32)
@@ -83,7 +89,7 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
                     self.token_clause[tok_id] = 1.0
                 if starts_new_word and self._is_rare_word(word):
                     self.token_rare[tok_id] = 1.0
-                self.token_avglen[tok_id] = min(len(word) / HARDNESS_CAPS["avg_word_len"], 1.0)
+                self.token_avglen[tok_id] = min(len(word) / MAX_WORD_LEN_CAP, 1.0)
 
     def _is_rare_word(self, word: str) -> bool:
         return (

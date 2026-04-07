@@ -17,9 +17,9 @@ OUTPUTS_DIR.mkdir(exist_ok=True)
 
 # Intermediate checkpoint files (one per stage)
 LIME_RESULTS_PATH      = OUTPUTS_DIR / "lime_results.json"
-ONTOLOGY_RESULTS_PATH  = OUTPUTS_DIR / "ontology_results_beginner.json"
-EXPLANATIONS_PATH      = OUTPUTS_DIR / "explanations_beginner.json"
-ANALYSIS_RESULTS_PATH  = OUTPUTS_DIR / "results_beginner.csv"
+ONTOLOGY_RESULTS_PATH  = OUTPUTS_DIR / "ontology_results_expert.json"
+EXPLANATIONS_PATH      = OUTPUTS_DIR / "explanations_expert.json"
+ANALYSIS_RESULTS_PATH  = OUTPUTS_DIR / "results_expert_CD_2.csv"
 
 # Model / ontology paths  ← update these for your machine
 CLASSIFIER_MODEL_PATH = (
@@ -70,7 +70,7 @@ LLM_TEMPERATURE      = 0.1
 LLM_REPETITION_PENALTY = 1.1
 
 # Enable constrained decoding path in Stage 3 generation.
-USE_CONSTRAINED_DECODING = False
+USE_CONSTRAINED_DECODING = True
 
 # Beam search settings for constrained decoding.
 NUM_BEAMS = 4
@@ -78,10 +78,12 @@ MIN_NEW_TOKENS = 80
 
 # λ values by audience.
 LAMBDA_MAP = {
-    "BEGINNER": 0.30,
-    "INTERMEDIATE": 0.15,
+    "BEGINNER": 5.0,
+    "INTERMEDIATE": 0.5,
     "EXPERT": 0.05,
 }
+
+LAMBDA_SWEEP_VALUES = [0.0, 0.2, 0.5, 1.0, 1.5, 2.0, 3.0]
 
 # Hardness feature weights (must sum to 1.0).
 HARDNESS_WEIGHTS = {
@@ -130,7 +132,7 @@ BIOMEDICAL_WHITELIST = {
 # ─────────────────────────────────────────────
 
 # Options: "BEGINNER" | "INTERMEDIATE" | "EXPERT"
-USER_CATEGORY = "BEGINNER"
+USER_CATEGORY = "EXPERT"
 
 # Options: "normal" | "full" | "one_parent" | "no_ontology"
 ABLATION_MODE = "normal"
