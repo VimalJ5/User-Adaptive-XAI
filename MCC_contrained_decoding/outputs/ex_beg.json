@@ -7,15 +7,15 @@
     "ablation_mode": "normal",
     "feature_data": [
       {
-        "feature_word": "liver",
-        "lime_score": 0.033307,
+        "feature_word": "syndrome",
+        "lime_score": -0.041775,
         "ancestors": [
-          "anatomy",
-          "material anatomical entity",
-          "anatomical structure"
+          "disease",
+          "syndrome"
         ]
       }
-    ]
+    ],
+    "explanation": "The model likely classified this abstract under digestive system diseases because it mentions \"syndrome,\" which is a term used to describe a group of symptoms that occur together. In this case, the syndrome being discussed is hepatopulmonary syndrome, which affects both the liver and lungs. This condition can develop after liver transplantation due to changes in blood flow and oxygenation in the body. The presence of this syndrome suggests complications related to liver function and circulation, aligning with the broader category of digestive system diseases."
   },
   {
     "text": "Color Doppler imaging. A new noninvasive technique to diagnose and monitor carotid cavernous sinus fistulas. Color Doppler imaging is a recent development in ultrasonography that allows for simultaneous two-dimensional structural imaging and Doppler evaluation of blood flow. With this technique, one patient with a traumatic carotid cavernous sinus fistula and two patients with spontaneous dural cavernous arteriovenous malformations were evaluated. Color Doppler imaging demonstrated a dilated superior ophthalmic vein with arterialized blood flow in all three patients. In two cases the diagnosis was confirmed by angiography, and in one of these cases the fistula was occluded with a detachable balloon catheter. Postembolization color Doppler imaging revealed return of normal venous flow in the superior ophthalmic vein. This technique offers a noninvasive means to confirm the clinical diagnosis and to track the hemodynamics of these arteriovenous fistulas. In certain cases, color Doppler imaging may eliminate the need for computed tomography and magnetic resonance imaging in the evaluation of suspected arteriovenous malformations of the orbit.",
@@ -23,7 +23,8 @@
     "confidence": 0.791,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted Cardiovascular diseases, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Endometriosis associated with massive ascites and absence of pelvic peritoneum. Although massive ascites associated with endometriosis has been reported in rare cases, this patient was also noted to have massive destruction of the pelvic peritoneum. Failure of medical suppression necessitated total abdominal hysterectomy and bilateral salpingo-oophorectomy. Several months after surgery ascites resolved, possibly with reestablishment of the pelvic peritoneum.",
@@ -34,7 +35,7 @@
     "feature_data": [
       {
         "feature_word": "ascites",
-        "lime_score": 0.180379,
+        "lime_score": 0.228844,
         "ancestors": [
           "symptom",
           "abdominal symptom",
@@ -43,7 +44,7 @@
       },
       {
         "feature_word": "peritoneum",
-        "lime_score": 0.148964,
+        "lime_score": 0.154461,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
@@ -52,14 +53,15 @@
       },
       {
         "feature_word": "Endometriosis",
-        "lime_score": 0.0399,
+        "lime_score": 0.038353,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
           "reproductive system disease"
         ]
       }
-    ]
+    ],
+    "explanation": "In making its prediction that the abstract belongs to the digestive system diseases category, the machine learning model likely focused on several key elements within the text. One crucial factor was the mention of \"ascites,\" which is a condition characterized by an accumulation of fluid in the abdomen. This is directly related to the digestive system because it affects organs such as the liver and spleen.\n\nAnother significant element was \"peritoneum,\" which refers to the thin layer of tissue lining the abdominal cavity. The presence of \"massive destruction of the pelvic peritoneum\" suggests severe damage to this protective lining, indicating potential complications like infection or inflammation.\n\nLastly, the term \"Endometriosis\" appeared prominently in the abstract, describing a condition involving abnormal growths of tissue similar to the lining inside the uterus outside the uterus. While Endometriosis itself does not fall under digestive system diseases, its association with other"
   },
   {
     "text": "Long-term evaluation of indobufen in peripheral vascular disease. Indobufen--an inhibitor of platelets aggregation--has been used in 306 patients with intermittent claudication due to peripheral vascular disease. Patients were treated and followed up for one year. One patient of every 3 treated with indobufen was treated with ASA, and a control group of patients receiving no treatment was also followed up. The authors studied by means of a treadmill exercise test the pain-free walking distance (PFWD), the global walking distance (GWD), and the recovery time after exercise. The treatment period was completed by 290 patients: 204 claudicants, 51 claudicants with diabetes, and 35 with a short PFWD and GWD (greater than 150 m). Indobufen was more effective than ASA in improving the PFWD and GWD in all groups. There were also fewer side effects with indobufen, and cardiac morbidity and mortality was also reduced. In conclusion indobufen showed its activity and safety in chronic treatment of patients with peripheral disease, and we suggest that it may be used for long periods without side effects.",
@@ -70,23 +72,15 @@
     "feature_data": [
       {
         "feature_word": "claudication",
-        "lime_score": -0.000897,
-        "ancestors": [
-          "symptom",
-          "nervous system symptom",
-          "sensation perception"
-        ]
-      },
-      {
-        "feature_word": "pain",
-        "lime_score": 0.000484,
+        "lime_score": -0.000997,
         "ancestors": [
           "symptom",
           "nervous system symptom",
           "sensation perception"
         ]
       }
-    ]
+    ],
+    "explanation": "The model predicted cardiovascular diseases because the abstract mentions \"intermittent claudication,\" which is a symptom of peripheral vascular disease. This condition affects blood flow to the legs, causing pain during physical activity that improves with rest. Since indobufen, an inhibitor of platelet aggregation, has been used to treat this condition, the model likely inferred that treating peripheral vascular disease could potentially reduce cardiovascular risks associated with poor circulation. The mention of treadmill exercise tests and pain-free walking distances further supports this interpretation, indicating that the study aimed to assess the effects of indobufen on overall mobility and quality of life, both of which can have implications for cardiovascular health."
   },
   {
     "text": "Salvage chemotherapy for patients with germ cell tumors. The Memorial Sloan-Kettering Cancer Center experience (1979-1989). Twenty-eight of 124 (23%) advanced germ cell tumor (GCT) patients who were treated on four successive platin-based induction regimens and who failed to achieve a durable complete response (CR) remain alive (median follow-up, 50 months). An analysis of prognostic factors for response and survival was conducted on the 94 patients who received salvage chemotherapy. Survival and/or response to salvage therapy were significantly enhanced for patients with a prior CR to induction chemotherapy, treatment with a cisplatin-based salvage regimen, a testis primary site, a normal serum human chorionic gonadotropin level, a normal serum lactate dehydrogenase level, one site of metastasis, and an Indiana Class of 6 or less. Patients with a prior incomplete response (IR) had a particularly poor prognosis (P = 0.00007) with only 4 of 52 (9%) patients alive (median follow-up, 37 months) compared with 15 of 42 (36%) patients with a prior best response of a CR (median follow-up, 35 months). The poor survival of patients who fail to achieve a durable CR to induction chemotherapy warrants the continued investigation of new salvage therapy. The identification of prognostic features may direct salvage therapy and aid in the interpretation of clinical trials of salvage regimens.",
@@ -94,15 +88,8 @@
     "confidence": 0.8961,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": [
-      {
-        "feature_word": "cell",
-        "lime_score": -0.000176,
-        "ancestors": [
-          "cell"
-        ]
-      }
-    ]
+    "feature_data": [],
+    "explanation": "The model predicted Neoplasms, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Evaluation of endosonography in TN staging of oesophageal cancer. Strategies for the treatment of cancer of the oesophagus depend on the tumour stage at the time of diagnosis. Resection, the only curative treatment, is confined to early tumour stages. Tumours with local infiltration are usually unresectable and require palliative treatment. Computed tomography has been widely used for preoperative staging but often fails to define this correctly. Endoscopic ultrasound allows direct visualisation of the parietal wall and may be useful in staging gastrointestinal tumours. In a comparative prospective study, 52 patients with tumours of the oesophagus were investigated preoperatively both by endoscopic ultrasound and computed tomography to determine the stage of tumour infiltration and local lymph node involvement. Thirty seven of these patients underwent operation, resection, or dissection and entered the study. The intraoperative findings or the histopathological assessment, or both, were taken as a reference. For all TN stages of oesophageal tumours, correct preoperative staging was accomplished by endoscopic ultrasound in 89% for T stage and 69% for N stage compared with 51% and 51% respectively by computed tomography (highly significant using Fisher's exact test). This study shows that endoscopic ultrasound is useful in preoperative TN staging of tumours of the oesophagus.",
@@ -113,14 +100,15 @@
     "feature_data": [
       {
         "feature_word": "cancer",
-        "lime_score": -0.021671,
+        "lime_score": -0.018987,
         "ancestors": [
           "disease",
           "disease of cellular proliferation",
           "cancer"
         ]
       }
-    ]
+    ],
+    "explanation": "When evaluating an abstract related to endosonography in the staging of oesophageal cancer, the model focused on keywords like \"cancer\" and \"staging.\" These terms are crucial because they indicate that the study deals with diagnosing and categorizing cancers, specifically those affecting the oesophagus. Cancer refers to any abnormal growth of cells, while staging involves determining how far the cancer has spread within the body. By identifying these terms, the model likely recognized that the abstract discusses methods for assessing the severity of oesophageal cancer through imaging techniques such as computed tomography (CT), endoscopic ultrasound (EUS), and endosonography. This information suggests that the study aims to improve diagnostic accuracy and treatment strategies for oesophageal cancer patients. Therefore, the model classified the abstract under \"Neoplasms,\" indicating that it contains information about abnormal growths of"
   },
   {
     "text": "A unified hypothesis for the complex genetics of HLA associations with IDDM. Our understanding of the role of HLA genes associated with insulin-dependent diabetes mellitus (IDDM) is in disarray, despite recent improvements in the definition of specific alleles and haplotypes. Some genes are highly associated with IDDM, other genes are associated with resistance to IDDM, and some highly associated susceptibility genes are markedly influenced by trans-associated synergistic effects (DR3/4 heterozygotes) or protective effects (DR2/4 heterozygotes). This plethora of genetic associations has spawned the notion that there are many contributing susceptibility genes, which, in turn, has led to the search for shared structural features among different genes on IDDM-associated haplotypes. From a more mechanistic point of view, however, the wide range of variable IDDM associations, with both cis- and trans-encoded protective and/or synergistic effects, suggests a different approach. This article proposes a hypothesis in which the different HLA associations with IDDM can be simply explained by a single unifying concept: a hierarchy of affinities determines the interaction between a diabetogenic peptide and different class II molecules, and an individual is susceptible to IDDM if the class II molecule in that individual with the highest affinity for such a peptide is a DQ beta susceptibility gene. The explicit formulation of this proposal and its genetic implications provide an explanation for HLA-encoded dominant \"protection\" and for some of the more subtle genetic observations related to cis and trans influences in IDDM susceptibility.",
@@ -128,7 +116,8 @@
     "confidence": 0.7747,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted General pathological conditions, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "The cancer experience in the Framingham Heart Study cohort. The almost 40-year records of The Framingham Heart Study (FHS) cohort were reviewed to establish the cancer experience of this noninstitutionalized group of white subjects. Diagnoses were confirmed from pathology and laboratory reports and clinical notes. Age-specific incidence rates were compared with Connecticut Surveillance, Epidemiology, and End Results (SEER) data. Among the 5209 subjects, 1201 malignancies were confirmed. Median age at diagnosis was 69 for men and 65 for women. Lung, prostate, skin, and colon accounted for more than half of men's cancers; breast, colon, and skin made up half of the women's. FHS and Connecticut SEER rates matched closely, with the same primary tumor sites appearing commonly in both groups. Thus, the FHS cohort should provide a fair database for analysis of risk factors in cancer incidence, as it has done in cardiovascular diseases.",
@@ -139,14 +128,15 @@
     "feature_data": [
       {
         "feature_word": "colon",
-        "lime_score": 0.003077,
+        "lime_score": 0.003482,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
           "anatomical structure"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract, the word \"colon\" stands out as crucial to the model's prediction of neoplasms. Colon refers to the large intestine that connects the small intestine to the rectum. In the context of the FHS study, colon cancer is one of the most common types of neoplasms among the subjects. This makes sense because colorectal cancers often develop over many years due to chronic inflammation and changes in DNA repair mechanisms. Therefore, the presence of colon-related information strongly suggests that the model focused on neoplastic processes involving the colon."
   },
   {
     "text": "Long-term (5 to 20 years) Evolution of nongrafted aplastic anemias. The Cooperative Group for the Study of Aplastic and Refractory Anemias. In the presence of aplastic anemia (AA), therapeutic choices should be determined while taking into account not only changes for immediate improvement, but also both the risks for late-occurring complications and the following quality of life. We report here data concerning a long-term clinical survey (5 to 18 years with a median of 12 years) including 156 nongrafted patients receiving androgen therapy; all patients were alive more than 5 years after diagnosis (40% of patients included at time of diagnosis in our multicentric analysis). Between the 5th and the 13th year follow-up, 21 patients died of various causes either related to AA or to its treatment: 12 of infection or hemorrhage secondary to pancytopenia (6 relapses and 6 that had never been improved; 2 with paroxysmal nocturnal hemoglobinuria [PNH]); 5 of leukemia; 1 of a non-Hodgkin's lymphoma; 2 of late side effects following transfusion (1 acquired immunodeficiency syndrome and 1 chronic B hepatitis); and a single case of myocardial infarction (the latter could possibly result of androgen therapy). Thirteen patients in total developed PNH (among which 10 had clinical symptoms including 2 deaths, and 3 exhibited only biologic abnormalities). Few long-term side effects of androgens could be noticed. Adult height was normal in patients treated during childhood and so was young women's fertility. No malignant hepatoma occurred. This survey allows the recording of late spontaneous hematologic improvement (between 5 and 10 years of evolution). This occurred in 50% of patients that had remained cytopenic 5 years after diagnosis. Although bone marrow stem cell concentration remained abnormal after 10 years of evolution. 85% of patients had a normal red blood cell count, 80% a normal polymorphonuclear count, and 66% a normal platelet count. All patients who did not show late complications had an excellent quality of life.",
@@ -157,7 +147,7 @@
     "feature_data": [
       {
         "feature_word": "hepatitis",
-        "lime_score": 0.01812,
+        "lime_score": 0.010852,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
@@ -165,15 +155,16 @@
         ]
       },
       {
-        "feature_word": "This",
-        "lime_score": -0.006857,
+        "feature_word": "hemorrhage",
+        "lime_score": 0.006148,
         "ancestors": [
-          "ncbitaxon",
-          "cellular organisms",
-          "Eukaryota"
+          "symptom",
+          "cardiovascular system symptom",
+          "hemorrhage"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract excerpt, the model likely focused on broad pathological conditions affecting multiple organs. Hepatitis and hemorrhage are two key terms highlighted by LIME feature attribution. Hepatitis refers to inflammation of the liver, which can lead to various symptoms like jaundice and fatigue. Hemorrhage involves bleeding within the body, potentially causing internal injuries or external wounds.\n\nThese terms are medically significant because they represent broader categories of pathology that could impact many different parts of the body over time. For example, chronic hepatitis might affect liver function, leading to anemia if the liver fails to produce enough red blood cells. Similarly, repeated minor hemorrhages could contribute to overall health deterioration through ongoing damage to tissues and organs.\n\nIn the context of the abstract, these concepts suggest a focus on long-term effects of aplastic anemia, which affects bone marrow production. Chronic inflammation and potential bleeding could complicate treatment decisions"
   },
   {
     "text": "Percutaneous biliary drainage for high obstruction. PBD is the preferred route of palliative drainage for patients with high biliary obstruction. The frequency of bifurcational obstruction in this setting requires familiarity with drainages from both the right and the left transhepatic approach. The preferred right transhepatic approach is fluoroscopically guided; on the left, ultrasonography is the guidance of choice. Large caliber drainage catheters are required, and dilatation of the necessary transhepatic tracts is extremely painful unless adequate inhalation anesthesia or, preferably, epidural anesthesia, is provided. Long-term biliary drainage requires a choice between internal-external external drainage catheters and endoprostheses that is made by considering the patient's life expectancy and his or her adjustment to a stent extending to the outside. The feasibility of corrective procedures if an internal-external drainage catheter or an endoprosthesis becomes blocked needs to be considered before definitive placement. The interventional radiologist becomes intimately involved in the follow-up care of patients and frequently has to direct appropriate patient evaluation. Familiarity with antibiotic regimens is important.",
@@ -181,7 +172,8 @@
     "confidence": 0.7075,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted Digestive system diseases, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Lower extremity arterial disease in elderly subjects with systolic hypertension. The ratio of ankle-to-arm systolic blood pressure (ankle/arm index or AAI) appears to be a non-invasive indicator of flow-significant atherosclerosis and may be a useful measure of burden of disease in a high risk population. The prevalence of lower extremity arterial disease (LEAD) was assessed by this method in the Systolic Hypertension in the Elderly Program (SHEP). Subjects were aged 60 and older with systolic blood pressure greater than 160 mmHg upon entry to the study. An AAI of 0.90 or less was considered indicative of flow-significant LEAD. The prevalence of LEAD by this method was 26.7% (50/187), while the prevalence of intermittent claudication (IC) was only 6.4% (12/187). Of those with IC, 66.7% (8/12) had confirmed LEAD. The prevalence of LEAD as measured by AAI increased with age in women and was associated with a history of current smoking and lower levels of high density lipoproteins. In this study population with systolic hypertension, LEAD, as measured by the AAI, is more prevalent than previously described in elderly populations and is associated with other risk factors for atherosclerosis.",
@@ -191,13 +183,25 @@
     "ablation_mode": "normal",
     "feature_data": [
       {
-        "feature_word": "disease",
-        "lime_score": -0.000184,
+        "feature_word": "hypertension",
+        "lime_score": -0.000658,
         "ancestors": [
-          "disease"
+          "disease",
+          "disease of anatomical entity",
+          "cardiovascular system disease"
+        ]
+      },
+      {
+        "feature_word": "atherosclerosis",
+        "lime_score": -0.000387,
+        "ancestors": [
+          "disease",
+          "disease of anatomical entity",
+          "cardiovascular system disease"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract, the model focused on two key words that significantly influenced its decision: \"hypertension\" and \"atherosclerosis.\" These terms are crucial because they directly relate to cardiovascular health.\n\n\"Hypertension,\" often referred to as high blood pressure, is a condition where the force of blood against artery walls is consistently too strong. This can lead to damage over time, potentially causing narrowing of arteries, especially those in the legs. When these arteries narrow due to plaque buildup (atherosclerosis), it affects blood flow, making it harder for oxygen-rich blood to reach the muscles and tissues in the legs.\n\nThe presence of both hypertension and atherosclerosis increases the likelihood of developing lower extremity arterial disease (LEAD), which is characterized by blockages in the arteries supplying blood to the legs. LEAD can impair mobility and increase the risk of complications such as amputation if left"
   },
   {
     "text": "Role of surgery in antibiotic-induced pseudomembranous enterocolitis. With the increased use of prophylactic and broad-spectrum antibiotics, pseudomembranous colitis has emerged as a significant clinical problem. Management with specific anti-Clostridium difficile therapy (vancomycin or metronidazole) has reduced mortality to less than 2%. Nevertheless, the disease may progress to a fulminant toxic colitis or colonic perforation. Additionally, another subset of patients will present with a dramatic clinical picture, suggesting acute peritonitis, eventuating in unnecessary laparotomy. This report reviews both the medical and surgical literature during the past 15 years of patients treated for pseudomembranous colitis. Analysis of this clinical data has provided us with the opportunity to both define the role of surgery in this disorder and illustrate the necessity for a combined medical and surgical cooperative approach in the early management of this iatrogenic disease.",
@@ -208,23 +212,15 @@
     "feature_data": [
       {
         "feature_word": "colitis",
-        "lime_score": 0.02316,
-        "ancestors": [
-          "disease",
-          "disease of anatomical entity",
-          "gastrointestinal system disease"
-        ]
-      },
-      {
-        "feature_word": "peritonitis",
-        "lime_score": 0.01196,
+        "lime_score": 0.023876,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
           "gastrointestinal system disease"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the role of surgery in treating antibiotic-induced pseudomembranous enterocolitis, the model focused on two key factors that significantly influenced its decision:\n\nFirstly, the term \"colitis\" stood out prominently. Colitis refers to inflammation of the colon, which is directly related to the condition described in the abstract. This suggests that the model recognized the importance of addressing intestinal inflammation, especially since pseudomembranous enterocolitis involves an overgrowth of Clostridium difficile bacteria leading to severe inflammation.\n\nSecondly, the word \"perforation\" also played a crucial role. Perforation refers to a hole or tear in the wall of the intestine, which can lead to serious complications like sepsis if left untreated. Given that the abstract mentions potential colonic perforations, the model likely considered surgical intervention necessary to prevent such life-threatening outcomes.\n\nThese two terms\u2014"
   },
   {
     "text": "Patient age and results of balloon aortic valvuloplasty: the Mansfield Scientific Registry experience. The Mansfield Scientific Aortic Valvuloplasty Registry Investigators. Patients enrolled in the Mansfield Scientific Aortic Valvuloplasty Registry were followed up a mean of 7 months after balloon aortic valvuloplasty. Results were compared for patients less than 70, 70 to 79 and greater than or equal to 80 years of age at time of valvuloplasty. As assessed by aortic valve area indexed to body surface area, stenosis was more severe in the older patients and the incidence of congestive heart failure was also greater in those aged greater than or equal to 80 years. The results of valvuloplasty were comparable in all three age groups, and indexed final valve area was not significantly different among the groups. In-hospital mortality ranged from 4.2% to 9.4%, but this and other complications were not significantly different among the groups. Total 7 month mortality was 23%. As performed in this registry study, balloon aortic valvuloplasty produced similar results in older and younger patients, despite initially more severe disease in the older patients.",
@@ -235,14 +231,15 @@
     "feature_data": [
       {
         "feature_word": "heart failure",
-        "lime_score": -0.00107,
+        "lime_score": -0.001037,
         "ancestors": [
           "symptom",
           "cardiovascular system symptom",
           "heart failure"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract excerpt, the model focused heavily on two key phrases that point towards cardiovascular diseases: \"heart failure\" and \"congestive heart failure.\" These terms indicate issues directly related to the heart failing properly, which is a major concern in cardiovascular health.\n\nHeart failure refers to a condition where the heart cannot pump enough blood throughout the body efficiently. This can lead to various symptoms like fatigue, shortness of breath, and swelling in the legs. Congestive heart failure specifically describes heart failure that causes fluid buildup in the lungs, making breathing difficult.\n\nBoth these conditions fall under the broader category of cardiovascular diseases, which include diseases affecting the heart and blood vessels. They are significant because they significantly impact quality of life and often require long-term management.\n\nIn summary, the model likely considered heart failure and congestive heart failure as indicators of cardiovascular diseases due to their direct relation to heart function and overall"
   },
   {
     "text": "How ancient is temporal arteritis? Realism is one of the characteristics of Amarnian art; some details of The Harpist represented in the tomb of Pa-Aton-Em-Heb (1350 BC, 18th Dynasty) might gives clues to a diagnosis: the eyes are closed with swollen lids, and the harpist appears to stare into space; he is round shouldered with a very wasted face, his temporal ara is heightened and hollowed by a broken line joining the extremity of the eyebrow with the corner of the eye. These details are not found elsewhere. Did the harpist's blindness result from temporal arteritis associated to polymyalgia rheumatica?.",
@@ -250,17 +247,8 @@
     "confidence": 0.9191,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": [
-      {
-        "feature_word": "eyebrow",
-        "lime_score": -0.000715,
-        "ancestors": [
-          "anatomy",
-          "material anatomical entity",
-          "anatomical collection"
-        ]
-      }
-    ]
+    "feature_data": [],
+    "explanation": "The model predicted Cardiovascular diseases, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "The role of elective lymph node dissection in the management of patients with thick cutaneous melanoma. A retrospective search of patients seen at the Duke Melanoma Clinic from 1970 to 1986 identified 308 clinically Stage I patients, with 4.0 to 10.0 mm cutaneous melanomas. Five-year and ten-year survival was 56% and 43%, respectively. Elective lymph node dissection (ELND) was done in 116 patients (37.7%); there was no difference in disease-free interval (DFI) or survival between these patients versus patients treated with wide excision only (P = 0.9). Thirty-two patients (27.6%) had pathologically positive nodes on ELND. These patients had a shorter DFI (P = 0.05) and survival (P = 0.03) compared with patients with negative node dissections. When further divided by Breslow's thickness, this difference persisted in patients with 4.0 to 6.0 mm lesions (P = 0.01). However, for thicker lesions (greater than 6.0 mm), there was no difference in survival between the node-negative and node-positive groups (P = 0.9). The mean follow-up was 7.1 years. Elective lymph node dissection was not done in 192 patients; 78 of these recurred first in the regional nodes. These 78 patients were compared with the 32 patients who had pathologically positive nodes by ELND to see if patient survival was improved by early removal of nodal disease. There was no difference in DFI (P = 0.5) or survival (P = 0.3) between these two groups. It is concluded that ELND may provide prognostic information for patients with thick cutaneous melanomas. However, there was no change in DFI or ultimate survival when patients were followed, and nodes removed when clinically positive. The authors do not recommend ELND for patients with thick melanomas because the risk of distant metastases outweighs any benefit of regional node dissection.",
@@ -268,7 +256,27 @@
     "confidence": 0.8583,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [
+      {
+        "feature_word": "Melanoma",
+        "lime_score": -0.000733,
+        "ancestors": [
+          "disease",
+          "disease of cellular proliferation",
+          "cancer"
+        ]
+      },
+      {
+        "feature_word": "melanoma",
+        "lime_score": -0.000726,
+        "ancestors": [
+          "disease",
+          "disease of cellular proliferation",
+          "cancer"
+        ]
+      }
+    ],
+    "explanation": "When considering whether an electively removing lymph nodes might help manage patients with thick skin melanoma, the model focused on two key factors: the type of skin cancer and the treatment approach used. Patients with melanoma were found to have a relatively poor prognosis compared to other types of skin cancers, with a five-year survival rate of around 56%. This suggests that the primary concern was addressing the aggressive nature of the tumor rather than managing its spread through surgery.\n\nIn analyzing the data, the model noted that 116 out of 308 patients (37.7%) underwent elective lymph node dissection (ELND), while another group received only wide excisions without any lymph node removal. There was no significant difference observed in disease-free intervals (DFIs) or overall survival rates between these groups. This finding indicates that ELND did not provide additional benefit beyond the initial wide exc"
   },
   {
     "text": "Systemic chemotherapy for urothelial cancer in patients with ureteric obstruction. The aims of this study were to document the toxicity of systemic chemotherapy and response rates in patients with ureteric obstruction caused by urothelial cancer. The study group included 91 patients who received cisplatin and methotrexate; 36 (40%) had upper tract dilatation, 9 of whom had drainage by stenting or nephrostomy and 55 (60%) had normal upper tracts. The response rate was documented in 65 patients (71%) who had measurable primary or metastatic disease. No significant differences were found between the dilated/drained group, the dilated/undrained group and the normal group in biochemical measurements of renal function during or after the courses of chemotherapy. Serious haematological toxicity occurred in 10% (10/104 cycles) of the dilated/undrained group and in 6% (12/200 cycles) of the normal group. The complete response rate in the dilated group was 15% compared with 41% in the normal group. No increased chemotherapy toxicity was observed in patients with upper tract dilatation and a significant complete response rate was found in patients with upper tract dilatation without renal impairment.",
@@ -276,7 +284,8 @@
     "confidence": 0.6457,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted Neoplasms, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Central nervous system vasculitis after chickenpox--cause or coincidence? A 7.5 year old boy, known to have a seizure disorder, presented with an infarct in the left middle cerebral artery territory, 10 weeks after severe chickenpox. Immunofluorescent antibody titre to the varicella zoster virus in the cerebrospinal fluid was 1:32. Cerebral angiography showed evidence of focal vasculitis. He presented again seven months later with an acute exacerbation of seizures. Magnetic resonance imaging of the brain showed an old posterior extension of the infarct, but a repeated angiography demonstrated an improvement in the vasculitic process. Cerebrospinal fluid antibody titre was again 1:32. Although this may have been an unfortunate coincidence, a possible association between chickenpox and vasculitis, similar to that reported with herpes zoster, and with potentially significant clinical implications, should be considered. As a definite proof can be obtained only by a brain biopsy, however, which is generally not indicated in such cases, only additional clinical reports can lead to delineation of this association as a definite entity.",
@@ -287,7 +296,7 @@
     "feature_data": [
       {
         "feature_word": "vasculitis",
-        "lime_score": 0.000943,
+        "lime_score": 0.00113,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
@@ -296,7 +305,7 @@
       },
       {
         "feature_word": "chickenpox",
-        "lime_score": 0.000637,
+        "lime_score": 0.000661,
         "ancestors": [
           "disease",
           "disease by infectious agent",
@@ -305,14 +314,15 @@
       },
       {
         "feature_word": "artery",
-        "lime_score": -0.000454,
+        "lime_score": -0.000427,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
           "anatomical structure"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract, the model focused heavily on two key words: \"vasculitis\" and \"chickenpox.\" These terms are crucial because they point directly towards the cardiovascular diseases that were predicted.\n\nFirstly, \"vasculitis\" refers to inflammation of the blood vessels, which can lead to damage and narrowing of arteries. This condition often results in blockages or ruptures within the blood vessels, potentially causing strokes or other neurological issues. In this case, the child had a stroke due to a clot in his middle cerebral artery, indicating significant vascular involvement.\n\nSecondly, \"chickenpox,\" also known as varicella, is caused by the varicella-zoster virus. While typically mild, it can sometimes trigger complications like myocarditis (inflammation of the heart muscle), which could contribute to cardiovascular problems. However, in this scenario, the presence of the"
   },
   {
     "text": "Intraepithelial anchoring fibril components. Cultured human keratinocytes and cultured human cervical carcinoma cells (ME-180) contained intracellular pools of antigens that reacted with the anchoring fibril antibodies AF1 and AF2. In keratinocytes, these antigens formed a basement membrane-like structure near the apical portions of the cells. Using flow cytometric techniques, pretreatment of the ME-180 cells with acetone revealed large intracellular pools of antigen. The intracellular epitope was calcium sensitive. Some forms of recessive dystrophic epidermolysis bullosa have retention of intracellular portions of the anchoring fibril suggesting a relation of the intracellular anchoring fibril antigens to that disease.",
@@ -323,14 +333,15 @@
     "feature_data": [
       {
         "feature_word": "carcinoma",
-        "lime_score": -0.011263,
+        "lime_score": -0.011156,
         "ancestors": [
           "disease",
           "disease of cellular proliferation",
           "cancer"
         ]
       }
-    ]
+    ],
+    "explanation": "The model predicted neoplasms because the abstract mentions \"cancer,\" specifically \"cervical carcinoma.\" Cancer is an abnormal growth of tissue caused by uncontrolled cell division, fitting the definition of neoplasms. The term \"cancer\" is medically significant here because it indicates a potentially serious condition requiring further investigation and treatment. The presence of \"anchoring fibrils\" and their interaction with \"keratinocytes\" also suggests a pathological process related to cell growth and differentiation, consistent with cancer development."
   },
   {
     "text": "The effects of nonthyroid disease and drugs on thyroid function tests. Serious nonthyroid illness and caloric deprivation, which so often accompany systemic illness, have diverse and still incompletely understood effects on thyroid hormone economy. We have discussed the pathophysiologic basis for the most common pattern of alterations in routine thyroid function tests: a decreased serum T3 concentration; normal or, in critically ill patients, a low total serum T4 level; and a normal free T4 concentration. Another, less frequent pattern (high total and free T4 with a normal serum T3) can be encountered transiently in the acutely ill medical or psychiatric patient. With the recent advent of sensitive assays for TSH and better methods for serum free T4, it is now possible to define more quickly and accurately the thyroid-metabolic status of most of these sick patients; the vast majority are euthyroid. Certain drugs confound the picture. The most important of these include dopamine and high-dose glucocorticoids, both of which suppress TSH secretion from the pituitary and may actually cause a state of central hypothyroidism. Other drugs have multiple effects on thyroid hormone indices (e.g., amiodarone). Knowledge of all of the ways in which systemic illness, starvation, and certain drugs may influence thyroid function tests is crucial in assessing the thyroid status of patients with serious nonthyroid disease.",
@@ -338,7 +349,8 @@
     "confidence": 0.6815,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted General pathological conditions, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Prostatic duct adenocarcinoma. Findings at radical prostatectomy. Previous studies of prostatic duct adenocarcinoma have reported a poor prognosis, but they included few patients treated by radical prostatectomy. The authors studied 15 cases treated with radical prostatectomy to define more completely their pathologic features and determine the clinical outcome in these surgically treated patients. The study included morphometry and DNA image analysis using the CAS-200 system. The most common presentation was urinary outlet obstruction (n = 9), and most patients were clinical Stage B with palpable prostatic lesions (n = 12). Compared with acinar cancers of similar clinical stage, duct cancers were large (tumor volume, 8.4 +/- 10.0 cc) and occupied a large portion of the gland (23 +/- 21%). Duct cancers were in an advanced final pathologic stage with 93% having capsular penetration, 47% positive margins, 40% seminal vesicle invasion, and 27% positive pelvic lymph nodes. The DNA analysis on cells disaggregated from paraffin revealed that 54% of cases were diploid, 15% tetraploid, 8% aneuploid, and 23% tetraploid/aneuploid. On clinical follow-up, eight patients had no evidence of tumor at intervals ranging from 1 to 28 months, and seven patients (47%) had persistent tumor at intervals of 3 to 18 months. This study demonstrates that duct cancers are in an advanced pathologic stage by the time of presentation and have a much higher short-term failure rate after radical prostatectomy compared with acinar cancers.",
@@ -346,7 +358,8 @@
     "confidence": 0.8511,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted Neoplasms, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Review of clinical experience with digoxin immune Fab (ovine). Following the development of methods for eliciting and purifying digoxin-specific Fab fragments with high affinity and specificity for cardiac glycosides, clinical studies were undertaken as a multicenter, open-label trial to test safety and efficacy in patients with advanced and potentially life-threatening digitalis toxicity that failed to respond to conventional therapeutic measures. One-hundred fifty such patients were treated with digoxin-specific antibody fragments purified from immunoglobulin G (IgG) produced in sheep. Doses of Fab were equivalent to the amount of digoxin or digitoxin in the patient's body, as estimated from the medical history or serum concentration measurements. Of 150 patients included in this trial, detailed information is available on 148. One-hundred nineteen (80%) had resolution of all signs and symptoms of digitalis toxicity following specific Fab fragment infusions, 14 (10%) improved, and 15 (10%) showed no response. Among 14 patients with adverse events possibly or probably caused by Fab, the most common events were development of hypokalemia and exacerbation of congestive heart failure. Analysis of the available clinical data indicates that a treatment response was observed in at least 90% of patients with convincing evidence of advanced and potentially life-threatening digitalis toxicity. The data from this multicenter trial have been augmented by findings from an observational surveillance study conducted to monitor the safety and effectiveness of treatment with digoxin immune Fab (ovine) following commercial availability. In this experience, 74% of patients were judged to have a complete or partial response to treatment, and 12% no response. The response for the remaining 14% was not reported or reported as uncertain. In this clinical experience, digoxin-specific Fab was generally well tolerated and clinically effective in patients with potentially life-threatening digitalis toxicity.",
@@ -357,23 +370,15 @@
     "feature_data": [
       {
         "feature_word": "heart",
-        "lime_score": -0.006087,
+        "lime_score": -0.007713,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
           "anatomical structure"
         ]
-      },
-      {
-        "feature_word": "hypokalemia",
-        "lime_score": 0.003523,
-        "ancestors": [
-          "disease",
-          "disease of metabolism",
-          "acquired metabolic disease"
-        ]
       }
-    ]
+    ],
+    "explanation": "When considering the broad pathological conditions that could apply to this abstract, several key words stand out: \"heart,\" \"disease,\" and \"toxicity.\" These terms suggest that the study focuses on heart-related issues caused by an accumulation of toxins within the body.\n\nIn the context of the biomedical abstract, \"heart\" refers to the muscular organ responsible for pumping blood throughout the body. When we talk about \"heart disease\" or \"cardiac toxicity,\" we're referring to conditions affecting the heart itself. This aligns well with the idea of \"pathological conditions\" mentioned in the model's prediction, indicating that the study likely examines how these conditions manifest or worsen due to exposure to digoxin.\n\n\"Disease\" further supports this interpretation, suggesting that the research aims to understand and treat conditions that cause harm to the heart. Lastly, \"toxicity\" implies that the study investigates how"
   },
   {
     "text": "Effect of increased left atrial pressure on breathing frequency in anesthetized dog. Distension or loading of the isolated canine left heart caused reflex tachypnea in prior studies. The object of the present effort was to explore the possibility that this depended primarily on atrial distension. Cardiopulmonary bypass perfusion and ligation of pulmonary veins were used to isolate the left-heart chambers of anesthetized dogs. Simultaneous distension of the beating left atrium and fibrillating ventricle stimulated breathing frequency (f), whereas isolated ventricular distension did not. At other times, intervals of atrial fibrillation were imposed under two different conditions: 1) while the right heart and lungs were bypassed and systemic perfusion was provided by the left ventricle using blood returned to the left atrium by pump and 2) while the ventricles fibrillated and systemic perfusion was supplied directly by the pump. Atrial fibrillation increased left atrial pressure and stimulated f in condition 1. In condition 2, f increased only if fibrillation was associated with a rise in left atrial pressure. Vagal cooling blocked the effect of fibrillation. I conclude that left atrial distension may initiate reflex tachypnea.",
@@ -381,7 +386,18 @@
     "confidence": 0.7793,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [
+      {
+        "feature_word": "tachypnea",
+        "lime_score": -0.002682,
+        "ancestors": [
+          "symptom",
+          "respiratory system and chest symptom",
+          "respiratory abnormality"
+        ]
+      }
+    ],
+    "explanation": "When considering the abstract excerpt, the term \"tachypnea\" stands out as crucial to the model's prediction. Tachypnea refers to rapid breathing, which can occur due to various conditions affecting the respiratory system. In this case, the study investigates how increased left atrial pressure influences breathing frequency in anesthetized dogs.\n\nTachypnea is directly related to cardiovascular issues because it often indicates underlying heart problems such as congestive heart failure or other cardiac dysfunctions. When the left atrium becomes distended due to increased pressure, it can lead to changes in breathing patterns, particularly faster breathing rates. This phenomenon is known as tachypnea, and it suggests that the model attributes increased left atrial pressure to potentially worsening heart function.\n\nBy identifying \"tachypnea\" as a significant factor, the model likely inferred that the presence of increased left atrial pressure would result"
   },
   {
     "text": "Extracorporeal shock wave lithotripsy of gallstones: results and 6-month follow-up in 141 patients. A study of biliary shock wave lithotripsy of gallstones sponsored by Dornier Medical Systems, Munich, began in the United States in May 1988 to evaluate the efficacy and safety of extracorporeal shock wave lithotripsy (ESWL) and the need for adjunctive therapy with ursodeoxycholic acid (UDCA). One hundred forty-one symptomatic patients with one to three gallstones 5-30 mm in diameter were randomized to treatment. One week before ESWL, patients were given either UDCA or placebo. This treatment was continued for 6 months. All patients underwent follow-up at predetermined intervals. According to the protocol, re-treatment for fragments larger than 5 mm in diameter could be performed only at 6 weeks; 26 (18%) of the 141 patients were retreated. At 6 months, the stone-free rates for single stones were as follows: patients with noncalcified stones receiving UDCA, 29%; patients with noncalcified stones receiving placebo, 24%; and patients with partially calcified stones receiving either UDCA or placebo, 6%. No significant difference was noted between the UDCA and placebo groups. At 6 months, the stone-free rates in patients with single, noncalcified stones 20 mm or less in diameter were 40% (UDCA) and 32% (placebo), which is superior to rates for those with solitary, noncalcified gallstones 21-30 mm in diameter and those with two or three stones.",
@@ -389,7 +405,8 @@
     "confidence": 0.8115,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted Digestive system diseases, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "A biphasic pattern of anti-pre-S responses in acute hepatitis B virus infection. The clinical relevance of the immune response to the translation products of the pre-S1 and pre-S2 regions of hepatitis B virus was examined by testing sequential serum samples from 17 patients with acute self-limited hepatitis B and from two patients in whom chronic liver disease developed. Anti-pre-S antibodies were determined by enzyme immunoassays based on the inhibition of binding of monoclonal antibodies to epitopes in the pre-S1 and pre-S2 sequence. In acute, self-limited infection, anti-pre-S antibodies appeared in a biphasic pattern. The early antibodies were detected at the time of clinical signs of acute disease when HBsAg and often HBeAg were present, but hepatitis B virus DNA was no longer detectable in serum. Anti-pre-S levels then fell, but subsequently reappeared as the late antibody during the recovery phase, after development of anti-HBe, but before anti-HBs. Anti-pre-S responses were detected in 15 of 17 patients who recovered (88.2%) and in both patients with acute hepatitis B virus infection evolving to chronic liver disease. Although the early antibodies to pre-S1 and pre-S2 proteins appeared at the time of decreasing levels of infectious virus in serum in cases of self-limited infection, these antibodies also were transiently or continuously present with high levels of serum hepatitis B virus DNA in patients in whom chronic hepatitis B infection developed. Thus the anti-pre-S response in acute hepatitis is not a prognostic marker for clinical resolution.",
@@ -400,14 +417,31 @@
     "feature_data": [
       {
         "feature_word": "liver",
-        "lime_score": 0.056857,
+        "lime_score": 0.0534,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
           "anatomical structure"
         ]
+      },
+      {
+        "feature_word": "disease",
+        "lime_score": 0.019351,
+        "ancestors": [
+          "disease"
+        ]
+      },
+      {
+        "feature_word": "hepatitis b",
+        "lime_score": 0.017854,
+        "ancestors": [
+          "disease",
+          "disease of anatomical entity",
+          "disease by infectious agent"
+        ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract excerpt, several key words and phrases stand out as being particularly important to the model's decision-making process. Among these, \"liver,\" \"disease,\" and \"hepatitis B\" emerge prominently due to their direct relevance to the topic.\n\nFirstly, the mention of \"liver\" suggests that the model is focusing on an organ closely related to the digestive system, which aligns well with the target class of \"digestive system diseases.\" This connection is crucial because the liver plays a vital role in processing and filtering blood, metabolizing nutrients, and producing proteins and enzymes essential for overall health.\n\nSecondly, \"disease\" indicates that the model is evaluating potential issues within the body. Hepatitis B specifically refers to a viral infection that can cause inflammation of the liver, leading to various symptoms and complications if left untreated. Given that the abstract discusses anti-pre-S"
   },
   {
     "text": "Surgical prophylaxis of malignant melanoma. A review of a 14-year experience with prophylactic pigmented skin lesion removal is presented. Data obtained during a 4-year interval of this 14-year experience is analyzed specifically. During this 4-year interval, 250 patients with melanoma were seen. Of these patients, 75 with a history of stage I (localized) melanoma and three patients with stage II (history of controlled regionally metastatic melanoma) underwent removal of multiple skin lesions on a prophylactic basis. Of the removed lesions, 28% showed hyperplasia, atypia, dysplasia, or melanoma. Nine unsuspected in situ, or level I melanomas, and three unsuspected invasive melanomas were removed from these 75 melanoma patients while excising lesions prophylactically during the 4-year interval. It is estimated that four to six additional melanomas were prevented by excision of precursor lesions. During the same 4-year interval, an additional 112 of approximately 1000 patients without a previous history of melanoma underwent prophylactic lesion removals. In 31% of the 112 patients, there was a history of melanoma in a first-degree relative. In 22% of the removed lesions there was hyperplasia, atypia, or dysplasia. Three cases of melanoma in situ were detected and it is estimated that an additional three to five cases of melanoma were prevented. Atypical findings occurred in 71, or 63%, of the patients biopsied, which represented 7% of the approximately 1000 patients screened. During the 4-year interval, an average of 17.7 lesions were removed from each of the 190 melanoma and nonmelanoma patients undergoing prophylactic skin lesion excision. This was accomplished in one to four sessions per patient. This average reflects only those patients who underwent one excision or more and does not include those patients treated without operation. When including the nonoperated patients screened during this interval, the average number of lesions removed was 2.7 per patient. Death from new melanomas was prevented during the 14-year period of this study as evidenced by the fact that no patient died or developed metastatic disease from a cutaneous melanoma that was not apparent or known about at the time of first examination.",
@@ -415,17 +449,8 @@
     "confidence": 0.8733,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": [
-      {
-        "feature_word": "melanoma",
-        "lime_score": -0.001121,
-        "ancestors": [
-          "disease",
-          "disease of cellular proliferation",
-          "cancer"
-        ]
-      }
-    ]
+    "feature_data": [],
+    "explanation": "The model predicted Neoplasms, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Rapid, nonradioactive detection of clonal T-cell receptor gene rearrangements in lymphoid neoplasms. Southern blot hybridization analysis of clonal antigen receptor gene rearrangements has proved to be a valuable adjunct to conventional methods for diagnosing lymphoid neoplasia. However, Southern blot analysis suffers from a number of technical disadvantages, including the time necessary to obtain results, the use of radioactivity, and the susceptibility of the method to various artifacts. We have investigated an alternative approach for assessing the clonality of antigen receptor gene rearrangements in lymphoid tissue biopsy specimens. This approach involves the amplification of rearranged gamma T-cell receptor genes by the polymerase chain reaction and analysis of the polymerase chain reaction products by denaturing gradient gel electrophoresis. By use of this approach, clonal rearrangements from neoplastic lymphocytes constituting as little as 0.1-1% of the total cells in the tissue are detected as discrete bands in the denaturing gel after the gel is stained with ethidium bromide and viewed under ultraviolet light. In contrast, polyclonal rearrangements from reactive lymphocytes appear as a diffuse smear along the length of the gel. Our findings suggest that polymerase chain reaction combined with denaturing gradient gel electrophoresis may offer a rapid, nonradioactive, and sensitive alternative to Southern blot analysis for the diagnostic evaluation of lymphoid tissue biopsy specimens.",
@@ -433,7 +458,8 @@
     "confidence": 0.7611,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted Neoplasms, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Cavernous hemangioma of the spinal cord: report of 2 unusual cases. We present 2 cases of spinal cord intramedullary cavernous hemangioma; 1 patient is the 1st reported case of multiple spinal cord lesions. Diagnosis is greatly enhanced by the use of MRI.",
@@ -444,23 +470,24 @@
     "feature_data": [
       {
         "feature_word": "hemangioma",
-        "lime_score": -0.007731,
+        "lime_score": -0.00843,
         "ancestors": [
           "disease",
-          "disease of cellular proliferation",
-          "disease of anatomical entity"
+          "disease of anatomical entity",
+          "disease of cellular proliferation"
         ]
       },
       {
         "feature_word": "spinal cord",
-        "lime_score": -0.001391,
+        "lime_score": -0.002133,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
           "anatomical structure"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract, the key words that influenced the model's prediction were \"hemangioma\" and \"spinal cord.\" Hemangiomas are abnormal collections of blood vessels, while the spinal cord is part of the central nervous system. Both these conditions can cause tumors or masses within the body, which aligns with the term \"neoplasm,\" meaning an abnormal mass of cells.\n\n\"Hemangioma\" specifically refers to a type of tumor composed of blood vessel-like structures, often found in children. In this case, one patient had multiple spinal cord lesions, suggesting a complex pattern of neoplastic activity involving both hematopoietic tissues and neural elements.\n\n\"The spinal cord\" is a crucial component of the central nervous system responsible for transmitting information between the brain and the rest of the body. Any lesion affecting the spinal cord could potentially lead to serious neurological symptoms if left untreated.\n\nThese findings"
   },
   {
     "text": "Histochemical demonstration of 5'-nucleotidase activity in inflammatory muscle disease. Using a histochemical method, 5'-nucleotidase activity was investigated in 80 muscle biopsy specimens, including specimens from eight patients with muscular dystrophy, 18 with nonspecific type II fiber atrophy, 15 with polymyositis, and 29 histologically normal controls. An interstitial reaction for 5'-nucleotidase was associated with an inflammatory infiltrate in 19 of 21 positive cases. Of the 15 cases of polymyositis, 14 showed an extensive interstitial reaction surrounding most of the myofibers and extending well away from the areas infiltrated by inflammatory cells. The extensive nature of this reaction makes 5'-nucleotidase activity a useful adjuvant in the diagnosis of inflammatory muscle disease.",
@@ -470,15 +497,8 @@
     "ablation_mode": "normal",
     "feature_data": [
       {
-        "feature_word": "disease",
-        "lime_score": 0.005973,
-        "ancestors": [
-          "disease"
-        ]
-      },
-      {
         "feature_word": "muscular dystrophy",
-        "lime_score": -0.005474,
+        "lime_score": -0.0055,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
@@ -486,15 +506,23 @@
         ]
       },
       {
+        "feature_word": "disease",
+        "lime_score": 0.00366,
+        "ancestors": [
+          "disease"
+        ]
+      },
+      {
         "feature_word": "polymyositis",
-        "lime_score": -0.004715,
+        "lime_score": -0.003158,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
           "musculoskeletal system disease"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the broad pathological conditions that could apply to this abstract, several key terms stand out as being particularly relevant to the predicted class of \"General pathological conditions.\" These include \"muscular dystrophy,\" \"disease,\" and \"polymyositis.\"\n\nMuscular dystrophy is a group of inherited genetic disorders characterized by progressive weakness and wasting of muscles. This condition fits well within the broader category of general pathological conditions because it involves significant cellular dysfunction and tissue damage.\n\nDisease encompasses any abnormal process affecting living organisms. In this case, both muscular dystrophy and polymyositis fall under the umbrella term \"disease,\" making these terms crucial in determining the overall pathological nature of the study.\n\nPolymyositis specifically refers to a form of inflammatory myopathy, which means muscle inflammation accompanied by muscle weakness. This aligns perfectly with the description of an \"inflammatory infiltrate\" observed"
   },
   {
     "text": "Refeeding of infants with acute diarrheal disease. The purpose of this study was to determine which infant formula among five would be the most efficacious for the refeeding of infants during an acute episode of diarrhea. Fifty male infants less than 12 months of age with severe diarrhea and at least 5% dehydration were admitted to a metabolic unit and studied in a prospective, single-blind protocol. Ten infants randomly received one of five types of formula: two-thirds diluted cow milk, cow milk formula (Nanon, Nestle, Inc., Sao Paulo, Brazil), Portagen, Pregestimil, or Prosobee (Mead Johnson & Co. Division, Evansville, Ind.). They continued to receive the same formula for 72 hours unless dehydration occurred. There were no associated infections, and they received no prior antibiotic treatment. Oral hydration together with intravenous fluid therapy was given to all patients during the initial treatment. During the first 72 hours of refeeding, patients fed Portagen excreted the least amount of stool and required reduced quantities of intravenous fluids or oral hydration. In contrast, patients fed diluted cow milk or any other formula had more severe diarrhea. Nine of the 10 patients fed Portagen completed the 72-hour treatment, whereas only 2 of 10 fed diluted cow milk tolerated it. Similarly, the cumulative proportions for high purging rate, dehydration, carbohydrate intolerance, and vomiting were more favorable for Portagen and least acceptable for diluted cow milk. No differences were found among the remaining three formulas tested. These data show that diluted cow milk is poorly tolerated by infants with severe diarrhea, whereas Portagen is more effective.",
@@ -505,23 +533,15 @@
     "feature_data": [
       {
         "feature_word": "diarrhea",
-        "lime_score": 0.047204,
+        "lime_score": 0.05389,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
           "gastrointestinal system disease"
         ]
-      },
-      {
-        "feature_word": "vomiting",
-        "lime_score": 0.02231,
-        "ancestors": [
-          "symptom",
-          "digestive system symptom",
-          "vomiting"
-        ]
       }
-    ]
+    ],
+    "explanation": "When considering whether an infant should receive a particular type of formula during their recovery from diarrhea, the primary concern is addressing the underlying cause of the illness\u2014diarrhea itself. This is because diarrhea can lead to significant fluid loss and electrolyte imbalances that require proper nutrition to restore health. Among the options presented, the choice between different formulas depends on how well they address these needs.\n\nIn this case, the model focused on identifying which formula might best support the digestive process after diarrhea has subsided. It recognized that diarrhea often involves inflammation and potential damage to the intestinal lining, making it crucial to provide adequate nourishment without exacerbating any existing issues. Therefore, the decision hinges on finding a formula that supports gut healing while also providing essential nutrients.\n\nKey factors influencing the model\u2019s prediction include:\n1. **Diarrhea**: Recognizing that diarrhea necessitates careful management to prevent further complications like malnutrition"
   },
   {
     "text": "HBV-DNA detection by gene amplification in acute hepatitis B. Serum samples from 62 women, inadvertently infected with hepatitis B virus in an in vitro fertilization program, were tested for the presence of hepatitis B virus-DNA using the polymerase chain reaction. Under conditions of a strict spatial separation of DNA extraction, amplification and product analysis, we succeeded in detection of as few as 360 hepatitis B virus particles per milliliter. Hepatitis B virus-DNA was detected with a high frequency during HBsAg and HBeAg antigenemia (98.5%) but also in the convalescent phase after appearance of antibody to HBsAg (18.2%). However, all patients with hepatitis B virus-DNA in convalescent sera were hepatitis B virus-DNA negative 3 to 6 mo later. All patients with HBeAg-positive samples showed hepatitis B virus-DNA positivity by polymerase chain reaction. For acute hepatitis, gene amplification restores the relationship between HBeAg and hepatitis B virus-DNA observed in serum from chronic hepatitis B patients and calls attention to the prolonged presence of hepatitis B virus-DNA in serum after generally accepted criteria for resolution of the infection have been reached.",
@@ -532,23 +552,24 @@
     "feature_data": [
       {
         "feature_word": "hepatitis b",
-        "lime_score": 0.077911,
+        "lime_score": 0.074561,
         "ancestors": [
           "disease",
-          "disease by infectious agent",
-          "disease of anatomical entity"
+          "disease of anatomical entity",
+          "disease by infectious agent"
         ]
       },
       {
         "feature_word": "hepatitis",
-        "lime_score": 0.052277,
+        "lime_score": 0.035359,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
           "gastrointestinal system disease"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract excerpt, several key words and phrases stand out as being particularly important to the model's decision-making process. Among these, \"hepatitis B\" and \"hepatitis\" are prominently featured, both appearing multiple times within the text.\n\n\"Hepatitis B\" refers to a viral infection that affects the liver, causing inflammation and potentially leading to serious health issues if left untreated. This condition falls under the broader category of digestive system diseases because it impacts organs like the liver, which is part of the gastrointestinal tract.\n\n\"Hepatitis,\" while more general than \"hepatitis B,\" still relates to liver-related diseases. It encompasses various forms of liver inflammation and damage caused by different pathogens, including viruses such as hepatitis B and C.\n\nThese terms are crucial because they indicate that the study involves testing for the presence of hepatitis B virus-DNA in serum samples from women who have been"
   },
   {
     "text": "Left ventricular diastolic function in patients with left ventricular systolic dysfunction due to coronary artery disease and effect of nicardipine. To assess the effect of nicardipine on left ventricular (LV) diastolic function independent of concurrent effects on loading conditions in patients with LV systolic dysfunction due to coronary artery disease, equihypotensive doses of intravenous nitroprusside and nicardipine were administered to 12 patients with congestive heart failure due to previous myocardial infarction (LV ejection fraction less than 0.40). LV micromanometer pressure and simultaneous radionuclide volume were obtained during a baseline period, during nitroprusside infusion, during a second baseline period and during nicardipine infusion. Mean systemic arterial pressure decreased an average of 21 mm Hg with nitroprusside and 19 mm Hg with nicardipine. A greater decrease in LV end-diastolic pressure was observed with nitroprusside (29 +/- 2 to 15 +/- 2 mm Hg, p less than 0.01) than with nicardipine (29 +/- 2 to 25 +/- 3 mm Hg, p less than 0.05). There was a decrease in the time constant of relaxation during nitroprusside but not during nicardipine infusion. There was enough overlap in LV volumes in the baseline and nitroprusside periods to compare diastolic pressure-volume relations over a common range of volumes in 4 patients, and enough overlap in the baseline and nicardipine periods in 11 patients. The relation was shifted downward in 3 of 4 patients taking nitroprusside and in 6 of 11 patients taking nicardipine. The relation between end-diastolic pressure and volume was not shifted with nicardipine.",
@@ -559,7 +580,7 @@
     "feature_data": [
       {
         "feature_word": "myocardial infarction",
-        "lime_score": -0.000334,
+        "lime_score": -0.000277,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
@@ -568,14 +589,15 @@
       },
       {
         "feature_word": "coronary artery disease",
-        "lime_score": -0.000313,
+        "lime_score": -0.000269,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
           "cardiovascular system disease"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract excerpt, the model focused on two key words that significantly influenced its decision: \"myocardial infarction\" and \"coronary artery disease.\" These terms are crucial because they describe the underlying causes of heart problems mentioned in the study.\n\nMyocardial infarction refers to a heart attack caused by blocked arteries, often due to plaque buildup. This condition directly impacts the heart muscle, making it susceptible to damage or weakening over time. Coronary artery disease involves narrowing or blockage of these arteries, further increasing the risk of heart attacks and other cardiac issues.\n\nThese conditions fall under the broader category of cardiovascular diseases, which include various ailments affecting the heart and blood vessels. They are major contributors to global health challenges like heart failure, arrhythmias, and hypertension. Understanding these root causes helps healthcare providers tailor treatments and preventive measures effectively.\n\nIn summary, the model likely considered"
   },
   {
     "text": "Oxygen uptake and heart rate responses during hypoxic exercise in children and adults. Control of ventilation and heart rate during exercise appears to undergo maturation, while aerobic metabolism (VO2) may not. Since we had previously found that hypoxia during exercise produced different ventilatory responses in children (C) compared to adults (A), we hypothesized that VO2 and heart rate kinetics during exercise would show similar maturational responses to hypoxia. To test this hypothesis, we examined the responses during progressive (ramp) and constant work rate tests in children and adults breathing either room air or hypoxic gas (FiO2 = 0.15). When corrected for body weight, children and adults had similar values for lactic acidosis threshold (LAT) (C: 29.1 +/- 5.0 ml.min-1.kg-1; A: 27.9 +/- 4.3) and VO2max (C: 40.7 +/- 8.6 ml.min-1.kg-1; A: 45.2 +/- 6.7) during normoxia. Hypoxia significantly lowered LAT (C: 27.5 +/- 5.4 ml.min-1.kg-1; A: 23.2 +/- 3.8; both P less than 0.05) and VO2max (C: 37.7 +/- 8.3 ml.min-1.kg-1; A: 40.1 +/- 5.3; both P less than 0.05) in both children and adults. Metabolic efficiency (delta VO2/delta work rate) and the VO2-heart rate relationship (delta VO2/delta HR/kg) were similar in the two groups and unaffected by hypoxia. During the constant work rate exercise, VO2 kinetics (time constant during phase 2 of the response (pi 1) and the O2 deficit) were similar between children and adults and were significantly slowed by hypoxia, consistent with current understanding of the control of oxidative metabolism. Finally, heart rate was increased at rest and during exercise with hypoxia, while the time to reach 75% of the end-exercise response was delayed significantly, in both groups.",
@@ -583,7 +605,8 @@
     "confidence": 0.5042,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted General pathological conditions, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Cellular immune response to hepatitis B virus-encoded antigens in acute and chronic hepatitis B virus infection. The proliferative response of PBMC to hepatitis B virus (HBV) envelope, core, and e Ag was analyzed prospectively in 21 patients with acute self-limited HBV infection and compared with the response of patients with chronic HBV infection and different levels of HBV replication (i.e., hepatitis e Ag (HBeAg)- or anti-HBe-positive) and liver damage (i.e., chronic active hepatitis or chronic asymptomatic carriers). Our results indicate that: 1) HBV-infected subjects who develop a self-limited acute hepatitis show a vigorous PBMC response to hepatitis B core Ag and HBeAg, as expression of T cell activation; 2) appearance of a detectable lymphocyte response to HBV nucleocapsid Ag is temporally associated with the clearance of HBV envelope Ag; 3) in patients with chronic HBV infection the level of T cell responsiveness to hepatitis B core Ag and to HBeAg is significantly lower than that observed during acute infection; 4) T cell sensitization to HBV envelope Ag in acute and chronic HBV infection is usually undetectable and when measurable is expressed transiently and at low levels. These results may reflect immune events of pathogenetic relevance with respect to evolution of disease and viral clearance.",
@@ -594,7 +617,7 @@
     "feature_data": [
       {
         "feature_word": "liver",
-        "lime_score": 0.047292,
+        "lime_score": 0.033699,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
@@ -603,23 +626,24 @@
       },
       {
         "feature_word": "hepatitis e",
-        "lime_score": 0.029526,
+        "lime_score": 0.021229,
         "ancestors": [
           "disease",
-          "disease by infectious agent",
-          "disease of anatomical entity"
+          "disease of anatomical entity",
+          "disease by infectious agent"
         ]
       },
       {
         "feature_word": "hepatitis b",
-        "lime_score": 0.024271,
+        "lime_score": 0.017568,
         "ancestors": [
           "disease",
-          "disease by infectious agent",
-          "disease of anatomical entity"
+          "disease of anatomical entity",
+          "disease by infectious agent"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the classification of this abstract, the model focused on several key words and phrases related to the digestive system and liver health. Specifically, the mention of \"liver,\" \"hepatitis e,\" and \"hepatitis b\" were crucial determinants of the prediction.\n\n\"Hepatitis e\" refers to an inflammation of the liver caused by the hepatitis E virus, while \"hepatitis b\" indicates an inflammation due to the hepatitis B virus. Both these viral infections can significantly impact liver function and lead to various complications, making them important factors in predicting a diagnosis involving the digestive system.\n\nAdditionally, the term \"digestive system diseases\" encompasses conditions affecting organs such as the esophagus, stomach, intestines, liver, pancreas, and gallbladder. Given the focus on viral infections like hepatitis, which often affect these organs directly, the model likely considered how these viruses might"
   },
   {
     "text": "CV 205-502--effectiveness, tolerability, and safety over 24-month study. Twenty hyperprolactinemic women (median prolactin [PRL] 2,989 mU/L, range 1,149 to 11,910 mU/L), previously unsuccessfully treated with bromocriptine, were treated in a prospective study, for 3 to 24 months with the new, nonergot, long-acting, dopamine agonist, CV 205-502. Treatment resulted in normalization of PRL in 14 patients, in one daily dose of 0.075 to 0.150 mg of the drug. Three patients were treated in doses above 0.150 mg up to 0.300 mg, but PRL was not normalized during the study. Menstrual function was restored in 15 of 18 amenorrheic patients. Galactorrhea, present in 7 patients, disappeared in 5. Four patients became pregnant and gave birth to healthy children. In conclusion, we found CV 205-502 effective in one daily dose, with good tolerability; it is safe and provides a valuable alternative to the dopamine agonist drugs in use today.",
@@ -627,7 +651,8 @@
     "confidence": 0.5862,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted General pathological conditions, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "The usefulness of simultaneous determinations of glucosaminylation and fucosylation indices of alpha-fetoprotein in the differential diagnosis of neoplastic diseases of the liver. The degrees of glucosaminylation (glucosaminylation index) and fucosylation (fucosylation index) of alpha-fetoprotein (AFP) were determined in serum samples of 351 patients with hepatocellular carcinoma (HCC), 47 with carcinoma metastatic to the liver from digestive organs, five with mixed cholangiocellular and HCC, and 176 with benign liver diseases. The glucosaminylation index of AFP in patients with carcinoma metastatic to the liver (42 +/- 23%, mean +/- SD) was significantly higher than that in patients with HCC (5 +/- 7%, P less than 0.001) or that in patients with benign liver diseases (2 +/- 4%, P less than 0.001). The fucosylation indices of AFP in patients with carcinoma metastatic to the liver, with HCC, and with benign liver diseases were 76 +/- 25%, 42 +/- 30%, and 4 +/- 6%, respectively. Thus, the fucosylation indices of AFP were high in two neoplastic liver diseases (carcinoma metastatic to the liver and HCC) and low in benign liver diseases, whereas the glucosaminylation indices were high in carcinoma metastatic to the liver but low in HCC and benign liver diseases. When the values of 30% and 80% were used as the level of the glucosaminylation and fucosylation indices, respectively, to discriminate carcinoma metastatic to the liver from HCC, 40 of 47 patients with carcinoma metastatic to the liver (85%) were able to be discriminated from HCC (sensitivity). The specificity, the positive predictive value, and the overall accuracy were 86% (302/351), 45% (40/40 + 47 + 3 - 2) and 86% (40 + 302/47 + 351), respectively. These data suggest that the combined information in these two indices provides a potent criterion for the diagnosis of neoplastic diseases of the liver.",
@@ -638,14 +663,15 @@
     "feature_data": [
       {
         "feature_word": "carcinoma",
-        "lime_score": -0.06815,
+        "lime_score": -0.076067,
         "ancestors": [
           "disease",
           "disease of cellular proliferation",
           "cancer"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering whether an abstract might classify as \"Neoplasms,\" we need to look closely at the key words that influenced the model's decision. In this case, the word \"carcinoma\" stands out prominently.\n\n\"Carcinoma\" refers to any type of cancer that originates in epithelial tissues, meaning cells lining the surface of internal organs like the skin, lungs, or intestines. This term is crucial because it indicates a condition characterized by uncontrolled cell growth, which fits perfectly within the definition of \"neoplasms.\"\n\nAdditionally, the phrase \"carcinoma metastatic to the liver from digestive organs\" suggests that the tumor has spread from another part of the body to the liver. This further supports the classification of \"neoplasms\" since metastasis involves abnormal growth of cells beyond their original location.\n\nSo, while the abstract discusses various types of cancers affecting different"
   },
   {
     "text": "Unusual aspects of aortovenous fistulas associated with ruptured abdominal aortic aneurysms. Three unusual cases of an abdominal aortic aneurysm spontaneously rupturing into the retroperitoneum and an adherent posterior vein are reported. No patient demonstrated signs or symptoms of an aortovenous fistula before surgery. Emergent surgery prevented extensive preoperative diagnostic testing. The three abdominal aortic aneurysms were very large and averaged 13 cm in diameter. One fistula involved an inflammatory aneurysm, which is the fifth such case reported. The aortic fistulas were to the inferior vena cava (158 other cases reported in the English-language literature), a left renal vein (16 other cases reported), and an iliac vein (7 other cases reported). Routine use of the cell-saver, oversewing of the fistula from within the aneurysm, and a heightened awareness that this unusual complication is more common in the presence of a very large, ruptured abdominal aortic aneurysm should improve survival.",
@@ -656,23 +682,15 @@
     "feature_data": [
       {
         "feature_word": "vein",
-        "lime_score": -0.004814,
-        "ancestors": [
-          "anatomy",
-          "material anatomical entity",
-          "anatomical structure"
-        ]
-      },
-      {
-        "feature_word": "iliac vein",
-        "lime_score": -0.003969,
+        "lime_score": -0.00445,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
           "anatomical structure"
         ]
       }
-    ]
+    ],
+    "explanation": "The model likely classified this abstract under cardiovascular diseases because the text mentions aortic venous fistulas, which are abnormal connections between arteries and veins that can occur in people with certain types of heart conditions. These fistulas often develop due to damage to the walls of the aorta, one of the main arteries carrying oxygen-rich blood throughout the body. When these fistulas form, they can lead to complications like bleeding or infection.\n\nIn this case, the abstract discusses three patients who had ruptured abdominal aortic aneurysms, which are enlarged areas of the aorta that have weakened walls. An aortovenous fistula forms when there is an abnormal connection between the aorta and a nearby vein. This condition can result in significant internal bleeding if left untreated, especially after surgery.\n\nThe presence of an aortovenous fistula complicates surgical procedures significantly, as surgeons need to carefully manage"
   },
   {
     "text": "Treatment of cervical spondylotic myelopathy by enlargement of the spinal canal anteriorly, followed by arthrodesis. Thirty-seven patients who had enlargement of the spinal canal anteriorly and stabilization of the spine for cervical spondylotic myelopathy were followed for an average of forty-nine months (range, twenty-eight to seventy months). Myelography and computed tomographic myelography were performed preoperatively on all patients to determine the location and features of the areas of decompression. The canal was enlarged by discectomy; by subtotal corpectomy and removal of the anteromedial parts of the pedicles; or by removal of osteophytes or of the posterior longitudinal ligament, or both. Partial corpectomy and interbody arthrodesis was performed in nine patients; subtotal corpectomy, including removal of the posterior parts of the vertebral bodies and of the posterior longitudinal ligament, and strut bone-grafting, in fifteen patients; and subtotal corpectomy, with detachment of the remaining thin posterior parts of the vertebral bodies and of the posterior longitudinal ligament, and strut bone-grafting, in thirteen patients. Postoperatively, radiographic examinations, including myelography and computed tomographic myelography, were performed for thirty-six patients and magnetic resonance imaging, for twenty-eight. A satisfactory neurological result was obtained in twenty-nine patients. Atrophy of the spinal cord, as seen on preoperative computed-tomographic myelograms, was predictive of an unsatisfactory result of the decompression, as was weakness of the peroneal muscles. All but one of the thirty-seven patients had improved walking ability at the most recent follow-up examination: seventeen patients improved by 1 point; fourteen, by 2 points; four, by 3 points; and one, by 4 points. The remaining patient reverted to the preoperative status after an initial improvement. The ability to walk at the interim examinations was compared with that at the most recent examination; three patients had continuing improvement, while three others had deterioration. The main cause of deterioration was new spondylotic changes associated with stenosis of the spinal canal, occurring at the level of the disc just cephalad to the fused levels. We concluded that anterior decompression followed by a secure arthrodesis should be an extensive procedure for patients who have cervical spondylotic myelopathy, as determined preoperatively from a myelogram or computed tomographic myelogram. Excision of the vertebral bodies should also be wide and should include the anteromedial parts of the pedicles. The third or fourth cervical vertebra should be included in the arthrodesis prophylactically in patients who have stenosis of the spinal canal when either of these vertebrae is adjacent to the level of fusion.",
@@ -680,7 +698,8 @@
     "confidence": 0.6074,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted Nervous system diseases, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Stroke rehabilitation: Australian patient profile and functional outcome. A prospective, multi-institutional, population based study identified 1274 non-surgical stroke admissions to all hospitals in a major Australian city during 1984. The demographic and diagnostic profile and the nature of functional recovery of all 258 first stroke survivors who were referred for inpatient rehabilitation are presented. The median duration of rehabilitation stay was 49 days. The mean functional independence score, as measured on a modified Barthel Index at admission was 44, compared with 78 on discharge, a mean improvement of 34. Stair climbing had the lowest mean value on admission (12), while bowel control had the lowest residual deficit on discharge (95). The stroke study group was representative of the unimpaired aged population in all respects except ethnicity, where differences are attributed to age. The variables identified as significant are; side and severity of paralysis, age and sex, marital status and ethnicity. Stroke rehabilitation outcome was not influenced by etiology, site of lesion, arterial distribution, occupation or education.",
@@ -688,7 +707,8 @@
     "confidence": 0.5932,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted Nervous system diseases, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Systemic hypertension in sleep apnea syndrome. Relationship with sleep architecture and breathing abnormalities. To examine the possible relationship between systemic HT and SAS we compared 21 hypertensive (HT+) and 29 normotensive (HT-) patients for morphologic characteristics, sleep disturbances and respiratory events monitored during a full night polysomnography. There was no significant difference between HT+ and HT- patients with respect to age, weight, BMI, sleep stage distribution and disorganization, apnea-hypopnea index (number of episodes per hour of sleep) and duration (minutes per hour of sleep) nor O2 saturation indices: mean nocturnal and minimum O2 saturation. We conclude therefore that HT in SAS patients is not directly related to morphologic characteristics, sleep disturbances and breathing abnormalities.",
@@ -699,7 +719,7 @@
     "feature_data": [
       {
         "feature_word": "hypertension",
-        "lime_score": -0.004151,
+        "lime_score": -0.003312,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
@@ -708,7 +728,7 @@
       },
       {
         "feature_word": "apnea",
-        "lime_score": 0.00294,
+        "lime_score": 0.002711,
         "ancestors": [
           "symptom",
           "respiratory system and chest symptom",
@@ -717,13 +737,14 @@
       },
       {
         "feature_word": "syndrome",
-        "lime_score": 0.000742,
+        "lime_score": 0.001489,
         "ancestors": [
           "disease",
           "syndrome"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract excerpt, several key terms stand out as potentially influencing the model's prediction towards cardiovascular diseases:\n\n1. **Hypertension** - This term indicates high blood pressure, which is a major risk factor for cardiovascular health. Hypertension can lead to complications such as heart attacks, strokes, and other conditions that fall under the broader category of cardiovascular diseases.\n\n2. **Apnea** - Apnea refers to pauses in breathing during sleep. These disruptions can significantly impact sleep quality and increase the risk of developing cardiovascular issues over time.\n\n3. **Syndrome** - In the context of sleep apnea syndrome, this term suggests a cluster of symptoms related to obstructive sleep apnea. Sleep apnea itself is strongly associated with cardiovascular problems due to its effects on sleep patterns and overall circadian rhythm.\n\nThese terms collectively suggest a strong connection between the condition described in the abstract and"
   },
   {
     "text": "Circadian variations in myocardial ischemia. Implications for management. Extended ambulatory electrocardiographic monitoring in the patient's customary environment provides clear evidence of circadian patterns in myocardial ischemic episodes. In patients with effort angina, the highest activity occurs between 6 AM and noon. This coincides with peaks in diurnal variation of frequency of acute myocardial infarction, stroke, and sudden death. A number of potential underlying common triggering mechanisms, including catecholamine secretion, sympathetic nervous system activity, blood pressure, heart rate, cortisol secretion, and aggregability of platelets, exhibit similar surges. As a result of these coinciding morning peaks, myocardial oxygen demand is increased and oxygen supply reduced after a person arises in the morning. Attention to this vulnerable period is merited in the timing and choice of medication, both to prevent or reduce ischemia and to modify potential disease-triggering mechanisms.",
@@ -731,7 +752,8 @@
     "confidence": 0.8209,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted Cardiovascular diseases, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Characterization of auscultatory gaps with wideband external pulse recording. Three types of auscultatory gaps, called G1, G2, and G3, that occur during blood pressure measurement have been identified by using wideband external pulse recording. We have previously shown that the wideband external pulse recorded during cuff deflation can be separated into three components (K1, K2, and K3), one of which (K2) is closely related to the Korotkoff sound. G1 occurs with cuff pressure just below systolic and is characterized by the presence of K1 and K2 with intermittent disappearance of K2. G1 gaps are related to a phasic decrease of arterial (systolic) pressure and were exhibited by 13 of 60 hypertensive patients. G2 gaps are related to a phasic increase of arterial (diastolic) pressure, occur when cuff pressure is just above diastolic, and are characterized by the presence of K1, K2, and K3 with intermittent disappearance of K2. Seven of 60 hypertensive patients exhibited a G2 gap. G3 gaps occur with cuff pressure between systolic and diastolic and are characterized by an underdeveloped or blunted K2 signal. Three of 60 hypertensive patients exhibited a G3 gap. The identification of auscultatory gaps in relation to the wideband external pulse provides a qualitative measure of their existence, can be of significant value in better understanding aspects of the auscultatory blood pressure measurement technique, and provides an objective basis with which to better understand the mechanisms that cause them.",
@@ -739,7 +761,8 @@
     "confidence": 0.7493,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [],
+    "explanation": "The model predicted Cardiovascular diseases, but no ontology-based features were available to explain this decision."
   },
   {
     "text": "Infantile form of carnitine palmitoyltransferase II deficiency with hepatomuscular symptoms and sudden death. Physiopathological approach to carnitine palmitoyltransferase II deficiencies. Reported cases of carnitine palmitoyltransferase II (CPT II) deficiency are characterized only by a muscular symptomatology in young adults although the defect is expressed in extra-muscular tissues as well as in skeletal muscle. We describe here a CPT II deficiency associating hypoketotic hypoglycemia, high plasma creatine kinase level, heart beat disorders, and sudden death in a 3-mo-old boy. CPT II defect (-90%) diagnosed in fibroblasts is qualitatively similar to that (-75%) of two \"classical\" CPT II-deficient patients previously studied: It resulted from a decreased amount of CPT II probably arising from its reduced biosynthesis. Consequences of CPT II deficiency studied in fibroblasts differed in both sets of patients. An impaired oxidation of long-chain fatty acids was found in the proband but not in patients with the \"classical\" form of the deficiency. The metabolic and clinical consequences of CPT II deficiency might depend, in part, on the magnitude of residual CPT II activity. With 25% residual activity CPT II would become rate limiting in skeletal muscle but not in liver, heart, and fibroblasts. As observed in the patient described herein, CPT II activity ought to be more reduced to induce an impaired oxidation of long-chain fatty acids in these tissues.",
@@ -750,14 +773,15 @@
     "feature_data": [
       {
         "feature_word": "heart",
-        "lime_score": -0.171407,
+        "lime_score": -0.153771,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
           "anatomical structure"
         ]
       }
-    ]
+    ],
+    "explanation": "The model likely classified this abstract under digestive system diseases because the phrase \"sudden death\" mentioned in the text suggests an underlying cardiovascular issue that could affect multiple organs, particularly the heart. The word \"heart\" itself is crucial here; it indicates that the condition involves cardiac complications. Additionally, the mention of \"heart beat disorders\" further supports this interpretation. While the abstract does discuss various aspects of CPT II deficiency, the focus on sudden death and heart-related issues strongly points towards a diagnosis involving the heart or circulatory system. This aligns with the broader definition of digestive system diseases encompassing both internal organ systems like the gastrointestinal tract and external ones such as the heart."
   },
   {
     "text": "Amyotrophic lateral sclerosis: fasting plasma levels of cysteine and inorganic sulfate are normal, as are brain contents of cysteine. Recent reports suggest that amyotrophic lateral sclerosis (ALS) is caused by one or more unidentified neurotoxins that are poorly metabolized in patients to less toxic and more readily excreted compounds, and that a genetically determined defect in cysteine degradation and in inorganic sulfate production is the mechanism underlying a failure to metabolize xenobiotics normally in ALS. We measured concentrations of total cysteine and of inorganic sulfate in the plasma of age-matched groups of ALS patients and healthy control subjects and found no differences. L-Cysteine, a putative endogenous neurotoxin in ALS, was present in equal concentrations in autopsied brain from ALS patients and controls.",
@@ -768,14 +792,15 @@
     "feature_data": [
       {
         "feature_word": "brain",
-        "lime_score": -0.005934,
+        "lime_score": -0.006385,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
           "anatomical structure"
         ]
       }
-    ]
+    ],
+    "explanation": "The model likely classified Amyotrophic lateral sclerosis (ALS) as a nervous system disease because the abstract mentions \"brain,\" which is an essential part of the nervous system. The phrase \"cysteine and inorganic sulfate are normal in the brain\" suggests that these biomarkers are typically found within the brain, indicating their relevance to neurological processes. Additionally, the mention of \"genetically determined defect in cysteine degradation and in inorganic sulfate production\" implies a genetic basis for the condition, further supporting the diagnosis of a nervous system disorder. These findings align closely with the definition of ALS as a neurodegenerative disease affecting the central nervous system."
   },
   {
     "text": "Resection of the primary liver cancer of the hepatic hilus. Primary liver cancer (PLC) of the hepatic hilus was designated as a tumor situated at the main branch of the portal vein or pedicle of the hepatic veins in contact with the intrahepatic vena cava. That is, the main tumor located at segment I, IV, V, or VIII and concentrating on the central part of the liver was called \"the central type of PLC,\" which differed from a tumor located at segment II, III, VI, or VII; the latter was called \"the peripheral type of PLC.\" Surgical treatment of the PLC has been significantly improved in the past two decades, but the resection of the central type of PLC is difficult and hazardous. This institution admitted 903 PLC from January 1970 to April 1988, of which 118 cases were the central type; 65 cases were resected successfully, a resectability of 55.1%. One patient died from sepsis within 1 month of operation (mortality 1.53%). The modes of operation for the different segments are described, and suggestions for improvements are presented. The survival rates were compared with a similar number of patients with the peripheral type of tumor in the same period and treated by the same surgeons. The results show noticeable differences. The one-year, three-year, and five-year survival rates after resection were 70.9%, 43.2%, and 39.2% in the central type of PLC; they were 98.3%, 85.0%, and 76.4% in the peripheral type of PLC (P less than 0.001). Further discussion of improvements in surgical techniques and mental awareness are suggested.",
@@ -786,14 +811,15 @@
     "feature_data": [
       {
         "feature_word": "cancer",
-        "lime_score": -0.042152,
+        "lime_score": -0.036461,
         "ancestors": [
           "disease",
           "disease of cellular proliferation",
           "cancer"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract excerpt, the word \"cancer\" stands out as crucial to the model's prediction. Cancer refers to an abnormal growth of cells that can occur anywhere in the body, including the liver. In this case, the term \"primary liver cancer\" indicates a specific type of cancer originating in the liver. This aligns perfectly with the model's prediction of \"Neoplasms,\" which encompasses all types of abnormal tissue growths.\n\nThe phrase \"resection of the primary liver cancer\" further supports the model's decision. A resection involves removing a portion of the liver affected by cancer. Since the cancer is already considered a neoplasm, performing surgery to remove it fits within the broader category of neoplastic processes.\n\nIn summary, the combination of recognizing \"cancer\" and understanding its role in liver cancer led the model to classify the abstract as \"Neoplasms"
   },
   {
     "text": "Pulmonary resection combined with cardiac operations. Surgical management of patients with concomitant critical cardiac disease and resectable lung lesions is controversial. During a 7-year period (1982 to 1988), 21 patients underwent combined cardiac and pulmonary operations. Patients had cardiac symptoms only; the lung lesions were found on preoperative chest roentgenograms. The pathological diagnosis was established in only 2 of the patients before operation. All underwent concurrent pulmonary resection during cardiac operations requiring extracorporeal circulation. The pulmonary operations included 17 wedge resections and four lobectomies. The final diagnoses in 8 patients with stage I non-small cell lung cancer included epidermoid carcinoma (4), adenocarcinoma (3), and bronchoalveolar carcinoma (1). Postoperatively, 1 patient required a permanent pacemaker and 1 patient died. The actuarial survival at 5 years for all patients who underwent combined procedures was 95%. The 5-year survival for the 8 patients with lung cancer was 88% compared with 100% for those with benign pulmonary pathology (p = 0.172). This experience suggests that combining pulmonary resection with cardiac operations is safe and offers a favorable prognosis to a select group of patients.",
@@ -801,7 +827,18 @@
     "confidence": 0.4145,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [
+      {
+        "feature_word": "carcinoma",
+        "lime_score": -0.001296,
+        "ancestors": [
+          "disease",
+          "disease of cellular proliferation",
+          "cancer"
+        ]
+      }
+    ],
+    "explanation": "When considering the abstract, the word \"cancer\" stands out as a key influencer in the model's prediction. Cancer is a broad term that encompasses various types of diseases characterized by uncontrolled cell growth. In this case, the mention of \"carcinoma\" suggests an aggressive form of cancer, specifically one affecting cells within tissues. This aligns closely with cardiovascular diseases because cancers can metastasize to other parts of the body, potentially causing damage to organs like the heart.\n\nAdditionally, the phrase \"concomitant critical cardiac disease\" indicates that there was already significant health issues related to the heart prior to surgery. This coexisting condition further supports the likelihood of cancer involvement, as these conditions often precede or accompany malignancies.\n\nFurthermore, the fact that all patients underwent concurrent pulmonary resection during cardiac operations highlights the complexity of managing such cases. Pulmonary resections involve removing diseased tissue"
   },
   {
     "text": "Neuro-ophthalmic manifestations of human immunodeficiency virus infection. Both the afferent visual pathways and ocular motor system may be affected by human immunodeficiency virus (HIV) infection and acquired immunodeficiency syndrome (AIDS). Coexisting infections and neoplastic processes in the eye and brain create a diagnostic challenge for the clinician. This article discusses neuroophthalmic manifestations associated with HIV and AIDS, with emphasis on clinical presentation, diagnosis, and treatment.",
@@ -812,14 +849,15 @@
     "feature_data": [
       {
         "feature_word": "brain",
-        "lime_score": -0.002782,
+        "lime_score": -0.001941,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
           "anatomical structure"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract excerpt, the model focused on two key words that significantly influenced its decision: \"brain\" and \"neoplasms.\" These terms are crucial because they directly relate to the topic of human immunodeficiency virus (HIV) infection and its impact on the nervous system.\n\nFirstly, the term \"brain\" is highly relevant because HIV can affect various parts of the central nervous system, including the brain. When HIV infects neurons, it disrupts their normal function, leading to inflammation and damage. This disruption can result in conditions such as encephalitis, meningitis, and other neurological disorders. Therefore, any mention of the brain in an abstract related to HIV suggests a high likelihood of neoplasms being discussed.\n\nSecondly, the word \"neoplasms\" itself is significant because it indicates abnormal tissue growth, which aligns perfectly with the definition of"
   },
   {
     "text": "Postlaminectomy ossified extradural pseudocyst. Case report. A large ossified spurious meningocele accompanied by recurrent lumbar disc herniation occurred 7 years after posterior intervention for laminectomy and discectomy in a 53-year-old man. The cyst wall, histologically composed of mature bone tissue, was sparsely covered with connective tissue and lined with fibrocyte- or fibroblast-like cells on the inside. The ossified pseudocyst was presumed to have originated from a minute defect in the dura mater which occurred at the time of the first operation.",
@@ -830,14 +868,15 @@
     "feature_data": [
       {
         "feature_word": "meningocele",
-        "lime_score": -0.012047,
+        "lime_score": -0.014375,
         "ancestors": [
           "disease",
           "physical disorder",
           "neural tube defect"
         ]
       }
-    ]
+    ],
+    "explanation": "In making its prediction, the machine learning model focused on several key elements within the abstract excerpt. One crucial factor was the mention of a \"meningocele,\" which stands out prominently due to its direct relevance to the predicted class of \"General pathological conditions.\" This term refers to an abnormal protrusion of brain tissue through the skull, often associated with congenital defects like neural tube defects.\n\nThe presence of a \"meningocele\" in the abstract suggests potential issues related to developmental abnormalities affecting the central nervous system. Such conditions can lead to various complications, including infections, hemorrhages, and structural deformities, all of which fall under the broader category of general pathological conditions. Therefore, the model likely attributed high importance to this finding because it highlighted a significant underlying issue that could contribute to the observed symptoms described in the case report."
   },
   {
     "text": "Gallstone pancreatitis. Choosing and timing treatment. Patients with gallstone pancreatitis are often seen initially by primary care physicians. Prompt diagnosis and timely intervention are crucial in reducing morbidity and mortality. Initial management should include supportive medical care and surgical consultation. The timing of surgery is then dictated by serum enzyme levels and liver function test results as well as by the patient's condition. The role of endoscopic intervention is currently evolving. Whether surgery or endoscopic sphincterotomy is preferable as primary therapy for gallstone pancreatitis remains unresolved. However, sphincterotomy with stone extraction is a viable option in selected cases, especially in patients who have severe gallstone pancreatitis.",
@@ -845,7 +884,18 @@
     "confidence": 0.8022,
     "user_category": "BEGINNER",
     "ablation_mode": "normal",
-    "feature_data": []
+    "feature_data": [
+      {
+        "feature_word": "pancreatitis",
+        "lime_score": -0.018268,
+        "ancestors": [
+          "disease",
+          "disease of anatomical entity",
+          "endocrine system disease"
+        ]
+      }
+    ],
+    "explanation": "When considering the classification of this abstract, the model focused heavily on the term \"pancreatitis.\" This word is directly related to digestive system diseases because pancreatic inflammation falls under the broader category of digestive system diseases. Pancreatitis involves damage to the pancreas, which can lead to various complications such as abdominal pain, nausea, vomiting, and even severe issues like acute pancreatitis that require immediate medical attention.\n\nIn the context of the abstract, \"pancreatitis\" indicates an urgent need for prompt diagnosis and timely intervention due to the potential severity of symptoms and complications associated with this condition. Therefore, the model likely prioritized this term as highly indicative of a digestive system disease, leading to the classification of \"Digestive system diseases\" rather than other categories like cardiovascular or respiratory diseases."
   },
   {
     "text": "Angiotensin converting enzyme inhibitors and quality of life. The term quality of life implies more than adverse effects that make treatment intolerable. It is not new but has only relatively recently become a parameter to be measured in patients treated for cardiovascular disease. Lessons can be learned from other conditions in which the Karnovsky Index and the Arthritis Impact Measurement Scale have been used. Several investigators have used questionnaires to assess quality of life during antihypertensive therapy. However, assessment of the effect of angiotensin converting enzyme (ACE) inhibition on quality of life has only been done recently. The largest and best known study, of 625 white men with mild hypertension, reported that patients given captopril showed a significant improvement after 6 months in general well-being, work performance, and those skills associated with cognitive function. No such improvement was found with methyldopa and there was significant worsening in measures associated with depression, sexual dysfunction, and life satisfaction. The propranolol group, while showing improvement in cognitive functioning and social participation, manifested worsening of sexual function and physical symptoms. Diuretic therapy had a greater negative impact on the quality of life of hypertensive patients than captopril, propranolol, or methyldopa alone. Whether these results will be seen in other patient populations, and the pharmacological basis for these results, remains to be determined. As newer agents become available (eg, beta-blockers with ancillary properties, calcium channel blockers with allegedly more selective actions on various vascular beds), comparative studies between these agents and ACE inhibitors old and new are awaited with interest.",
@@ -855,15 +905,25 @@
     "ablation_mode": "normal",
     "feature_data": [
       {
+        "feature_word": "depression",
+        "lime_score": -0.000634,
+        "ancestors": [
+          "symptom",
+          "neurological and physiological symptom",
+          "depression"
+        ]
+      },
+      {
         "feature_word": "hypertension",
-        "lime_score": -0.000852,
+        "lime_score": -0.000567,
         "ancestors": [
           "disease",
           "disease of anatomical entity",
           "cardiovascular system disease"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract excerpt, several key terms stand out as important factors influencing the model's prediction:\n\n1. **Hypertension** - This condition is directly related to cardiovascular diseases, making it a significant factor in the model's decision.\n\n2. **Depression** - While not explicitly mentioned in the abstract, depression is often associated with cardiovascular health issues. Depression can lead to lifestyle changes such as reduced physical activity and poor diet, both of which contribute to hypertension.\n\n3. **Quality of Life** - Although not specifically discussed in the abstract, the inclusion of this term suggests an interest in assessing how well patients are managing their symptoms and overall wellbeing. Patients with hypertension may experience increased stress and anxiety due to their condition, potentially affecting their quality of life negatively.\n\nThese terms collectively highlight the interconnectedness between cardiovascular health and mental well-being, particularly in relation to hypertension. The model likely considered these"
   },
   {
     "text": "Swan-Ganz catheter-induced massive hemoptysis and pulmonary artery false aneurysm. Swan-Ganz catheter-induced massive hemoptysis and later pulmonary artery false aneurysm occurred in a patient with prosthetic mitral regurgitation. This patient was successfully managed by double-lumen endotracheal intubation, control of pulmonary hypertension, reversal of anticoagulation, mitral valve re-replacement, and transcatheter embolization. The pertinent literature is reviewed.",
@@ -874,7 +934,7 @@
     "feature_data": [
       {
         "feature_word": "pulmonary artery",
-        "lime_score": -0.004521,
+        "lime_score": -0.006148,
         "ancestors": [
           "anatomy",
           "material anatomical entity",
@@ -883,13 +943,14 @@
       },
       {
         "feature_word": "hemoptysis",
-        "lime_score": 0.003021,
+        "lime_score": 0.003525,
         "ancestors": [
           "symptom",
           "respiratory system and chest symptom",
           "hemoptysis"
         ]
       }
-    ]
+    ],
+    "explanation": "When considering the abstract excerpt, the model focused on two key words that strongly influenced its decision: \"pulmonary artery\" and \"hemoptysis.\" These terms are directly related to cardiovascular diseases because:\n\n\"Pulmonary artery\" refers to one of the major arteries in the lungs, carrying oxygen-rich blood back to the heart after passing through the lungs. When there's damage or abnormality in this artery, it can lead to complications such as bleeding within the lung tissue (\"hemoptysis\"), which is a common symptom seen in patients with various cardiovascular conditions.\n\n\"Hemoptysis,\" on the other hand, describes coughing up blood from inside the lungs. It often occurs due to issues like inflammation, infection, or tumors in the airways or lungs. In the context of the abstract, the mention of \"massive hemoptysis\" suggests severe underlying health problems affecting the lungs, consistent with"
   }
 ]

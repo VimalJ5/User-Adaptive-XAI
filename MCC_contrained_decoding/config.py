@@ -16,10 +16,10 @@ OUTPUTS_DIR = Path("outputs")
 OUTPUTS_DIR.mkdir(exist_ok=True)
 
 # Intermediate checkpoint files (one per stage)
-LIME_RESULTS_PATH      = OUTPUTS_DIR / "lime_results.json"
-ONTOLOGY_RESULTS_PATH  = OUTPUTS_DIR / "ontology_results_expert.json"
-EXPLANATIONS_PATH      = OUTPUTS_DIR / "explanations_expert.json"
-ANALYSIS_RESULTS_PATH  = OUTPUTS_DIR / "results_expert_CD_2.csv"
+LIME_RESULTS_PATH      = OUTPUTS_DIR / "lr_exp.json"
+ONTOLOGY_RESULTS_PATH  = OUTPUTS_DIR / "or_exp.json"
+EXPLANATIONS_PATH      = OUTPUTS_DIR / "ex_exp_cd.json"
+ANALYSIS_RESULTS_PATH  = OUTPUTS_DIR / "res_exp_cd.csv"
 
 # Model / ontology paths  ← update these for your machine
 CLASSIFIER_MODEL_PATH = (

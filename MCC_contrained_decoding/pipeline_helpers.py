@@ -22,6 +22,7 @@ import re
 from pathlib import Path
 
 import numpy as np
+from typing import Optional
 import textstat
 
 from config import (
@@ -151,50 +152,179 @@ def enrich_with_ontology(
 # 4. Prompt building
 # ─────────────────────────────────────────────────────────────────────────────
 
+_CLASS_DESCRIPTIONS = {
+    "Neoplasms": (
+        "Neoplasms are abnormal growths of tissue caused by uncontrolled cell "
+        "division. They may be benign or malignant (cancerous) and are classified "
+        "by the tissue or organ of origin."
+    ),
+    "Digestive system diseases": (
+        "Diseases affecting the gastrointestinal tract, including the oesophagus, "
+        "stomach, intestines, liver, pancreas, and gallbladder. These range from "
+        "inflammatory conditions to motility disorders and malignancies."
+    ),
+    "Nervous system diseases": (
+        "Disorders of the central and peripheral nervous system, including "
+        "neurodegenerative diseases, epilepsy, stroke, neuropathies, and tumours "
+        "of neural tissue."
+    ),
+    "Cardiovascular diseases": (
+        "Diseases of the heart and blood vessels, including coronary artery disease, "
+        "heart failure, arrhythmias, hypertension, and vascular disorders. "
+        "A leading cause of global morbidity and mortality."
+    ),
+    "General pathological conditions": (
+        "Broad pathological processes that cut across organ systems, including "
+        "inflammation, fibrosis, cell death, metabolic dysregulation, and "
+        "systemic responses to injury or disease."
+    ),
+}
+ 
+ 
+# ── System prompt (unchanged from original — already well-written) ─────────────
+ 
 SYSTEM_PROMPT = """
 You are a biomedical explanation assistant. Your job is to generate clear, accurate natural language explanations of why a machine learning model made a specific biomedical prediction. You are given:
 - The model's predicted class
 - Key tokens identified by LIME (local feature attribution) as influential in the prediction
 - Ontology-derived ancestor chains for each token, showing its place in the biomedical concept hierarchy
-
+ 
 Your explanations must be grounded strictly in the provided features and ontology context. Do not introduce facts, diseases, or concepts not present in the input.
-
+ 
 Adapt your explanation style based on the user category:
 - BEGINNER: Use plain, everyday language. Avoid technical jargon. Explain medical terms when they appear. Keep sentences short. The goal is comprehension, not completeness.
 - INTERMEDIATE: Balance accessibility with domain accuracy. Define specialized terms briefly. Use medical vocabulary where helpful but not exclusively.
 - EXPERT: Use precise clinical and biomedical terminology. Reference ontological relationships and mechanistic reasoning. Assume familiarity with standard medical vocabulary.
-
+ 
 Always structure your explanation as a short, coherent paragraph (3–5 sentences). Do not use bullet points. Do not repeat the feature words mechanically — weave them naturally into the explanation.
 """.strip()
-
-
+ 
+ 
+# ── Prompt builder ────────────────────────────────────────────────────────────
+ 
 def build_prompt(
+    text: str,
     predicted_class: str,
     feature_data: list[dict],
     user_category: str,
+    ontology_context: Optional[list[dict]] = None,
 ) -> str:
-    triple_lines = []
-    for item in feature_data:
-        word  = item["feature_word"]
-        chain = " -> ".join(item["ancestors"]) if item["ancestors"] else "NONE"
-        triple_lines.append(f"  - {word} (ontology path: {chain})")
-
-    triples_block = "\n".join(triple_lines)
-    token_list    = ", ".join(item["feature_word"] for item in feature_data)
-
-    return (
-        f"### INPUT\n"
-        f"Predicted class: {predicted_class}\n"
-        f"User category: {user_category}\n\n"
-        f"Key features identified by the model (with ontology ancestry):\n"
-        f"{triples_block}\n\n"
-        f"Influential tokens: {token_list}\n\n"
-        f"### TASK\n"
-        f"Write a {user_category.lower()}-level explanation of why the model predicted '{predicted_class}'. "
-        f"Use the ontology paths to reason about what each token represents conceptually. "
-        f"Ground your explanation in the provided features — do not invent additional clinical details.\n\n"
-        f"### EXPLANATION:"
+    """
+    Construct the LLM instruction prompt for the MCC pipeline.
+ 
+    Parameters
+    ----------
+    text            : original abstract or clinical text snippet
+    predicted_class : e.g. "Cardiovascular diseases"
+    feature_data    : list of dicts with keys "feature_word" and "ancestors"
+                      (from LIME + ontology enrichment)
+    user_category   : "BEGINNER", "INTERMEDIATE", or "EXPERT"
+    ontology_context: optional richer ontology dicts (go_term, definition, ancestors)
+                      if available from the ontology module; falls back to
+                      feature_data ancestor chains if None
+    """
+ 
+    # ── Class grounding ───────────────────────────────────────────────────────
+    class_desc = _CLASS_DESCRIPTIONS.get(predicted_class, "")
+ 
+    # ── Audience instruction ──────────────────────────────────────────────────
+    # Describes WHO the reader is — more actionable than a difficulty label alone
+    if user_category == "BEGINNER":
+        audience_instruction = (
+            "The reader is a patient, carer, or curious non-specialist with no "
+            "medical training. Use plain everyday language. Avoid jargon entirely "
+            "or define it immediately when unavoidable. Prefer short sentences and "
+            "concrete analogies. The goal is understanding, not completeness."
+        )
+    elif user_category == "INTERMEDIATE":
+        audience_instruction = (
+            "The reader is a healthcare professional or science graduate who is "
+            "familiar with general medical concepts but may not specialise in this "
+            "area. Balance accessibility with accuracy. Define specialised terms "
+            "briefly. Use medical vocabulary where it aids precision."
+        )
+    else:  # EXPERT
+        audience_instruction = (
+            "The reader is a clinician or biomedical researcher with deep domain "
+            "expertise. Use precise clinical and biomedical terminology. Reference "
+            "pathophysiological mechanisms, ontological relationships, and "
+            "established disease frameworks. Abbreviations are acceptable."
+        )
+ 
+    # ── LIME token block ──────────────────────────────────────────────────────
+    top_tokens = ", ".join(
+        f'"{item["feature_word"]}"'
+        for item in feature_data[:8]
     )
+ 
+    # ── Ontology context block ────────────────────────────────────────────────
+    # Uses richer ontology_context dicts if provided, otherwise falls back to
+    # the ancestor chains already present in feature_data
+    onto_lines = []
+ 
+    if ontology_context:
+        for entry in ontology_context:
+            if not entry.get("go_term") and not entry.get("ancestors"):
+                continue
+            word = entry.get("token", entry.get("feature_word", ""))
+            term_name = (entry.get("go_term") or {}).get("name", "")
+            term_def  = (entry.get("go_term") or {}).get("definition", "")
+            anc_names = [a["name"] for a in entry.get("ancestors", [])[:3]]
+            anc_str   = " → ".join(anc_names) if anc_names else "N/A"
+            line = f'  • "{word}"'
+            if term_name:
+                line += f" → [{term_name}]"
+            if term_def:
+                line += f": {term_def[:120]}…"
+            if anc_str != "N/A":
+                line += f" | Concept hierarchy: {anc_str}"
+            onto_lines.append(line)
+    else:
+        for item in feature_data:
+            word  = item["feature_word"]
+            chain = " → ".join(item["ancestors"]) if item.get("ancestors") else "N/A"
+            onto_lines.append(f'  • "{word}" | Concept hierarchy: {chain}')
+ 
+    onto_block = "\n".join(onto_lines) if onto_lines else "  (no ontology context available)"
+ 
+    # ── Full prompt ───────────────────────────────────────────────────────────
+    prompt = f"""A biomedical abstract was classified by a machine learning model. \
+Your task is to explain WHY the model made this prediction to the specified reader.
+ 
+---
+TASK TYPE: Multi-class medical abstract classification
+MODEL INPUT (abstract excerpt):
+\"\"\"{text[:600]}\"\"\"
+ 
+MODEL PREDICTION: {predicted_class}
+WHAT THIS MEANS: {class_desc}
+ 
+KEY TOKENS RESPONSIBLE (from LIME feature attribution):
+{top_tokens}
+ 
+ONTOLOGY CONTEXT FOR EACH TOKEN:
+{onto_block}
+ 
+---
+TARGET READER: {user_category}
+READER DESCRIPTION: {audience_instruction}
+ 
+---
+INSTRUCTIONS:
+1. Explain which words or phrases drove the model's prediction and WHY they \
+are medically relevant to the predicted class.
+2. Weave at least 3 of the key tokens naturally into your explanation — do \
+not list them mechanically.
+3. Use the ontology context to reason about what each token represents \
+conceptually, not just literally.
+4. Write 4 to 6 sentences as a single coherent paragraph. No bullet points.
+5. Do NOT simply restate the abstract. Explain the model's reasoning.
+6. Do NOT open with "The model predicted…" — write naturally from the reader's \
+perspective.
+ 
+Generate the explanation now:"""
+ 
+    return prompt
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -203,6 +333,7 @@ def build_prompt(
 
 
 def generate_explanation(
+    text: str,
     predicted_class: str,
     feature_data: list[dict],
     user_category: str,
@@ -220,7 +351,7 @@ def generate_explanation(
             "but no ontology-based features were available to explain this decision."
         )
 
-    task_prompt = build_prompt(predicted_class, feature_data, user_category)
+    task_prompt = build_prompt(text, predicted_class, feature_data, user_category)
 
     # Preferred path: constrained beam decoding by user category.
     if USE_CONSTRAINED_DECODING and generator is not None:
