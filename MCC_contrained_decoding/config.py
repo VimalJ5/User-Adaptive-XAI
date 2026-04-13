@@ -83,7 +83,7 @@ LAMBDA_MAP = {
     "EXPERT": 0.05,
 }
 
-LAMBDA_SWEEP_VALUES = [0.0, 0.2, 0.5, 1.0, 1.5, 2.0, 3.0]
+LAMBDA_SWEEP_VALUES = [0.01, 0.05, 1.0, 3.0, 5.0, 7.5]
 
 # Hardness feature weights (must sum to 1.0).
 HARDNESS_WEIGHTS = {
