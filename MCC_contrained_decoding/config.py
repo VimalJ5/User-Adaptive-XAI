@@ -3,6 +3,10 @@ config.py
 =========
 Central configuration for the User-Adaptive XAI Pipeline.
 Edit paths and hyperparameters here — nowhere else.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ QUICK-START: Scroll to EXPERIMENT RUN CONFIG below
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 """
 
 from pathlib import Path
@@ -18,8 +22,8 @@ OUTPUTS_DIR.mkdir(exist_ok=True)
 # Intermediate checkpoint files (one per stage)
 LIME_RESULTS_PATH      = OUTPUTS_DIR / "lr.json"
 ONTOLOGY_RESULTS_PATH  = OUTPUTS_DIR / "or.json"
-EXPLANATIONS_PATH      = OUTPUTS_DIR / "ex_expert.json"
-ANALYSIS_RESULTS_PATH  = OUTPUTS_DIR / "res_expert.csv"
+EXPLANATIONS_PATH      = OUTPUTS_DIR / "ex_beg.json"
+ANALYSIS_RESULTS_PATH  = OUTPUTS_DIR / "res_beg.csv"
 
 # Model / ontology paths  ← update these for your machine
 CLASSIFIER_MODEL_PATH = (
@@ -127,12 +131,35 @@ BIOMEDICAL_WHITELIST = {
     "tumour", "virus", "viral", "bacteria", "bacterial", "inflammation",
 }
 
-# ─────────────────────────────────────────────
-# Experiment parameters
-# ─────────────────────────────────────────────
+# ══════════════════════════════════════════════
+# EXPERIMENT RUN CONFIG  ← edit this section
+# ══════════════════════════════════════════════
+#
+# This is the only section you need to edit before
+# running experiment.ipynb for a single-input run.
 
+# ── Input ─────────────────────────────────────
+# Paste the medical abstract you want to explain.
+# Leave as None to pick the first line of test_data.txt.
+INPUT_TEXT = "Endometriosis associated with massive ascites and absence of pelvic peritoneum. Although massive ascites associated with endometriosis has been reported in rare cases, this patient was also noted to have massive destruction of the pelvic peritoneum. Failure of medical suppression necessitated total abdominal hysterectomy and bilateral salpingo-oophorectomy. Several months after surgery ascites resolved, possibly with reestablishment of the pelvic peritoneum. "
+
+# ── Audience ──────────────────────────────────
 # Options: "BEGINNER" | "INTERMEDIATE" | "EXPERT"
 USER_CATEGORY = "EXPERT"
 
+# ── Ontology ablation ─────────────────────────
 # Options: "normal" | "full" | "one_parent" | "no_ontology"
 ABLATION_MODE = "normal"
+
+# ── Constrained decoding ──────────────────────
+# Already defined above; override here if needed.
+# USE_CONSTRAINED_DECODING = True
+
+# ── Experiment tag ────────────────────────────
+# Used as a filename suffix for the saved CSV result.
+# E.g. "expert_normal", "beginner_no_ontology", "ablation_v2"
+EXPERIMENT_TAG = f"{USER_CATEGORY.lower()}_{ABLATION_MODE}"
+
+# ── Output path (auto-derived) ─────────────────
+# The final CSV is saved to:  outputs/exp_<EXPERIMENT_TAG>.csv
+EXPERIMENT_RESULTS_PATH = Path("exp_output") / f"exp_{EXPERIMENT_TAG}.csv"
