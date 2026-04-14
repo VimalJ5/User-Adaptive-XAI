@@ -145,7 +145,7 @@ INPUT_TEXT = "Endometriosis associated with massive ascites and absence of pelvi
 
 # ── Audience ──────────────────────────────────
 # Options: "BEGINNER" | "INTERMEDIATE" | "EXPERT"
-USER_CATEGORY = "EXPERT"
+USER_CATEGORY = "BEGINNER"
 
 # ── Ontology ablation ─────────────────────────
 # Options: "normal" | "full" | "one_parent" | "no_ontology"
