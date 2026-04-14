@@ -26,12 +26,31 @@ from config import (
 
 
 _WORD_RE = re.compile(r"[A-Za-z]+")
+_VOWEL_RE = re.compile(r"[aeiou]+", re.IGNORECASE)  # vowel-cluster syllable heuristic
 
 # Tightened normalization caps for biomedical text.
 MAX_LENGTH_CAP = 30
 RARE_CAP = 4
 CLAUSE_CAP = 3
-MAX_WORD_LEN_CAP = 7.0
+MAX_SYLLABLE_CAP = 4.0  # avg syllables/word cap (biomedical words can be 4–6 syllables)
+
+def _count_syllables(word: str) -> int:
+    """Lightweight vowel-cluster syllable counter.
+
+    Rules (same as CMU-based approximations):
+    - Count contiguous vowel groups as one syllable each.
+    - Ensure a minimum of 1 syllable per word.
+    - Subtract silent trailing 'e' (e.g., 'care' -> 2 not 3).
+    """
+    word = word.lower().strip()
+    if not word:
+        return 0
+    count = len(_VOWEL_RE.findall(word))
+    # Adjust for silent trailing 'e'
+    if word.endswith("e") and count > 1:
+        count -= 1
+    return max(1, count)
+
 
 
 @dataclass
@@ -39,7 +58,7 @@ class PrefixStats:
     word_count: int = 0
     rare_count: int = 0
     clause_count: int = 0
-    total_char_count: int = 0
+    total_syllable_count: int = 0
 
 
 class ReadabilityLogitsProcessor(LogitsProcessor):
@@ -66,14 +85,14 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
         self.w_length = HARDNESS_WEIGHTS["length"]
         self.w_rare = HARDNESS_WEIGHTS["rare"]
         self.w_clause = HARDNESS_WEIGHTS["clause"]
-        self.w_avglen = HARDNESS_WEIGHTS["avglen"]
+        self.w_syllable = HARDNESS_WEIGHTS["syllable"]
 
         self.length_cap = float(MAX_LENGTH_CAP)
 
         vocab_size = len(tokenizer)
         self.token_rare = torch.zeros(vocab_size, dtype=torch.float32)
         self.token_clause = torch.zeros(vocab_size, dtype=torch.float32)
-        self.token_avglen = torch.zeros(vocab_size, dtype=torch.float32)
+        self.token_syllable = torch.zeros(vocab_size, dtype=torch.float32)
         self.token_is_wordish = torch.zeros(vocab_size, dtype=torch.bool)
 
         for tok_id in range(vocab_size):
@@ -89,7 +108,10 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
                     self.token_clause[tok_id] = 1.0
                 if starts_new_word and self._is_rare_word(word):
                     self.token_rare[tok_id] = 1.0
-                self.token_avglen[tok_id] = min(len(word) / MAX_WORD_LEN_CAP, 1.0)
+                # Syllable count per word, normalized to [0, 1] by cap.
+                self.token_syllable[tok_id] = min(
+                    _count_syllables(word) / MAX_SYLLABLE_CAP, 1.0
+                )
 
     def _is_rare_word(self, word: str) -> bool:
         return (
@@ -125,13 +147,13 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
         word_count = len(words)
         rare_count = sum(1 for w in words if self._is_rare_word(w))
         clause_count = sum(1 for w in words if w in CLAUSE_MARKERS)
-        total_char_count = sum(len(w) for w in words)
+        total_syllable_count = sum(_count_syllables(w) for w in words)
 
         return PrefixStats(
             word_count=word_count,
             rare_count=rare_count,
             clause_count=clause_count,
-            total_char_count=total_char_count,
+            total_syllable_count=total_syllable_count,
         )
 
     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor:
@@ -153,11 +175,11 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
 
         rare = _fit_vocab(self.token_rare, pad_value=0.0)
         clause = _fit_vocab(self.token_clause, pad_value=0.0)
-        avglen = _fit_vocab(self.token_avglen, pad_value=0.0)
+        syllable = _fit_vocab(self.token_syllable, pad_value=0.0)
         wordish = _fit_vocab(self.token_is_wordish, pad_value=0.0).bool()
 
         token_penalty = self.lambda_value * (
-            self.w_rare * rare + self.w_clause * clause + self.w_avglen * avglen
+            self.w_rare * rare + self.w_clause * clause + self.w_syllable * syllable
         )
         adjusted = scores - token_penalty.unsqueeze(0)
 

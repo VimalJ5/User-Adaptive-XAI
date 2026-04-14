@@ -1,0 +1,30 @@
+[
+  {
+    "text": "Endometriosis associated with massive ascites and absence of pelvic peritoneum. Although massive ascites associated with endometriosis has been reported in rare cases, this patient was also noted to have massive destruction of the pelvic peritoneum. Failure of medical suppression necessitated total abdominal hysterectomy and bilateral salpingo-oophorectomy. Several months after surgery ascites resolved, possibly with reestablishment of the pelvic peritoneum. ",
+    "predicted_class": "Digestive system diseases",
+    "confidence": 0.6624,
+    "user_category": "BEGINNER",
+    "ablation_mode": "normal",
+    "feature_data": [
+      {
+        "feature_word": "ascites",
+        "lime_score": 0.191797,
+        "ancestors": [
+          "symptom",
+          "abdominal symptom",
+          "ascites"
+        ]
+      },
+      {
+        "feature_word": "peritoneum",
+        "lime_score": 0.165839,
+        "ancestors": [
+          "anatomy",
+          "material anatomical entity",
+          "anatomical structure"
+        ]
+      }
+    ],
+    "explanation": "In this case, the key words that influenced the model\u2019s prediction were \"massive ascites\" and \"abnormal peritoneal tissue.\" The term \"ascitis\" (ascites) is a symptom, and \"peritonium\" is a part of the body. \"Massive\" in the context of ascites suggests that there was a lot of fluid in the abdomen. \"Abnormal\" in peritonium indicates that the tissue wasn't normal, which could be a sign of disease. Both of these symptoms, along with the \"absence\" of the \"pelvic peritonum\" (which is a type of tissue), led the model to classify this as a \"digestive system disease.\" This is because the disease is affecting the \"gastrointestinal tract\" (including the \"oesophagus,\" \"stomach,\" \"intestines,\" \"liver"
+  }
+]

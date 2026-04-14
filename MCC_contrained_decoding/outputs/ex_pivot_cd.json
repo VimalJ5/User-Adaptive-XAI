@@ -1,0 +1,41 @@
+[
+  {
+    "text": "Endometriosis associated with massive ascites and absence of pelvic peritoneum. Although massive ascites associated with endometriosis has been reported in rare cases, this patient was also noted to have massive destruction of the pelvic peritoneum. Failure of medical suppression necessitated total abdominal hysterectomy and bilateral salpingo-oophorectomy. Several months after surgery ascites resolved, possibly with reestablishment of the pelvic peritoneum. ",
+    "predicted_class": "Digestive system diseases",
+    "confidence": 0.6624,
+    "user_category": "EXPERT",
+    "ablation_mode": "normal",
+    "feature_data": [
+      {
+        "feature_word": "ascites",
+        "lime_score": 0.19366,
+        "ancestors": [
+          "symptom",
+          "abdominal symptom",
+          "ascites"
+        ]
+      },
+      {
+        "feature_word": "peritoneum",
+        "lime_score": 0.152127,
+        "ancestors": [
+          "multicellular anatomical structure",
+          "multi-tissue structure",
+          "serous membrane",
+          "peritoneum"
+        ]
+      },
+      {
+        "feature_word": "Endometriosis",
+        "lime_score": 0.055161,
+        "ancestors": [
+          "disease of anatomical entity",
+          "reproductive system disease",
+          "female reproductive system disease",
+          "endometriosis"
+        ]
+      }
+    ],
+    "explanation": "The model classified this abstract as a digestive system disease due to the presence of ascites, which is a common symptom of various gastrointestinal conditions, and the mention of peritoneal destruction, indicating damage to the abdominal lining. These symptoms are directly related to diseases affecting the digestive system, such as inflammatory bowel disease, ulcerative colitis, or Crohn's disease. The key tokens \"as\"ciets\" and \"peri\"toneum\" are crucial because ascites is a hallmark symptom of liver cirrhosis and congestive heart failure, both of which fall under the broader category of digestive system diseases. The mention of \"Endo\"metri\"osis\" further supports this classification, as it is a disease of the reproductive system that can affect the digestive tract, particularly the uterus and ovaries. The model likely attributed the patient's condition to a combination of these factors, leading to the"
+  }
+]

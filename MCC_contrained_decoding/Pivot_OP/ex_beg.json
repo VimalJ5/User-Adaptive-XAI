@@ -1,0 +1,31 @@
+[
+  {
+    "text": "Endometriosis associated with massive ascites and absence of pelvic peritoneum. Although massive ascites associated with endometriosis has been reported in rare cases, this patient was also noted to have massive destruction of the pelvic peritoneum. Failure of medical suppression necessitated total abdominal hysterectomy and bilateral salpingo-oophorectomy. Several months after surgery ascites resolved, possibly with reestablishment of the pelvic peritoneum. ",
+    "predicted_class": "Digestive system diseases",
+    "confidence": 0.6624,
+    "user_category": "EXPERT",
+    "ablation_mode": "normal",
+    "feature_data": [
+      {
+        "feature_word": "ascites",
+        "lime_score": 0.206927,
+        "ancestors": [
+          "symptom",
+          "abdominal symptom",
+          "ascites"
+        ]
+      },
+      {
+        "feature_word": "peritoneum",
+        "lime_score": 0.166861,
+        "ancestors": [
+          "mesoderm-derived structure",
+          "multi-tissue structure",
+          "serous membrane",
+          "peritoneum"
+        ]
+      }
+    ],
+    "explanation": "The model classified this abstract as a digestive system disease due to the presence of ascites, which is a common symptom of various gastrointestinal conditions, and the mention of peritoneal destruction, indicating damage to the abdominal lining. The ascites is a fluid accumulation in the abdominal cavity, often associated with liver disease, kidney failure, or heart failure. Peritoneal damage suggests inflammation or scarring, which can occur in conditions like Crohn's disease or ulcerative colitis, both of which can affect the digestive tract. The failure of medical treatment to resolve the ascites necessitated surgical intervention, further supporting a diagnosis of a gastrointestinal condition."
+  }
+]

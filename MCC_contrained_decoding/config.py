@@ -12,14 +12,14 @@ from pathlib import Path
 # ─────────────────────────────────────────────
 
 # Directory that holds all intermediate/output files
-OUTPUTS_DIR = Path("outputs")
+OUTPUTS_DIR = Path("Pivot_OP")
 OUTPUTS_DIR.mkdir(exist_ok=True)
 
 # Intermediate checkpoint files (one per stage)
-LIME_RESULTS_PATH      = OUTPUTS_DIR / "lr_exp.json"
-ONTOLOGY_RESULTS_PATH  = OUTPUTS_DIR / "or_exp.json"
-EXPLANATIONS_PATH      = OUTPUTS_DIR / "ex_exp_cd.json"
-ANALYSIS_RESULTS_PATH  = OUTPUTS_DIR / "res_exp_cd.csv"
+LIME_RESULTS_PATH      = OUTPUTS_DIR / "lr.json"
+ONTOLOGY_RESULTS_PATH  = OUTPUTS_DIR / "or.json"
+EXPLANATIONS_PATH      = OUTPUTS_DIR / "ex_expert.json"
+ANALYSIS_RESULTS_PATH  = OUTPUTS_DIR / "res_expert.csv"
 
 # Model / ontology paths  ← update these for your machine
 CLASSIFIER_MODEL_PATH = (
@@ -90,7 +90,7 @@ HARDNESS_WEIGHTS = {
     "length": 0.40,
     "rare": 0.35,
     "clause": 0.15,
-    "avglen": 0.10,
+    "syllable": 0.10,
 }
 
 # Soft caps used to normalize features into [0, 1].
@@ -98,7 +98,7 @@ HARDNESS_CAPS = {
     "length_words": 60.0,
     "rare_words": 8.0,
     "clause_markers": 4.0,
-    "avg_word_len": 8.0,
+    "avg_syllables_per_word": 4.0,   # typical max syllables per word in biomedical text
 }
 
 CLAUSE_MARKERS = {
