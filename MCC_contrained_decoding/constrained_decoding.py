@@ -117,7 +117,7 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
         return (
             len(word) >= 5
             and word not in COMMON_WORDS
-            and word not in BIOMEDICAL_WHITELIST
+            # and word not in BIOMEDICAL_WHITELIST
         )
 
     def _normalize_token_piece(self, token: str) -> tuple[str, bool]:
