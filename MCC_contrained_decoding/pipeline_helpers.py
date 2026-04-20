@@ -32,6 +32,8 @@ from config import (
     LLM_TEMPERATURE,
     TOP_LIME_FEATURES,
     USE_CONSTRAINED_DECODING,
+    XAI_METHOD,
+    XAI_NUM_FEATURES,
 )
 from ontology_helpers import find_concept, select_ancestors
 
@@ -64,7 +66,8 @@ def merge_entities(text: str, ner_pipe) -> str:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 2. LIME predictor factory
+# 2. XAI feature attribution  (Stage 1)
+#    Supports LIME, SHAP, and Integrated Gradients (IG).
 # ─────────────────────────────────────────────────────────────────────────────
 
 def make_lime_predictor(model, clf):
@@ -91,8 +94,219 @@ def make_lime_predictor(model, clf):
     return predictor
 
 
+def run_lime(
+    text: str,
+    clf_model,
+    clf_pipeline,
+    class_names: list,
+    num_features: int,
+    num_samples: int,
+) -> list:
+    """
+    Run LIME and return top-k [(word, score)] pairs for the predicted class.
+
+    This is the original Stage-1 logic extracted into a reusable function.
+    """
+    from lime.lime_text import LimeTextExplainer
+
+    predictor = make_lime_predictor(clf_model, clf_pipeline)
+    explainer = LimeTextExplainer(class_names=list(class_names))
+    exp = explainer.explain_instance(
+        text, predictor, num_features=num_features, num_samples=num_samples
+    )
+    return exp.as_list()
+
+
+def run_shap(
+    text: str,
+    clf_model,
+    clf_pipeline,
+    class_names: list,
+    num_features: int,
+    neval: int,
+) -> list:
+    """
+    Run the SHAP Partition explainer (word-level masking) and return top-k
+    [(word, score)] pairs for the model-predicted class.
+
+    Requires: shap >= 0.41
+    """
+    import shap
+
+    predictor = make_lime_predictor(clf_model, clf_pipeline)
+
+    # Determine which class the model predicts so we take the right SHAP slice.
+    probs = predictor([text])[0]
+    pred_idx = int(np.argmax(probs))
+
+    # Word-level masker: splits on any non-word character boundary.
+    masker = shap.maskers.Text(r"\W+")
+    explainer = shap.Explainer(predictor, masker, output_names=list(class_names))
+    shap_values = explainer([text], max_evals=neval, batch_size=20)
+
+    # shap_values.values shape: (1, n_words, n_classes)
+    vals = shap_values.values[0]
+    word_attrs = vals[:, pred_idx] if vals.ndim == 2 else vals
+    words = shap_values.data[0]
+
+    pairs = [(str(w), float(s)) for w, s in zip(words, word_attrs)]
+    # Sort by absolute attribution — both high-positive and high-negative are influential.
+    pairs.sort(key=lambda x: abs(x[1]), reverse=True)
+    return pairs[:num_features]
+
+
+def run_ig(
+    text: str,
+    clf_model,
+    clf_pipeline,
+    num_features: int,
+    num_steps: int = 50,
+) -> list:
+    """
+    Run Integrated Gradients (Captum) and return top-k [(word, score)] pairs.
+
+    Attributions are computed at the token-embedding level, then aggregated
+    to whole-word level by L2-norming per-token gradients and summing sub-word
+    pieces. Works with both BPE (Ġ/▁ prefix) and WordPiece (## prefix) models.
+
+    Requires: captum  (pip install captum)
+    """
+    try:
+        from captum.attr import IntegratedGradients
+    except ImportError as exc:
+        raise ImportError(
+            "captum is required for IG. Install with: pip install captum"
+        ) from exc
+
+    import torch
+
+    clf_tokenizer = clf_pipeline.tokenizer
+    device = next(clf_model.parameters()).device
+
+    # Tokenize the input text.
+    inputs = clf_tokenizer(
+        text, return_tensors="pt", truncation=True, max_length=512
+    )
+    input_ids = inputs["input_ids"].to(device)
+    attention_mask = inputs["attention_mask"].to(device)
+
+    # Determine predicted class index.
+    clf_model.eval()
+    with torch.no_grad():
+        logits = clf_model(
+            input_ids=input_ids, attention_mask=attention_mask
+        ).logits
+    pred_idx = int(logits.argmax(dim=-1).item())
+
+    # Build embedding inputs and an all-zero baseline.
+    embed_layer = clf_model.get_input_embeddings()
+    input_embeds = embed_layer(input_ids)          # (1, seq_len, hidden_dim)
+    baseline = torch.zeros_like(input_embeds)
+
+    def _forward(embeds):
+        return clf_model(
+            inputs_embeds=embeds, attention_mask=attention_mask
+        ).logits[:, pred_idx]
+
+    ig = IntegratedGradients(_forward)
+    attrs = ig.attribute(input_embeds, baseline, n_steps=num_steps)
+
+    # Per-token L2 norm over the embedding dimension → scalar score per token.
+    token_scores = attrs.squeeze(0).norm(dim=-1).detach().cpu().numpy()
+    tokens = clf_tokenizer.convert_ids_to_tokens(input_ids.squeeze().tolist())
+
+    # Aggregate sub-word pieces back to whole words.
+    special_toks = set(clf_tokenizer.all_special_tokens)
+    word_scores: dict = {}
+    current_word = None
+    current_score = 0.0
+
+    for tok, score in zip(tokens, token_scores):
+        if not tok or tok in special_toks:
+            continue
+        score = float(score)
+        # BPE / SentencePiece: leading Ġ or ▁ marks the start of a new word.
+        if tok.startswith("\u0120") or tok.startswith("\u2581"):
+            if current_word:
+                word_scores[current_word] = (
+                    word_scores.get(current_word, 0.0) + current_score
+                )
+            current_word = tok[1:].lower()
+            current_score = score
+        # BERT WordPiece: ## prefix marks a continuation sub-word.
+        elif tok.startswith("##"):
+            if current_word is None:
+                current_word = tok[2:].lower()
+                current_score = score
+            else:
+                current_word += tok[2:].lower()
+                current_score += score
+        else:
+            if current_word:
+                word_scores[current_word] = (
+                    word_scores.get(current_word, 0.0) + current_score
+                )
+            current_word = tok.lower()
+            current_score = score
+
+    if current_word:
+        word_scores[current_word] = (
+            word_scores.get(current_word, 0.0) + current_score
+        )
+
+    # Filter single-character artefacts; sort highest attribution first.
+    pairs = [(w, s) for w, s in word_scores.items() if len(w) >= 2]
+    pairs.sort(key=lambda x: x[1], reverse=True)
+    return pairs[:num_features]
+
+
+def run_xai(
+    method: str,
+    text: str,
+    clf_model,
+    clf_pipeline,
+    class_names: list,
+    num_features: int,
+    num_samples: int,
+) -> list:
+    """
+    Dispatcher — calls the appropriate XAI attribution method.
+
+    Parameters
+    ----------
+    method      : "LIME" | "SHAP" | "IG"  (case-insensitive)
+    text        : raw input text
+    clf_model   : AutoModelForSequenceClassification
+    clf_pipeline: HuggingFace text-classification pipeline
+    class_names : ordered list of class name strings
+    num_features: number of top features to return
+    num_samples : perturbation budget — LIME samples / SHAP max_evals;
+                  ignored for IG (always uses 50 integration steps)
+
+    Returns
+    -------
+    list of (word, score) tuples, length <= num_features
+    """
+    method = method.upper().strip()
+    if method == "LIME":
+        return run_lime(
+            text, clf_model, clf_pipeline, class_names, num_features, num_samples
+        )
+    elif method == "SHAP":
+        return run_shap(
+            text, clf_model, clf_pipeline, class_names, num_features, num_samples
+        )
+    elif method == "IG":
+        return run_ig(text, clf_model, clf_pipeline, num_features)
+    else:
+        raise ValueError(
+            f"Unknown XAI method: {method!r}. "
+            "Valid options are: 'LIME', 'SHAP', 'IG'"
+        )
+
+
 # ─────────────────────────────────────────────────────────────────────────────
-# 3. Classifier prediction
+# 3. Classifier prediction   (Stage 2)
 # ─────────────────────────────────────────────────────────────────────────────
 
 def predict_class(text: str, clf) -> tuple[str, float]:
@@ -299,7 +513,7 @@ MODEL INPUT (abstract excerpt):
 MODEL PREDICTION: {predicted_class}
 WHAT THIS MEANS: {class_desc}
  
-KEY TOKENS RESPONSIBLE (from LIME feature attribution):
+KEY TOKENS RESPONSIBLE (from {XAI_METHOD} feature attribution):
 {top_tokens}
  
 ONTOLOGY CONTEXT FOR EACH TOKEN:
@@ -428,6 +642,10 @@ def lime_coverage(explanation: str, feature_data: list[dict]) -> float:
         or any(a.lower() in lower for a in item.get("ancestors", []))
     )
     return round(float(hits) / len(feature_data), 4)
+
+
+# Generic alias — use this name in new code; lime_coverage kept for back-compat.
+xai_coverage = lime_coverage
 
 
 def ontology_hit_rate(feature_data: list[dict]) -> float:

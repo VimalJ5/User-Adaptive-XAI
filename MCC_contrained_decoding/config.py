@@ -59,6 +59,22 @@ LIME_NUM_FEATURES = 6
 LIME_NUM_SAMPLES  = 300
 
 # ─────────────────────────────────────────────
+# XAI method selection  ← change this to swap
+# ─────────────────────────────────────────────
+# Options: "LIME" | "SHAP" | "IG"
+#   LIME  — Local Interpretable Model-agnostic Explanations (default)
+#   SHAP  — SHAP Partition explainer (word-level masking, requires shap)
+#   IG    — Integrated Gradients at embedding level (requires captum)
+#
+# All downstream stages (2-4) are completely unaffected by this switch.
+XAI_METHOD = "LIME"
+
+# Shared budget — maps to the right param per method:
+#   LIME  → num_samples   |   SHAP → max_evals   |   IG → ignored (50 steps fixed)
+XAI_NUM_FEATURES = LIME_NUM_FEATURES   # top-k features passed to Stages 2–4
+XAI_NUM_SAMPLES  = LIME_NUM_SAMPLES    # perturbation budget
+
+# ─────────────────────────────────────────────
 # Ontology enrichment
 # ─────────────────────────────────────────────
 
@@ -268,7 +284,7 @@ INPUT_TEXT = "Endometriosis associated with massive ascites and absence of pelvi
 
 # ── Audience ──────────────────────────────────
 # Options: "BEGINNER" | "INTERMEDIATE" | "EXPERT"
-USER_CATEGORY = "EXPERT"
+USER_CATEGORY = "BEGINNER"
 
 # ── Ontology ablation ─────────────────────────
 # Options: "normal" | "full" | "one_parent" | "no_ontology"
@@ -281,8 +297,8 @@ ABLATION_MODE = "normal"
 # ── Experiment tag ────────────────────────────
 # Used as a filename suffix for the saved CSV result.
 # E.g. "expert_normal", "beginner_no_ontology", "ablation_v2"
-EXPERIMENT_TAG = f"{USER_CATEGORY.lower()}_{ABLATION_MODE}"
+EXPERIMENT_TAG = f"{USER_CATEGORY.lower()}_{ABLATION_MODE}_{XAI_METHOD.lower()}"
 
 # ── Output path (auto-derived) ─────────────────
 # The final CSV is saved to:  outputs/exp_<EXPERIMENT_TAG>.csv
-EXPERIMENT_RESULTS_PATH = Path("new_heuristics") / f"exp_{EXPERIMENT_TAG}_1.csv"
+EXPERIMENT_RESULTS_PATH = Path("XAI_Test") / f"exp_{EXPERIMENT_TAG}.csv"
