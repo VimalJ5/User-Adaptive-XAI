@@ -1,0 +1,8 @@
+experiment_tag,user_category,ablation_mode,constrained_decoding,lambda,ner_merging,predicted_class,confidence,text_snippet,explanation,lime_coverage,ontology_hit_rate,flesch_reading_ease,flesch_kincaid_grade,smog_index
+beginner_normal,BEGINNER,normal,True,5.0,False,Digestive system diseases,0.6624,Endometriosis associated with massive ascites and absence of pelvic peritoneum. Although massive ascites associated with…,"When the model looked at the abstract, it saw the words ""massive ascites"" and ""abnormal peritoneal tissue"" — these are big, fluid-filled pockets in the belly (ascites) and abnormal tissue in the lining of the belly. The model thought, ""Hey, that's not normal! "" It's like if you had a big water balloon in your tummy — it's not what you'd expect! 
+
+Then, the model noticed ""absence of pelvic"" — that's the part of your body where your organs live. It's not there! That's strange, right? 
+
+So, when the model put all this together, it thought ""Hmm, there's a problem here! "" The patient's tummy (abdomen) is full of water, and their organs (pelvis) aren't there. That's not good! 
+
+The",0.5,1.0,78.36816425120776,5.5028985507246375,7.3871296695380915

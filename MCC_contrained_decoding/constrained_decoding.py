@@ -16,12 +16,16 @@ from config import (
     BIOMEDICAL_WHITELIST,
     CLAUSE_MARKERS,
     COMMON_WORDS,
+    DALE_CHALL_FAMILIAR,
     HARDNESS_CAPS,
     HARDNESS_WEIGHTS,
     LAMBDA_MAP,
     LLM_MAX_NEW_TOKENS,
     MIN_NEW_TOKENS,
     NUM_BEAMS,
+    POLYSYLLABIC_THRESHOLD,
+    SENTENCE_LEN_CAP,
+    CHAR_PER_WORD_CAP,
 )
 
 
@@ -56,9 +60,12 @@ def _count_syllables(word: str) -> int:
 @dataclass
 class PrefixStats:
     word_count: int = 0
-    rare_count: int = 0
+    dale_chall_unfamiliar_count: int = 0   # replaces rare_count
     clause_count: int = 0
     total_syllable_count: int = 0
+    polysyllabic_count: int = 0            # NEW: words >= POLYSYLLABIC_THRESHOLD syllables
+    sentence_count: int = 0               # NEW: for avg sentence length
+    total_char_count: int = 0             # NEW: for avg char/word (ARI signal)
 
 
 class ReadabilityLogitsProcessor(LogitsProcessor):
@@ -83,16 +90,21 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
         self.eos_token_id = eos_token_id
 
         self.w_length = HARDNESS_WEIGHTS["length"]
-        self.w_rare = HARDNESS_WEIGHTS["rare"]
+        self.w_dale_chall = HARDNESS_WEIGHTS["dale_chall"]
         self.w_clause = HARDNESS_WEIGHTS["clause"]
         self.w_syllable = HARDNESS_WEIGHTS["syllable"]
+        self.w_polysyllabic = HARDNESS_WEIGHTS["polysyllabic"]
+        self.w_sentence_len = HARDNESS_WEIGHTS["sentence_len"]
+        self.w_char_per_word = HARDNESS_WEIGHTS["char_per_word"]
 
         self.length_cap = float(MAX_LENGTH_CAP)
 
         vocab_size = len(tokenizer)
-        self.token_rare = torch.zeros(vocab_size, dtype=torch.float32)
+        self.token_dale_chall = torch.zeros(vocab_size, dtype=torch.float32)
         self.token_clause = torch.zeros(vocab_size, dtype=torch.float32)
         self.token_syllable = torch.zeros(vocab_size, dtype=torch.float32)
+        self.token_polysyllabic = torch.zeros(vocab_size, dtype=torch.float32)
+        self.token_char_len = torch.zeros(vocab_size, dtype=torch.float32)
         self.token_is_wordish = torch.zeros(vocab_size, dtype=torch.bool)
 
         for tok_id in range(vocab_size):
@@ -106,19 +118,24 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
                 self.token_is_wordish[tok_id] = True
                 if starts_new_word and word in CLAUSE_MARKERS:
                     self.token_clause[tok_id] = 1.0
-                if starts_new_word and self._is_rare_word(word):
-                    self.token_rare[tok_id] = 1.0
+                if starts_new_word and self._is_dale_chall_unfamiliar(word):
+                    self.token_dale_chall[tok_id] = 1.0
+                syll = _count_syllables(word)
                 # Syllable count per word, normalized to [0, 1] by cap.
                 self.token_syllable[tok_id] = min(
-                    _count_syllables(word) / MAX_SYLLABLE_CAP, 1.0
+                    syll / MAX_SYLLABLE_CAP, 1.0
+                )
+                # Polysyllabic flag (SMOG/Fog signal).
+                if syll >= POLYSYLLABIC_THRESHOLD:
+                    self.token_polysyllabic[tok_id] = 1.0
+                # Avg char length per word signal (ARI/Coleman-Liau).
+                self.token_char_len[tok_id] = min(
+                    len(word) / CHAR_PER_WORD_CAP, 1.0
                 )
 
-    def _is_rare_word(self, word: str) -> bool:
-        return (
-            len(word) >= 5
-            and word not in COMMON_WORDS
-            # and word not in BIOMEDICAL_WHITELIST
-        )
+    def _is_dale_chall_unfamiliar(self, word: str) -> bool:
+        """Return True if the word is not in the Dale-Chall familiar-word set."""
+        return len(word) >= 2 and word not in DALE_CHALL_FAMILIAR
 
     def _normalize_token_piece(self, token: str) -> tuple[str, bool]:
         starts_new_word = False
@@ -145,15 +162,27 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
             return PrefixStats()
 
         word_count = len(words)
-        rare_count = sum(1 for w in words if self._is_rare_word(w))
+        dale_chall_unfamiliar_count = sum(
+            1 for w in words if self._is_dale_chall_unfamiliar(w)
+        )
         clause_count = sum(1 for w in words if w in CLAUSE_MARKERS)
         total_syllable_count = sum(_count_syllables(w) for w in words)
+        polysyllabic_count = sum(
+            1 for w in words if _count_syllables(w) >= POLYSYLLABIC_THRESHOLD
+        )
+        sentence_count = max(
+            len(re.findall(r'[.!?]+', text)), 1
+        )
+        total_char_count = sum(len(w) for w in words)
 
         return PrefixStats(
             word_count=word_count,
-            rare_count=rare_count,
+            dale_chall_unfamiliar_count=dale_chall_unfamiliar_count,
             clause_count=clause_count,
             total_syllable_count=total_syllable_count,
+            polysyllabic_count=polysyllabic_count,
+            sentence_count=sentence_count,
+            total_char_count=total_char_count,
         )
 
     def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor:
@@ -173,13 +202,19 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
             pad = torch.full((scores_vocab - t.numel(),), pad_value, dtype=t.dtype, device=device)
             return torch.cat([t.to(device), pad], dim=0)
 
-        rare = _fit_vocab(self.token_rare, pad_value=0.0)
+        dale_chall = _fit_vocab(self.token_dale_chall, pad_value=0.0)
         clause = _fit_vocab(self.token_clause, pad_value=0.0)
         syllable = _fit_vocab(self.token_syllable, pad_value=0.0)
+        polysyllabic = _fit_vocab(self.token_polysyllabic, pad_value=0.0)
+        char_len = _fit_vocab(self.token_char_len, pad_value=0.0)
         wordish = _fit_vocab(self.token_is_wordish, pad_value=0.0).bool()
 
         token_penalty = self.lambda_value * (
-            self.w_rare * rare + self.w_clause * clause + self.w_syllable * syllable
+            self.w_dale_chall * dale_chall
+            + self.w_clause * clause
+            + self.w_syllable * syllable
+            + self.w_polysyllabic * polysyllabic
+            + self.w_char_per_word * char_len
         )
         adjusted = scores - token_penalty.unsqueeze(0)
 
@@ -193,9 +228,15 @@ class ReadabilityLogitsProcessor(LogitsProcessor):
             stats = self._extract_prefix_stats(input_ids[row_idx])
             length_norm = min(stats.word_count / self.length_cap, 1.0)
 
-            # Length pressure: as text gets long, make continuation slightly less attractive.
-            if length_norm > 0:
-                length_penalty = self.lambda_value * self.w_length * length_norm
+            avg_sentence_len = stats.word_count / max(stats.sentence_count, 1)
+            sentence_len_norm = min(avg_sentence_len / SENTENCE_LEN_CAP, 1.0)
+
+            # Length + sentence-length pressure: nudge toward EOS as text grows.
+            if length_norm > 0 or sentence_len_norm > 0:
+                length_penalty = self.lambda_value * (
+                    self.w_length * length_norm
+                    + self.w_sentence_len * sentence_len_norm
+                )
                 adjusted[row_idx, non_eos_mask[row_idx] & wordish] -= length_penalty
                 adjusted[row_idx, self.eos_token_id] += length_penalty
 

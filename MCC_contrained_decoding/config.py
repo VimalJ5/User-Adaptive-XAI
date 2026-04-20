@@ -91,18 +91,29 @@ LAMBDA_SWEEP_VALUES = [0.01, 0.05, 1.0, 3.0, 5.0, 7.5]
 
 # Hardness feature weights (must sum to 1.0).
 HARDNESS_WEIGHTS = {
-    "length": 0.40,
-    "rare": 0.35,
-    "clause": 0.15,
-    "syllable": 0.10,
+    "length": 0.25,       # reduced — sentence_len now adds a separate length signal
+    "polysyllabic": 0.25, # NEW: words >= POLYSYLLABIC_THRESHOLD syllables (SMOG/Fog signal)
+    "dale_chall": 0.20,   # REPLACES "rare" — unfamiliar word rate (Dale-Chall signal)
+    "clause": 0.10,
+    "syllable": 0.08,     # kept but reduced — complemented by polysyllabic
+    "sentence_len": 0.07, # NEW: avg words per sentence in prefix
+    "char_per_word": 0.05,# NEW: ARI/Coleman-Liau signal
 }
+
+# Thresholds / soft caps for new signals.
+POLYSYLLABIC_THRESHOLD = 3   # SMOG/Fog: words with >= this many syllables count as hard
+SENTENCE_LEN_CAP = 25.0      # soft cap for avg sentence length normalization
+CHAR_PER_WORD_CAP = 9.0      # soft cap for avg characters per word normalization
 
 # Soft caps used to normalize features into [0, 1].
 HARDNESS_CAPS = {
     "length_words": 60.0,
-    "rare_words": 8.0,
+    "polysyllabic_words": 10.0,     # NEW
+    "dale_chall_unfamiliar": 8.0,   # replaces rare_words
     "clause_markers": 4.0,
-    "avg_syllables_per_word": 4.0,   # typical max syllables per word in biomedical text
+    "avg_syllables_per_word": 4.0,
+    "avg_sentence_length": 25.0,    # NEW
+    "avg_chars_per_word": 9.0,      # NEW
 }
 
 CLAUSE_MARKERS = {
@@ -131,6 +142,118 @@ BIOMEDICAL_WHITELIST = {
     "tumour", "virus", "viral", "bacteria", "bacterial", "inflammation",
 }
 
+# ─────────────────────────────────────────────
+# Dale-Chall familiar-word set
+# ─────────────────────────────────────────────
+# Superset of COMMON_WORDS + BIOMEDICAL_WHITELIST plus a broad corpus of
+# everyday English words (~500 seeds from the Dale-Chall 3,000-word list).
+# A word that is NOT here and has len >= 2 is counted as "unfamiliar".
+DALE_CHALL_FAMILIAR: set = (
+    COMMON_WORDS
+    # | BIOMEDICAL_WHITELIST
+    | {
+        # ── Articles / determiners / pronouns ──
+        "all", "another", "any", "both", "each", "either", "every", "few",
+        "many", "much", "neither", "none", "other", "own", "same", "several",
+        "some", "us", "what", "which", "who", "whom", "whose",
+        # ── Numbers (written out) ──
+        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+        "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+        "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "thirty",
+        "forty", "fifty", "sixty", "seventy", "eighty", "ninety", "hundred",
+        "thousand", "million", "billion", "first", "second", "third", "fourth",
+        "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "once", "twice",
+        # ── Colors ──
+        "black", "blue", "brown", "gold", "gray", "green", "orange", "pink",
+        "purple", "red", "silver", "tan", "white", "yellow",
+        # ── Family / people ──
+        "baby", "boy", "brother", "child", "children", "dad", "daughter",
+        "family", "father", "friend", "girl", "grandma", "grandpa",
+        "grandfather", "grandmother", "husband", "kid", "man", "men",
+        "mom", "mother", "neighbor", "parent", "people", "person", "sister",
+        "son", "teacher", "wife", "woman", "women",
+        # ── Common verbs ──
+        "act", "add", "allow", "ask", "back", "become", "bring", "build",
+        "buy", "call", "came", "carry", "cause", "change", "check", "choose",
+        "clean", "close", "come", "cook", "copy", "count", "cover", "create",
+        "cut", "decide", "develop", "draw", "drink", "drive", "drop", "eat",
+        "end", "enjoy", "enter", "explain", "fall", "feel", "fight", "fill",
+        "find", "follow", "forget", "get", "give", "go", "grow", "happen",
+        "hear", "help", "hit", "hold", "hope", "include", "keep", "kill",
+        "know", "lead", "learn", "leave", "let", "like", "listen", "live",
+        "look", "lose", "love", "make", "mean", "meet", "miss", "move",
+        "need", "open", "play", "point", "put", "read", "remain", "remove",
+        "run", "say", "see", "seem", "send", "set", "show", "sit", "sleep",
+        "speak", "stand", "start", "stay", "stop", "study", "take", "talk",
+        "teach", "tell", "think", "try", "turn", "use", "wait", "walk",
+        "want", "watch", "work", "write",
+        # ── Common adjectives ──
+        "able", "afraid", "ago", "alive", "alone", "already", "always",
+        "bad", "beautiful", "better", "big", "bright", "busy", "careful",
+        "certain", "clear", "common", "dark", "dead", "dear", "deep",
+        "different", "difficult", "early", "easy", "enough", "even", "ever",
+        "fair", "far", "fast", "fine", "free", "full", "good", "great",
+        "happy", "hard", "heavy", "high", "hot", "huge", "important",
+        "large", "last", "late", "left", "light", "little", "long", "low",
+        "main", "new", "nice", "normal", "now", "often", "only", "open",
+        "poor", "possible", "pretty", "quick", "quiet", "ready", "real",
+        "right", "round", "safe", "short", "simple", "slow", "small", "smart",
+        "soft", "soon", "sorry", "special", "still", "strange", "strong",
+        "sure", "sweet", "tall", "true", "warm", "wide", "wrong", "young",
+        # ── Common nouns ──
+        "age", "air", "animal", "answer", "area", "arm", "back", "ball",
+        "bed", "bottom", "box", "break", "bus", "car", "care", "city",
+        "class", "color", "corner", "country", "course", "cup", "day", "door",
+        "end", "eye", "eyes", "face", "fact", "field", "fire", "floor",
+        "food", "foot", "game", "ground", "group", "hand", "head", "home",
+        "hour", "house", "idea", "job", "land", "letter", "life", "light",
+        "line", "list", "look", "matter", "minute", "money", "month",
+        "morning", "name", "nature", "night", "number", "order", "page",
+        "part", "party", "place", "plan", "plant", "point", "power", "problem",
+        "question", "reason", "road", "room", "school", "sea", "side", "size",
+        "sky", "sound", "state", "story", "street", "sun", "table", "thing",
+        "thought", "time", "top", "town", "tree", "turn", "type", "view",
+        "voice", "water", "way", "week", "window", "word", "world", "year",
+        # ── Common adverbs / prepositions / conjunctions ──
+        "above", "across", "again", "almost", "along", "already", "although",
+        "always", "around", "away", "back", "below", "close", "down", "else",
+        "enough", "even", "ever", "here", "however", "instead", "just", "later",
+        "maybe", "near", "never", "next", "now", "off", "once", "only", "out",
+        "outside", "perhaps", "please", "quite", "rather", "since", "so",
+        "somehow", "sometimes", "soon", "still", "then", "there", "through",
+        "together", "too", "toward", "until", "up", "upon", "usually", "very",
+        "well", "when", "where", "while", "yet",
+        # ── Health / body basics (extending BIOMEDICAL_WHITELIST) ──
+        "age", "arm", "arms", "back", "bone", "bones", "chest", "ear",
+        "ears", "eat", "eye", "eyes", "face", "fat", "foot", "feet", "hair",
+        "hand", "hands", "head", "hip", "jaw", "joint", "joints", "knee",
+        "knees", "leg", "legs", "lip", "lips", "mouth", "neck", "nose",
+        "organ", "organs", "rib", "ribs", "shoulder", "skin", "sleep", "spine",
+        "stomach", "throat", "toe", "toes", "tooth", "teeth", "vein", "veins",
+        "wrist", "healthy", "sick", "ill", "diet", "drug", "drugs", "dose",
+        "test", "treat", "treatment", "doctor", "nurse", "patient", "surgery",
+        "hospital", "care", "check", "study", "studies", "result", "results",
+        "cause", "causes", "effect", "effects", "level", "levels", "rate",
+        "rates", "type", "types", "sign", "signs", "stage", "stages",
+        # ── Miscellaneous high-frequency words ──
+        "able", "act", "action", "age", "air", "also", "amount", "base",
+        "based", "basic", "best", "bit", "body", "both", "bring", "call",
+        "case", "cases", "check", "clear", "close", "come", "common", "control",
+        "current", "data", "date", "days", "decision", "develop", "different",
+        "direct", "early", "example", "exist", "factor", "focus", "form",
+        "found", "given", "goal", "health", "high", "hold", "human", "increase",
+        "individual", "initial", "input", "issue", "key", "large", "later",
+        "lead", "less", "likely", "link", "local", "lower", "major", "manage",
+        "means", "medical", "method", "model", "often", "only", "output",
+        "overall", "past", "patient", "patients", "period", "primary", "process",
+        "provide", "range", "reach", "recent", "reduce", "related", "report",
+        "research", "role", "run", "sample", "serve", "set", "share", "similar",
+        "single", "specific", "step", "support", "system", "term", "test",
+        "three", "total", "true", "understand", "unit", "value", "various",
+        "well", "within",
+    }
+)
+
 # ══════════════════════════════════════════════
 # EXPERIMENT RUN CONFIG  ← edit this section
 # ══════════════════════════════════════════════
@@ -145,7 +268,7 @@ INPUT_TEXT = "Endometriosis associated with massive ascites and absence of pelvi
 
 # ── Audience ──────────────────────────────────
 # Options: "BEGINNER" | "INTERMEDIATE" | "EXPERT"
-USER_CATEGORY = "BEGINNER"
+USER_CATEGORY = "EXPERT"
 
 # ── Ontology ablation ─────────────────────────
 # Options: "normal" | "full" | "one_parent" | "no_ontology"
@@ -162,4 +285,4 @@ EXPERIMENT_TAG = f"{USER_CATEGORY.lower()}_{ABLATION_MODE}"
 
 # ── Output path (auto-derived) ─────────────────
 # The final CSV is saved to:  outputs/exp_<EXPERIMENT_TAG>.csv
-EXPERIMENT_RESULTS_PATH = Path("exp_output") / f"exp_{EXPERIMENT_TAG}.csv"
+EXPERIMENT_RESULTS_PATH = Path("new_heuristics") / f"exp_{EXPERIMENT_TAG}_1.csv"
