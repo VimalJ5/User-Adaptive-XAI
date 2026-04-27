@@ -11,6 +11,7 @@ from dataclasses import dataclass
 
 import torch
 from transformers import LogitsProcessor
+import syllables
 
 from config import (
     BIOMEDICAL_WHITELIST,
@@ -38,22 +39,25 @@ RARE_CAP = 4
 CLAUSE_CAP = 3
 MAX_SYLLABLE_CAP = 4.0  # avg syllables/word cap (biomedical words can be 4–6 syllables)
 
-def _count_syllables(word: str) -> int:
-    """Lightweight vowel-cluster syllable counter.
+# def _count_syllables(word: str) -> int:
+#     """Lightweight vowel-cluster syllable counter.
 
-    Rules (same as CMU-based approximations):
-    - Count contiguous vowel groups as one syllable each.
-    - Ensure a minimum of 1 syllable per word.
-    - Subtract silent trailing 'e' (e.g., 'care' -> 2 not 3).
-    """
-    word = word.lower().strip()
-    if not word:
-        return 0
-    count = len(_VOWEL_RE.findall(word))
-    # Adjust for silent trailing 'e'
-    if word.endswith("e") and count > 1:
-        count -= 1
-    return max(1, count)
+#     Rules (same as CMU-based approximations):
+#     - Count contiguous vowel groups as one syllable each.
+#     - Ensure a minimum of 1 syllable per word.
+#     - Subtract silent trailing 'e' (e.g., 'care' -> 2 not 3).
+#     """
+#     word = word.lower().strip()
+#     if not word:
+#         return 0
+#     count = len(_VOWEL_RE.findall(word))
+#     # Adjust for silent trailing 'e'
+#     if word.endswith("e") and count > 1:
+#         count -= 1
+#     return max(1, count)
+
+def _count_syllables(word: str) -> int:
+    return syllables.estimate(word)
 
 
 

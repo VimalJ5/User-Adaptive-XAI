@@ -67,7 +67,7 @@ def merge_entities(text: str, ner_pipe) -> str:
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 2. XAI feature attribution  (Stage 1)
-#    Supports LIME, SHAP, and Integrated Gradients (IG).
+#    Supports LIME and Integrated Gradients (IG).
 # ─────────────────────────────────────────────────────────────────────────────
 
 def make_lime_predictor(model, clf):
@@ -115,44 +115,6 @@ def run_lime(
         text, predictor, num_features=num_features, num_samples=num_samples
     )
     return exp.as_list()
-
-
-def run_shap(
-    text: str,
-    clf_model,
-    clf_pipeline,
-    class_names: list,
-    num_features: int,
-    neval: int,
-) -> list:
-    """
-    Run the SHAP Partition explainer (word-level masking) and return top-k
-    [(word, score)] pairs for the model-predicted class.
-
-    Requires: shap >= 0.41
-    """
-    import shap
-
-    predictor = make_lime_predictor(clf_model, clf_pipeline)
-
-    # Determine which class the model predicts so we take the right SHAP slice.
-    probs = predictor([text])[0]
-    pred_idx = int(np.argmax(probs))
-
-    # Word-level masker: splits on any non-word character boundary.
-    masker = shap.maskers.Text(r"\W+")
-    explainer = shap.Explainer(predictor, masker, output_names=list(class_names))
-    shap_values = explainer([text], max_evals=neval, batch_size=20)
-
-    # shap_values.values shape: (1, n_words, n_classes)
-    vals = shap_values.values[0]
-    word_attrs = vals[:, pred_idx] if vals.ndim == 2 else vals
-    words = shap_values.data[0]
-
-    pairs = [(str(w), float(s)) for w, s in zip(words, word_attrs)]
-    # Sort by absolute attribution — both high-positive and high-negative are influential.
-    pairs.sort(key=lambda x: abs(x[1]), reverse=True)
-    return pairs[:num_features]
 
 
 def run_ig(
@@ -274,13 +236,13 @@ def run_xai(
 
     Parameters
     ----------
-    method      : "LIME" | "SHAP" | "IG"  (case-insensitive)
+    method      : "LIME" | "IG"  (case-insensitive)
     text        : raw input text
     clf_model   : AutoModelForSequenceClassification
     clf_pipeline: HuggingFace text-classification pipeline
     class_names : ordered list of class name strings
     num_features: number of top features to return
-    num_samples : perturbation budget — LIME samples / SHAP max_evals;
+    num_samples : perturbation budget — LIME samples;
                   ignored for IG (always uses 50 integration steps)
 
     Returns
@@ -292,16 +254,12 @@ def run_xai(
         return run_lime(
             text, clf_model, clf_pipeline, class_names, num_features, num_samples
         )
-    elif method == "SHAP":
-        return run_shap(
-            text, clf_model, clf_pipeline, class_names, num_features, num_samples
-        )
     elif method == "IG":
         return run_ig(text, clf_model, clf_pipeline, num_features)
     else:
         raise ValueError(
             f"Unknown XAI method: {method!r}. "
-            "Valid options are: 'LIME', 'SHAP', 'IG'"
+            "Valid options are: 'LIME', 'IG'"
         )
 
 
