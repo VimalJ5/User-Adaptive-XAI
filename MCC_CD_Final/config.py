@@ -9,21 +9,23 @@ Edit paths and hyperparameters here — nowhere else.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 """
 
+import json
 from pathlib import Path
+
+# ─────────────────────────────────────────────
+# Word lists (loaded from word_lists.json)
+# ─────────────────────────────────────────────
+_WL_PATH = Path(__file__).parent / "word_lists.json"
+_wl = json.loads(_WL_PATH.read_text(encoding="utf-8"))
+
+COMMON_WORDS: set        = set(_wl["common_words"])
+BIOMEDICAL_WHITELIST: set = set(_wl["biomedical_whitelist"])
+CLAUSE_MARKERS: set       = set(_wl["clause_markers"])
+DALE_CHALL_FAMILIAR: set  = COMMON_WORDS | set(_wl["dale_chall_extra"])
 
 # ─────────────────────────────────────────────
 # Paths
 # ─────────────────────────────────────────────
-
-# Directory that holds all intermediate/output files
-OUTPUTS_DIR = Path("Pivot_OP")
-OUTPUTS_DIR.mkdir(exist_ok=True)
-
-# Intermediate checkpoint files (one per stage)
-LIME_RESULTS_PATH      = OUTPUTS_DIR / "lr.json"
-ONTOLOGY_RESULTS_PATH  = OUTPUTS_DIR / "or.json"
-EXPLANATIONS_PATH      = OUTPUTS_DIR / "ex_beg.json"
-ANALYSIS_RESULTS_PATH  = OUTPUTS_DIR / "res_beg.csv"
 
 # Model / ontology paths  ← update these for your machine
 CLASSIFIER_MODEL_PATH = (
@@ -35,7 +37,7 @@ ONTOLOGY_PATH = (
     "User-Adaptive-XAI/Ontology/doid.owl"
 )
 NER_MODEL_NAME = "d4data/biomedical-ner-all"
-LLM_MODEL_NAME = "microsoft/phi-2"
+LLM_MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
 
 # ─────────────────────────────────────────────
 # Classification label map
@@ -97,7 +99,7 @@ MIN_NEW_TOKENS = 80
 LAMBDA_MAP = {
     "BEGINNER": 5.0,
     "INTERMEDIATE": 0.5,
-    "EXPERT": 0.05,
+    "EXPERT": 0.00,
 }
 
 LAMBDA_SWEEP_VALUES = [0.01, 0.05, 1.0, 3.0, 5.0, 7.5]
@@ -129,159 +131,34 @@ HARDNESS_CAPS = {
     "avg_chars_per_word": 9.0,      # NEW
 }
 
-CLAUSE_MARKERS = {
-    "which", "although", "whereas", "however", "nevertheless",
-    "therefore", "moreover", "furthermore", "while", "though",
-}
 
-# Common words used for a lightweight rare-word heuristic.
-COMMON_WORDS = {
-    "a", "an", "and", "are", "as", "at", "be", "been", "being", "by",
-    "for", "from", "had", "has", "have", "if", "in", "into", "is", "it",
-    "its", "may", "more", "most", "of", "on", "or", "such", "than", "that",
-    "the", "their", "there", "these", "this", "to", "was", "were", "will",
-    "with", "without", "can", "could", "should", "would", "about", "over",
-    "under", "between", "during", "after", "before", "also", "not", "no",
-    "yes", "we", "our", "you", "your", "they", "them", "he", "she", "his",
-    "her", "i", "me", "my", "mine", "do", "does", "did", "done", "because",
-}
 
-# Biomedical terms that should stay accessible (not treated as rare).
-BIOMEDICAL_WHITELIST = {
-    "blood", "body", "brain", "cancer", "cell", "cells", "disease", "dna",
-    "gene", "genes", "heart", "immune", "infection", "kidney", "liver",
-    "lung", "lungs", "medicine", "metabolism", "muscle", "nerves", "pain",
-    "protein", "proteins", "risk", "symptom", "symptoms", "tissue", "tumor",
-    "tumour", "virus", "viral", "bacteria", "bacterial", "inflammation",
-}
-
-# ─────────────────────────────────────────────
-# Dale-Chall familiar-word set
-# ─────────────────────────────────────────────
-# Superset of COMMON_WORDS + BIOMEDICAL_WHITELIST plus a broad corpus of
-# everyday English words (~500 seeds from the Dale-Chall 3,000-word list).
-# A word that is NOT here and has len >= 2 is counted as "unfamiliar".
-DALE_CHALL_FAMILIAR: set = (
-    COMMON_WORDS
-    # | BIOMEDICAL_WHITELIST
-    | {
-        # ── Articles / determiners / pronouns ──
-        "all", "another", "any", "both", "each", "either", "every", "few",
-        "many", "much", "neither", "none", "other", "own", "same", "several",
-        "some", "us", "what", "which", "who", "whom", "whose",
-        # ── Numbers (written out) ──
-        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
-        "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
-        "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "thirty",
-        "forty", "fifty", "sixty", "seventy", "eighty", "ninety", "hundred",
-        "thousand", "million", "billion", "first", "second", "third", "fourth",
-        "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "once", "twice",
-        # ── Colors ──
-        "black", "blue", "brown", "gold", "gray", "green", "orange", "pink",
-        "purple", "red", "silver", "tan", "white", "yellow",
-        # ── Family / people ──
-        "baby", "boy", "brother", "child", "children", "dad", "daughter",
-        "family", "father", "friend", "girl", "grandma", "grandpa",
-        "grandfather", "grandmother", "husband", "kid", "man", "men",
-        "mom", "mother", "neighbor", "parent", "people", "person", "sister",
-        "son", "teacher", "wife", "woman", "women",
-        # ── Common verbs ──
-        "act", "add", "allow", "ask", "back", "become", "bring", "build",
-        "buy", "call", "came", "carry", "cause", "change", "check", "choose",
-        "clean", "close", "come", "cook", "copy", "count", "cover", "create",
-        "cut", "decide", "develop", "draw", "drink", "drive", "drop", "eat",
-        "end", "enjoy", "enter", "explain", "fall", "feel", "fight", "fill",
-        "find", "follow", "forget", "get", "give", "go", "grow", "happen",
-        "hear", "help", "hit", "hold", "hope", "include", "keep", "kill",
-        "know", "lead", "learn", "leave", "let", "like", "listen", "live",
-        "look", "lose", "love", "make", "mean", "meet", "miss", "move",
-        "need", "open", "play", "point", "put", "read", "remain", "remove",
-        "run", "say", "see", "seem", "send", "set", "show", "sit", "sleep",
-        "speak", "stand", "start", "stay", "stop", "study", "take", "talk",
-        "teach", "tell", "think", "try", "turn", "use", "wait", "walk",
-        "want", "watch", "work", "write",
-        # ── Common adjectives ──
-        "able", "afraid", "ago", "alive", "alone", "already", "always",
-        "bad", "beautiful", "better", "big", "bright", "busy", "careful",
-        "certain", "clear", "common", "dark", "dead", "dear", "deep",
-        "different", "difficult", "early", "easy", "enough", "even", "ever",
-        "fair", "far", "fast", "fine", "free", "full", "good", "great",
-        "happy", "hard", "heavy", "high", "hot", "huge", "important",
-        "large", "last", "late", "left", "light", "little", "long", "low",
-        "main", "new", "nice", "normal", "now", "often", "only", "open",
-        "poor", "possible", "pretty", "quick", "quiet", "ready", "real",
-        "right", "round", "safe", "short", "simple", "slow", "small", "smart",
-        "soft", "soon", "sorry", "special", "still", "strange", "strong",
-        "sure", "sweet", "tall", "true", "warm", "wide", "wrong", "young",
-        # ── Common nouns ──
-        "age", "air", "animal", "answer", "area", "arm", "back", "ball",
-        "bed", "bottom", "box", "break", "bus", "car", "care", "city",
-        "class", "color", "corner", "country", "course", "cup", "day", "door",
-        "end", "eye", "eyes", "face", "fact", "field", "fire", "floor",
-        "food", "foot", "game", "ground", "group", "hand", "head", "home",
-        "hour", "house", "idea", "job", "land", "letter", "life", "light",
-        "line", "list", "look", "matter", "minute", "money", "month",
-        "morning", "name", "nature", "night", "number", "order", "page",
-        "part", "party", "place", "plan", "plant", "point", "power", "problem",
-        "question", "reason", "road", "room", "school", "sea", "side", "size",
-        "sky", "sound", "state", "story", "street", "sun", "table", "thing",
-        "thought", "time", "top", "town", "tree", "turn", "type", "view",
-        "voice", "water", "way", "week", "window", "word", "world", "year",
-        # ── Common adverbs / prepositions / conjunctions ──
-        "above", "across", "again", "almost", "along", "already", "although",
-        "always", "around", "away", "back", "below", "close", "down", "else",
-        "enough", "even", "ever", "here", "however", "instead", "just", "later",
-        "maybe", "near", "never", "next", "now", "off", "once", "only", "out",
-        "outside", "perhaps", "please", "quite", "rather", "since", "so",
-        "somehow", "sometimes", "soon", "still", "then", "there", "through",
-        "together", "too", "toward", "until", "up", "upon", "usually", "very",
-        "well", "when", "where", "while", "yet",
-        # ── Health / body basics (extending BIOMEDICAL_WHITELIST) ──
-        "age", "arm", "arms", "back", "bone", "bones", "chest", "ear",
-        "ears", "eat", "eye", "eyes", "face", "fat", "foot", "feet", "hair",
-        "hand", "hands", "head", "hip", "jaw", "joint", "joints", "knee",
-        "knees", "leg", "legs", "lip", "lips", "mouth", "neck", "nose",
-        "organ", "organs", "rib", "ribs", "shoulder", "skin", "sleep", "spine",
-        "stomach", "throat", "toe", "toes", "tooth", "teeth", "vein", "veins",
-        "wrist", "healthy", "sick", "ill", "diet", "drug", "drugs", "dose",
-        "test", "treat", "treatment", "doctor", "nurse", "patient", "surgery",
-        "hospital", "care", "check", "study", "studies", "result", "results",
-        "cause", "causes", "effect", "effects", "level", "levels", "rate",
-        "rates", "type", "types", "sign", "signs", "stage", "stages",
-        # ── Miscellaneous high-frequency words ──
-        "able", "act", "action", "age", "air", "also", "amount", "base",
-        "based", "basic", "best", "bit", "body", "both", "bring", "call",
-        "case", "cases", "check", "clear", "close", "come", "common", "control",
-        "current", "data", "date", "days", "decision", "develop", "different",
-        "direct", "early", "example", "exist", "factor", "focus", "form",
-        "found", "given", "goal", "health", "high", "hold", "human", "increase",
-        "individual", "initial", "input", "issue", "key", "large", "later",
-        "lead", "less", "likely", "link", "local", "lower", "major", "manage",
-        "means", "medical", "method", "model", "often", "only", "output",
-        "overall", "past", "patient", "patients", "period", "primary", "process",
-        "provide", "range", "reach", "recent", "reduce", "related", "report",
-        "research", "role", "run", "sample", "serve", "set", "share", "similar",
-        "single", "specific", "step", "support", "system", "term", "test",
-        "three", "total", "true", "understand", "unit", "value", "various",
-        "well", "within",
-    }
-)
 
 # ══════════════════════════════════════════════
 # EXPERIMENT RUN CONFIG  ← edit this section
 # ══════════════════════════════════════════════
 #
 # This is the only section you need to edit before
-# running experiment.ipynb for a single-input run.
+# running experiment.ipynb.
 
-# ── Input ─────────────────────────────────────
-# Paste the medical abstract you want to explain.
-# Leave as None to pick the first line of test_data.txt.
-INPUT_TEXT = "Endometriosis associated with massive ascites and absence of pelvic peritoneum. Although massive ascites associated with endometriosis has been reported in rare cases, this patient was also noted to have massive destruction of the pelvic peritoneum. Failure of medical suppression necessitated total abdominal hysterectomy and bilateral salpingo-oophorectomy. Several months after surgery ascites resolved, possibly with reestablishment of the pelvic peritoneum. "
+# ── Inputs ────────────────────────────────────
+# List of medical abstracts to explain (one result row per entry).
+# Set to None to load ALL non-empty lines from test_data.txt.
+INPUT_TEXTS = [
+    "Endometriosis associated with massive ascites and absence of pelvic peritoneum. Although massive ascites associated with endometriosis has been reported in rare cases, this patient was also noted to have massive destruction of the pelvic peritoneum. Failure of medical suppression necessitated total abdominal hysterectomy and bilateral salpingo-oophorectomy. Several months after surgery ascites resolved, possibly with reestablishment of the pelvic peritoneum. ",
+    "Ultrasound-Doppler diagnosis of Budd-Chiari syndrome. We report a case of apparently idiopathic Budd-Chiari syndrome, diagnosed by ultrasound and Doppler sonography, in a patient with latent myeloproliferative disease. This case proves that Doppler sonography shows in the hepatic veins a flow pattern suggestive of partial thrombotic obstruction. Moreover, we suggest that the search for a latent myeloproliferative disorder, by means of the spontaneous erythroid colonies formation in culture of bone marrow or blood mononuclear cells, should be routinely included in the diagnostic evaluation of each case of hepatic vein thrombosis without other recognizable causes. ",
+    "Neurogenic inflammation of the rat trachea: fate of neutrophils that adhere to venules. The goal of this study was to determine whether neutrophils that adhere to the vascular endothelium in association with neurogenic inflammation in the respiratory tract migrate out of the blood vessels or whether they detach and reenter the circulation. We also sought to determine whether the fate of the neutrophils is influenced by neutral endopeptidase (NEP), an enzyme that degrades the tachykinins that produce neurogenic inflammation. Neutrophils in the tracheal mucosa of anesthetized pathogen-free rats were examined 5 min or 4 h after neurogenic inflammation was produced by an injection of capsaicin (100 or 200 micrograms/kg iv). In whole mounts of these tracheae stained histochemically for myeloperoxidase, adherent intravascular neutrophils had a spherical or teardrop (regular) shape and migrating neutrophils had a polarized amoeboid (irregular) shape. The number of regular neutrophils in the tracheae was increased at both times, but the increase at 4 h was only half that present at 5 min. The reduction between 5 min and 4 h was not offset by an appreciable increase in the number of irregular neutrophils, unless NEP was inhibited by phosphoramidon. We interpret these results as indicating that the rapid adherence of neutrophils to the vascular endothelium after an injection of capsaicin is followed by a gradual reentry of the neutrophils into the circulation and comparatively little neutrophil migration. However, when the effect of the stimulus is increased and/or prolonged by inhibition of NEP, some of the adherent neutrophils migrate out of the vessels. Thus the activity of NEP can regulate both the magnitude of the neutrophil adherence and the fate of the adherent cells. ",
+    "Aberrant regeneration in a case of syringobulbia: selective co-activation of abducens and facial nerves during saccades. A patient suffering from syringobulbia and syringomyelia exhibited a phasic contraction of the ipsilateral facial muscles, mainly the levator labii, whenever he looked to the left or right. Facial muscle twitches occurred exclusively with saccades. The selective co-activation of abducens and facial nerves is interpreted as the result of bilateral misrouting of regenerating neurons from the parapontine reticular formation to the facial nerve in the tegmentum pontis. ",
+    "Germ cell tumor of testis in a patient with von Hippel-Lindau disease. Germ cell testicular tumor is a previously undescribed entity in association with von Hippel-Lindau disease. This case exemplifies the variety of pathologic entities encountered in von Hippel-Lindau disease and stresses the importance of thorough evaluation of the patient, as well as careful follow-up, to ensure early detection of potentially malignant lesions. ",
+    "Failure of hepatitis B immunization in liver transplant recipients: results of a prospective trial. Twenty patients with advanced liver disease, in need of transplantation, were given three injections of 20 micrograms and three injections of 40 micrograms hepatitis B vaccine to see if an antibody response could be obtained. Only 20% of patients developed measurable anti-HBs. One who failed to develop anti-HBs developed chronic hepatitis B after exposure to her infected sexual partner. Type of liver disease in the native liver, age, sex, sexual preference, timing of immunization (before or after transplantation), and dosage of hepatitis B vaccine did not seem to explain the lack of immunologic response to hepatitis B vaccine. It is presumed that immunosuppression, both from the underlying disease and from immunosuppressive medications, best explains our findings. Liver transplantation patients infrequently benefit from hepatitis B vaccine. It is possible that other vaccines given to prevent viral and bacterial illness may also fail to elicit immunologic response in such patients. "
+]
+
+# Back-compat alias — not used by the notebook any more.
+INPUT_TEXT = INPUT_TEXTS[0] if INPUT_TEXTS else None
 
 # ── Audience ──────────────────────────────────
 # Options: "BEGINNER" | "INTERMEDIATE" | "EXPERT"
-USER_CATEGORY = "BEGINNER"
+USER_CATEGORY = "EXPERT"
 
 # ── Ontology ablation ─────────────────────────
 ABLATION_MODE = "normal"
@@ -297,4 +174,4 @@ EXPERIMENT_TAG = f"{USER_CATEGORY.lower()}_{ABLATION_MODE}_{XAI_METHOD.lower()}"
 
 # ── Output path (auto-derived) ─────────────────
 # The final CSV is saved to:  outputs/exp_<EXPERIMENT_TAG>.csv
-EXPERIMENT_RESULTS_PATH = Path("Results") / f"{EXPERIMENT_TAG}.csv"
+EXPERIMENT_RESULTS_PATH = Path("Results_w_CD") / f"{EXPERIMENT_TAG}.csv"

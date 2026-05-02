@@ -25,6 +25,11 @@ import numpy as np
 from typing import Optional
 import textstat
 
+# Load prompts / class descriptions from the JSON sidecar file.
+_PROMPTS = json.loads(
+    (Path(__file__).parent / "prompts.json").read_text(encoding="utf-8")
+)
+
 from config import (
     LABEL_TO_CLASS,
     LLM_MAX_NEW_TOKENS,
@@ -324,54 +329,14 @@ def enrich_with_ontology(
 # 4. Prompt building
 # ─────────────────────────────────────────────────────────────────────────────
 
-_CLASS_DESCRIPTIONS = {
-    "Neoplasms": (
-        "Neoplasms are abnormal growths of tissue caused by uncontrolled cell "
-        "division. They may be benign or malignant (cancerous) and are classified "
-        "by the tissue or organ of origin."
-    ),
-    "Digestive system diseases": (
-        "Diseases affecting the gastrointestinal tract, including the oesophagus, "
-        "stomach, intestines, liver, pancreas, and gallbladder. These range from "
-        "inflammatory conditions to motility disorders and malignancies."
-    ),
-    "Nervous system diseases": (
-        "Disorders of the central and peripheral nervous system, including "
-        "neurodegenerative diseases, epilepsy, stroke, neuropathies, and tumours "
-        "of neural tissue."
-    ),
-    "Cardiovascular diseases": (
-        "Diseases of the heart and blood vessels, including coronary artery disease, "
-        "heart failure, arrhythmias, hypertension, and vascular disorders. "
-        "A leading cause of global morbidity and mortality."
-    ),
-    "General pathological conditions": (
-        "Broad pathological processes that cut across organ systems, including "
-        "inflammation, fibrosis, cell death, metabolic dysregulation, and "
-        "systemic responses to injury or disease."
-    ),
-}
- 
- 
-# ── System prompt (unchanged from original — already well-written) ─────────────
- 
-SYSTEM_PROMPT = """
-You are a biomedical explanation assistant. Your job is to generate clear, accurate natural language explanations of why a machine learning model made a specific biomedical prediction. You are given:
-- The model's predicted class
-- Key tokens identified by LIME (local feature attribution) as influential in the prediction
-- Ontology-derived ancestor chains for each token, showing its place in the biomedical concept hierarchy
- 
-Your explanations must be grounded strictly in the provided features and ontology context. Do not introduce facts, diseases, or concepts not present in the input.
- 
-Adapt your explanation style based on the user category:
-- BEGINNER: Use plain, everyday language. Avoid technical jargon. Explain medical terms when they appear. Keep sentences short. The goal is comprehension, not completeness.
-- INTERMEDIATE: Balance accessibility with domain accuracy. Define specialized terms briefly. Use medical vocabulary where helpful but not exclusively.
-- EXPERT: Use precise clinical and biomedical terminology. Reference ontological relationships and mechanistic reasoning. Assume familiarity with standard medical vocabulary.
- 
-Always structure your explanation as a short, coherent paragraph (3–5 sentences). Do not use bullet points. Do not repeat the feature words mechanically — weave them naturally into the explanation.
-""".strip()
- 
- 
+_CLASS_DESCRIPTIONS: dict = _PROMPTS["class_descriptions"]
+
+
+# ── System prompt ──────────────────────────────────────────────────────────────
+
+SYSTEM_PROMPT: str = _PROMPTS["system_prompt"]
+
+
 # ── Prompt builder ────────────────────────────────────────────────────────────
  
 def build_prompt(
@@ -473,7 +438,7 @@ WHAT THIS MEANS: {class_desc}
  
 KEY TOKENS RESPONSIBLE (from {XAI_METHOD} feature attribution):
 {top_tokens}
-
+ 
 ONTOLOGY CONTEXT FOR EACH TOKEN:
 {onto_block}
 
@@ -482,48 +447,24 @@ ONTOLOGY CONTEXT FOR EACH TOKEN:
 INSTRUCTIONS:
 1. Explain which words or phrases drove the model's prediction and WHY they \
 are medically relevant to the predicted class.
+2. Weave at least 3 of the key tokens naturally into your explanation — do \
+not list them mechanically.
+3. Use the ontology context to reason about what each token represents \
+conceptually, not just literally.
+4. Write 4 to 6 sentences as a single coherent paragraph. No bullet points.
+5. Do NOT simply restate the abstract. Explain the model's reasoning.
+6. Do NOT open with "The model predicted…" — write naturally from the reader's \
+perspective.
  
 Generate the explanation now:"""
  
     return prompt
 
 
-#     prompt = f"""A biomedical abstract was classified by a machine learning model. \
-# Your task is to explain WHY the model made this prediction to the specified reader.
- 
-# ---
-# TASK TYPE: Multi-class medical abstract classification
-# MODEL INPUT (abstract excerpt):
-# \"\"\"{text[:600]}\"\"\"
- 
-# MODEL PREDICTION: {predicted_class}
-# WHAT THIS MEANS: {class_desc}
- 
-# KEY TOKENS RESPONSIBLE (from {XAI_METHOD} feature attribution):
-# {top_tokens}
- 
-# ONTOLOGY CONTEXT FOR EACH TOKEN:
-# {onto_block}
  
 # ---
 # TARGET READER: {user_category}
 # READER DESCRIPTION: {audience_instruction}
- 
-# ---
-# INSTRUCTIONS:
-# 1. Explain which words or phrases drove the model's prediction and WHY they \
-# are medically relevant to the predicted class.
-# 2. Weave at least 3 of the key tokens naturally into your explanation — do \
-# not list them mechanically.
-# 3. Use the ontology context to reason about what each token represents \
-# conceptually, not just literally.
-# 4. Write 4 to 6 sentences as a single coherent paragraph. No bullet points.
-# 5. Do NOT simply restate the abstract. Explain the model's reasoning.
-# 6. Do NOT open with "The model predicted…" — write naturally from the reader's \
-# perspective.
- 
-# Generate the explanation now:"""
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 5. Explanation generation

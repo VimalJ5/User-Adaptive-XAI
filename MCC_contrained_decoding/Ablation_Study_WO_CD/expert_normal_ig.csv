@@ -1,8 +1,0 @@
-experiment_tag,xai_method,user_category,ablation_mode,constrained_decoding,lambda,ner_merging,predicted_class,confidence,text_snippet,explanation,lime_coverage,ontology_hit_rate,flesch_reading_ease,flesch_kincaid_grade,smog_index
-expert_normal_ig,IG,EXPERT,normal,False,0.05,False,Digestive system diseases,0.6624,Endometriosis associated with massive ascites and absence of pelvic peritoneum. Although massive ascites associated with…,"The model's prediction that the abstract belongs to the digestive system diseases category is driven by several key words and phrases. Specifically, the presence of ""massive ascites,"" ""endometriosis,"" and ""absence of pelvic peritoneum"" are crucial factors. 
-
-Firstly, ""massive ascites"" indicates an accumulation of fluid in the abdomen, which can lead to various complications such as pressure on internal organs and impaired blood flow. This condition often requires surgical intervention.
-
-Secondly, ""endometriosis"" refers to tissue similar to the lining inside the uterus growing outside it, commonly found in women. It can cause pain, infertility, and other symptoms. In this case, the patient had both massive ascites and destruction of the pelvic peritoneum due to endometriosis, suggesting a complex interplay between these two conditions.
-
-Lastly, ""absence of pelvic per",1.0,1.0,30.847859251968515,12.900462598425197,13.624085052395262

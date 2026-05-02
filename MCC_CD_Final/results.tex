@@ -1,0 +1,403 @@
+\chapter{Results}\label{ch:results}
+
+This chapter presents the results obtained by applying our user-adaptive XAI framework across multiple biomedical NLP tasks. For each task, we report both model performance (where applicable) and explanation-level evaluation using readability metrics and ontology-grounded faithfulness checks. All results correspond to the pipeline described in Chapter~\ref{ch:methodology}.
+
+\section{Task: Multi-Label Text Classification}
+\label{sec:multilabel_results}
+
+This section presents the explanation-level evaluation conducted on the multi-label biomedical text classification pipeline. 
+Unlike traditional model evaluation, our focus here is on analysing how explanation complexity varies across user categories and ontology configurations.
+
+% We evaluate the system along two primary dimensions:
+
+% \begin{enumerate}
+%     \item \textbf{Readability Across User Profiles (Beginner vs.\ Expert)}
+%     \item \textbf{Ablation of Ontology Depth Control}
+% \end{enumerate}
+
+\subsection{Experimental Setup}
+\label{subsec:experimental_setup}
+
+A complete explanation pipeline was constructed for the multi-label classification task, consisting of:
+
+\begin{enumerate}
+    \item a finetuned BioBERT classifier,
+    \item LIME-based feature importance extraction,
+    \item ontology-grounded concept mapping,
+    \item user-adaptive ancestor selection (when enabled),
+    \item transformer-based explanation generation.
+\end{enumerate}
+
+To evaluate the system, \textbf{50 random samples} were selected from the dataset.  
+Each sample was passed through the pipeline under four conditions:
+
+\begin{itemize}
+    \item \textbf{Beginner (Normal Mode)} — user-adaptive ancestor selection enabled  
+    \item \textbf{Expert (Normal Mode)} — user-adaptive ancestor selection enabled  
+    \item \textbf{Beginner (Full Mode)} — all ontology ancestors included  
+    \item \textbf{Expert (Full Mode)} — all ontology ancestors included  
+\end{itemize}
+
+This allowed us to disentangle:
+
+\begin{enumerate}
+    \item the effect of user category,
+    \item the effect of ontology depth,
+    \item the interaction between the two.
+\end{enumerate}
+
+Readability metrics were computed for every generated explanation and averaged across samples.
+
+\subsection{Readability Comparison Across User Types}
+\label{subsec:readability_comparison}
+
+Readability was quantified using:
+
+\begin{itemize}
+    \item \textbf{Flesch Reading Ease (FRE)} — higher = simpler text
+    \item \textbf{Flesch--Kincaid Grade Level (FKGL)} — higher = more complex text
+\end{itemize}
+
+\subsubsection*{Normal Mode (Adaptive Ancestor Selection)}
+Table~\ref{tab:normal_mode_readability} summarises readability differences when only the top-$k$ ontology ancestors were used.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{User Category} & \textbf{FRE (↑)} & \textbf{FKGL (↓)} \\
+\midrule
+Beginner & 31.23 & 12.04 \\
+Expert   & 8.60  & 16.78 \\
+\bottomrule
+\end{tabular}
+\caption{Readability metrics for Normal Mode (top-$k$ ancestor selection).}
+\label{tab:normal_mode_readability}
+\end{table}
+
+A clear separation appears between user categories:
+
+\begin{itemize}
+    \item Beginner explanations are substantially simpler.
+    \item Expert explanations are more technical and require a higher reading level.
+\end{itemize}
+
+This confirms that the difficulty-aware ancestor selection mechanism effectively modulates explanation complexity.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figs/multi_comp_normal.png}
+    \caption{Beginner vs.~Expert readability comparison in Normal Mode.}
+\end{figure}
+
+\paragraph{Conclusion (Normal Mode).}  
+The readability gap demonstrates that the model successfully tailors explanations according to user category when ontology depth selection is enabled.
+
+\subsection{Ablation: Ontology Depth Control}
+\label{subsec:ontology_ablation}
+
+To isolate the role of ontology depth, ancestor selection was disabled and the LLM was provided with \emph{all} ancestors associated with each biomedical concept.
+
+\subsubsection*{Full Mode (All Ontology Ancestors)}
+Table~\ref{tab:full_mode_readability} shows the readability metrics.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{User Category} & \textbf{FRE (↑)} & \textbf{FKGL (↓)} \\
+\midrule
+Beginner & 14.31 & 16.15 \\
+Expert   & 12.84 & 16.00 \\
+\bottomrule
+\end{tabular}
+\caption{Readability metrics for Full Mode (all ontology ancestors).}
+\label{tab:full_mode_readability}
+\end{table}
+
+Unlike Normal Mode, the two user categories produce very similar readability scores.  
+This occurs because:
+
+\begin{itemize}
+    \item deeper and more numerous ancestors dominate the prompt,
+    \item the LLM is forced to use technical biomedical language,
+    \item user-adaptive cues become overshadowed by dense ontology content.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figs/multi_comp_full.png}
+    \caption{Readability comparison in Full Mode (all ontology ancestors).}
+\end{figure}
+
+\paragraph{Conclusion (Full Mode).}  
+Providing the full ancestor list removes user adaptiveness.  
+Both beginner and expert explanations become equally technical, highlighting that \textbf{ancestor selection is essential} for controlling explanation difficulty.
+
+\subsection{Overall Findings}
+
+Across both evaluation conditions, we observe that:
+
+\begin{itemize}
+    \item \textbf{User adaptiveness emerges only when ontology selection is active.}
+    \item \textbf{Ontology depth directly influences linguistic complexity.}
+    \item \textbf{Full Mode overwhelms the system with technical terms}, resulting in uniformly complex explanations.
+\end{itemize}
+
+These findings validate the central role of the difficulty-aware ontology scoring mechanism in shaping readable and user-appropriate explanations.
+
+Future studies will incorporate additional metrics such as faithfulness scores, cross-task comparison, qualitative examples, and baseline comparisons.
+
+
+\subsection*{Summary}
+
+This example demonstrates how the system identifies the important lexical cues responsible for a classification decision, maps them to biomedical ontologies, and synthesizes a coherent explanation grounded in these concepts. As we further integrate difficulty-aware context selection, this task will also support adaptive explanation generation across user profiles.
+
+\section{Task: Biomedical Question Answering (BioASQ Subset)}
+\label{sec:bioasq_results}
+
+This section evaluates explanation behaviour for a biomedical question answering (QA) system applied to a subset of the BioASQ 6b benchmark. As in the previous task, our primary focus is not model accuracy but the behaviour of the explanation-generation pipeline across user categories and ontology configurations.
+
+\subsection{Experimental Setup}
+
+The QA system was evaluated on the \texttt{test-factoid-6b-1.json} set, which contains 121 factoid-style biomedical questions.  
+A finetuned \textbf{BioBERT QA model} (\texttt{dmis-lab/biobert-base-cased-v1.1-squad}) was used to extract answer spans from the provided context passages. To support structured explanation generation, predicted answers and influential context terms were grounded in the \textbf{MeSH} biomedical ontology.  
+
+For each QA sample, explanations were generated under four settings:
+
+\begin{itemize}
+    \item \textbf{Beginner (Plain)} — LLM receives only question, answer, and context.
+    \item \textbf{Expert (Plain)} — same as above, but phrased for experts.
+    \item \textbf{Beginner (Ontology)} — MeSH concepts and ancestor definitions included.
+    \item \textbf{Expert (Ontology)} — ontology-aware expert explanation.
+\end{itemize}
+
+Two representative BioASQ samples were used for controlled comparison, and readability metrics were averaged across them.
+
+\subsection{Readability Comparison Across User Types}
+
+Readability was quantified using:
+
+\begin{itemize}
+    \item \textbf{Flesch Reading Ease (FRE)} — higher = simpler text
+    \item \textbf{Flesch--Kincaid Grade Level (FKGL)} — higher = more complex text
+\end{itemize}
+
+\subsubsection*{Explanations Without Ontology}
+
+Table~\ref{tab:qa_plain_readability} summarises readability when explanations were generated without ontology information.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{User Category} & \textbf{FRE (↑)} & \textbf{FKGL (↓)} \\
+\midrule
+Beginner & 72.60 & 6.03 \\
+Expert   & -1.85 & 18.66 \\
+\bottomrule
+\end{tabular}
+\caption{Readability metrics for QA explanations without ontology grounding.}
+\label{tab:qa_plain_readability}
+\end{table}
+
+A strong separation emerges:
+
+\begin{itemize}
+    \item Beginner explanations are highly readable and accessible.
+    \item Expert explanations become extremely technical (negative FRE indicates dense biomedical phrasing).
+\end{itemize}
+
+This shows that even without ontology, the prompting mechanism induces strong user adaptiveness.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figs/qa_no_ont.png}
+    \caption{Beginner vs.~Expert readability comparison for QA (no ontology).}
+\end{figure}
+
+\paragraph{Conclusion (No Ontology).}  
+Expert explanations are significantly more complex than beginner explanations, but the difference is unregulated, leading to extremely technical expert outputs.
+
+\subsubsection*{Ontology-Grounded Explanations}
+
+Table~\ref{tab:qa_ontology_readability} shows readability when MeSH concepts and ancestors were included.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{User Category} & \textbf{FRE (↑)} & \textbf{FKGL (↓)} \\
+\midrule
+Beginner & 39.85 & 12.85 \\
+Expert   & 12.06 & 17.26 \\
+\bottomrule
+\end{tabular}
+\caption{Readability metrics for QA explanations with ontology grounding.}
+\label{tab:qa_ontology_readability}
+\end{table}
+
+Key observations include:
+
+\begin{itemize}
+    \item Both beginner and expert explanations become more complex than in the plain setting.
+    \item The readability gap narrows once ontology content is introduced.
+    \item Ontology definitions introduce unavoidable domain-specific terminology that raises baseline difficulty.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figs/qa_with_ont.png}
+    \caption{Readability comparison for QA explanations with ontology grounding.}
+\end{figure}
+
+\paragraph{Conclusion (Ontology).}  
+Ontology grounding introduces consistent biomedical terminology across user types, raising the overall complexity of explanations while still preserving distinctions between beginner and expert phrasing.
+
+\subsection{Overall Findings}
+
+Across both ontology conditions, we observe:
+
+\begin{itemize}
+    \item \textbf{Strong user adaptiveness} emerges in both plain and ontology-grounded modes.
+    \item \textbf{Ontology grounding increases explanation complexity}, especially for beginners.
+    \item \textbf{Expert explanations remain consistently more technical}, but the gap narrows when ontology content is included.
+    \item \textbf{Ontology controls and stabilises explanation structure}, preventing extreme divergence in difficulty.
+\end{itemize}
+
+\subsection*{Summary}
+
+This task demonstrates that the user-adaptive explanation framework generalises beyond classification to span-based biomedical reasoning. Ontology grounding plays a crucial role in shaping explanation complexity and ensuring semantic fidelity, while difficulty-aware prompting maintains appropriate stylistic differences between user categories.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Mode / User Type} & \textbf{Setting} & \textbf{FRE (↑)} & \textbf{FKGL (↓)} \\
+\midrule
+Beginner & Normal (Adaptive) & 31.23 & 12.04 \\
+Expert   & Normal (Adaptive) & 8.60  & 16.78 \\
+\midrule
+Beginner & Full Ontology     & 14.31 & 16.15 \\
+Expert   & Full Ontology     & 12.84 & 16.00 \\
+\midrule
+Beginner & QA Plain (No Ontology) & 72.60 & 6.03 \\
+Expert   & QA Plain (No Ontology) & -1.85 & 18.66 \\
+\midrule
+Beginner & QA + Ontology     & 39.85 & 12.85 \\
+Expert   & QA + Ontology     & 12.06 & 17.26 \\
+\bottomrule
+\end{tabular}
+\caption{Unified readability comparison across all evaluation modes.}
+\label{tab:unified_readability}
+\end{table}
+
+
+
+
+\section{Effect of Constrained Decoding on Explanation Readability}
+\label{sec:constrained_decoding_results}
+
+\subsection{What Is Constrained Decoding?}
+
+Standard language model generation relies on unconstrained sampling or beam search, which may produce fluent text that is nonetheless poorly calibrated to the target audience's reading level. \textbf{Constrained decoding} addresses this by introducing a readability-aware penalty into the token-scoring step at generation time. Concretely, at each decoding step the model's log-probability scores are adjusted by a penalty term $\lambda$ that penalises tokens whose inclusion would push the running Flesch Reading Ease (FRE) estimate too far above or below the target range for the current audience tier. For a \emph{beginner} audience the target is a high FRE (simple language), so the decoder discourages tokens associated with long, polysyllabic words; for an \emph{expert} audience the penalty is relaxed accordingly, allowing more technical vocabulary to surface naturally.
+
+This mechanism gives the pipeline a direct, generation-time ``knob'' for controlling linguistic complexity without retraining the underlying model, and without truncating or post-processing the output.
+
+\subsection{Experimental Setup}
+
+The constrained decoding ablation was carried out on the multi-class medical abstract classification task described in Section~\ref{sec:multilabel_results}. Six randomly selected samples were processed under two conditions:
+
+\begin{itemize}
+    \item \textbf{With~CD} --- generation guided by the readability-aware penalty ($\lambda = 5.0$ for the beginner tier).
+    \item \textbf{Without~CD} --- standard generation with no readability penalty (baseline).
+\end{itemize}
+
+Each sample was evaluated for both \textbf{beginner} and \textbf{expert} audience tiers, yielding four cells in the comparison matrix.
+
+\subsection{Results}
+
+\begin{figure}[h]
+    \centering
+    % TODO: insert cd_comparison_bar.png (grouped bar chart from compare_results.ipynb)
+    \fbox{\parbox{0.75\textwidth}{\centering\vspace{2cm}[Figure: Grouped bar chart --- FRE and FKGL with and without Constrained Decoding, per audience tier]\vspace{2cm}}}
+    \caption{Average Flesch Reading Ease (FRE) and Flesch--Kincaid Grade Level (FKGL) with and without constrained decoding, broken down by audience tier ($n = 6$ samples per condition). Higher FRE indicates simpler text; lower FKGL indicates a lower required reading grade.}
+    \label{fig:cd_comparison_bar}
+\end{figure}
+
+Table~\ref{tab:cd_readability} summarises the average readability metrics across both conditions.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Audience} & \textbf{FRE (With~CD)} & \textbf{FRE (No~CD)} & \textbf{$\Delta$FRE} & \textbf{FKGL (With~CD)} & \textbf{FKGL (No~CD)} & \textbf{$\Delta$FKGL} \\
+\midrule
+Beginner & 63.90 & 19.88 & $+$44.03 & 9.28  & 15.92 & $-$6.64 \\
+Expert   & 29.92 &  0.76 & $+$29.16 & 15.74 & 18.40 & $-$2.65 \\
+\bottomrule
+\end{tabular}
+\caption{Readability comparison with and without constrained decoding ($n = 6$ samples per cell). $\Delta$ values represent the gain attributable to constrained decoding (positive $\Delta$FRE and negative $\Delta$FKGL indicate improvement).}
+\label{tab:cd_readability}
+\end{table}
+
+\subsection{Discussion}
+
+The results demonstrate that constrained decoding delivers substantial and consistent readability gains for both audience tiers.
+
+For the \textbf{beginner} tier, enabling constrained decoding raises the average FRE from 19.88 to 63.90---a gain of \textbf{+44.03 points}---while simultaneously reducing the FKGL from 15.92 to 9.28 (\textbf{$-$6.64 grade levels}). Without the penalty, beginner explanations fall in the ``difficult'' FRE band and require a college-level reading ability; with it, they reach the ``fairly easy'' band, broadly accessible to a general adult audience.
+
+For the \textbf{expert} tier, the improvement is more modest but still meaningful: FRE rises from 0.76 to 29.92 (\textbf{+29.16 points}) and FKGL drops from 18.40 to 15.74 (\textbf{$-$2.65 grade levels}). The smaller delta is expected---the penalty is deliberately relaxed for expert audiences---yet the baseline without constrained decoding produces extremely dense prose (FRE $\approx$ 0.76) that even domain specialists may find unnecessarily turgid, whereas the constrained variant settles at a more measured technical register.
+
+Taken together, these findings confirm that constrained decoding is an effective and lightweight mechanism for calibrating generated explanation text to a target reading level. It requires no additional fine-tuning of the underlying language model and incurs only a modest computational overhead at inference time, making it well suited for deployment in the user-adaptive explanation pipeline described in this work.
+
+% \section*{Task: Named Entity Recognition (Disease NER)}
+
+% For the disease NER task, we applied the full explanation pipeline to a set of 50 biomedical sentences.  
+% Since NER is a sequence labelling task, the objective of this evaluation was not classification accuracy but the behaviour of the explanation-generation component across different user categories.
+
+% For each entity detected by the finetuned BioBERT NER model, LIME was used to extract token-level importance scores, after which ontology grounding retrieved relevant ancestor concepts from MeSH and UMLS. Explanations were generated using our constrained RDF-to-text prompting framework:
+
+% \begin{itemize}
+%     \item Beginners receive \emph{``is a type of''} relations.
+%     \item Experts receive \emph{``subclass of''} relations.
+%     \item Intermediates receive a mixture of both.
+% \end{itemize}
+
+% The following prompt template was used to enforce controlled explanation generation:
+
+% \begin{quote}
+% \small
+% \texttt{TASK: Convert the following structured data into a natural sentence.}\\
+% \texttt{TARGET AUDIENCE: <Beginner/Intermediate/Expert>}\\
+% \texttt{DATA TRIPLES: (entity → relation → ancestor)}\\
+% \texttt{RULES:}\\
+% \texttt{1. Only use information from the triples.}\\
+% \texttt{2. Do not add external facts.}\\
+% \texttt{3. Output must be grammatical.}
+% \end{quote}
+% This prompt ensures that we use LLM purely for Natural Language Generation for the task that sticks to the information we have and purely that only and doesnt hallucinates.
+
+% Readability was evaluated using Flesch Reading Ease (FRE) and Flesch--Kincaid Grade Level (FKGL).  
+% The results show a clear and consistent separation in linguistic complexity across user categories:
+
+% \begin{itemize}
+%     \item \textbf{Expert Explanations:}  
+%     Overall Average FRE = \textbf{36.34},  
+%     Overall Average FKGL = \textbf{12.42}
+    
+%     \item \textbf{Beginner Explanations:}  
+%     Overall Average FRE = \textbf{52.15},  
+%     Overall Average FKGL = \textbf{9.40}
+% \end{itemize}
+
+% \textbf{Conclusion:}  
+% Beginner explanations exhibit higher FRE and lower FKGL, indicating that they are noticeably simpler and easier to read.  
+% Expert explanations are more syntactically and lexically complex, consistent with the deeper ontology ancestors selected through our difficulty-aware scoring mechanism.  
+% This validates the first stage of user adaptiveness in our framework.

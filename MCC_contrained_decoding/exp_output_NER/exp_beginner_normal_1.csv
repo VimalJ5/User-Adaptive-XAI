@@ -1,6 +1,0 @@
-experiment_tag,user_category,ablation_mode,constrained_decoding,lambda,ner_merging,predicted_class,confidence,text_snippet,explanation,lime_coverage,ontology_hit_rate,flesch_reading_ease,flesch_kincaid_grade,smog_index
-beginner_normal_1,BEGINNER,normal,True,5.0,False,General pathological conditions,0.6826,Hypothalamic-pituitary-adrenal function in patients with the premenstrual syndrome. Patients with primary affective diso…,"In the abstract, the key words that most influenced the model’s prediction are ""hypothalamus,"" ""pituitary,"" and ""adrenals."" These terms are at the core of the HPA-axis, a key part of the body's stress response system. 
-
-""Anorexia,"" ""Depression,"" ""and Schizophrenia,"" on the other hand, are symptoms, not organs. Anorexia is a symptom of malnutrition, depression is a mood disorder, and schizophrenia is a disease of the mind. 
-
-These symptoms, when combined with ""PMS"" and ""HPA-axis,"" led the model to classify the abstract as ""General pathological conditions."" This is because PMS, an endocrine-related disorder, has a dysregulated HPA-function, and the symptoms (anorexic, depressive, and schizophrenic-like) can be seen as part of a broader",1.0,1.0,40.198040540540575,12.248423423423425,14.06817628641468

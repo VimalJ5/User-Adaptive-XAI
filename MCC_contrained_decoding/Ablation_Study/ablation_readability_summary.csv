@@ -1,7 +1,0 @@
-Condition,FRE Mean,FRE Std,FRE Min,FRE Max,FKGL Mean,FKGL Std,FKGL Min,FKGL Max,N Samples
-Beginner · LIME · With Ontology,66.97,,66.97,66.97,8.54,,8.54,8.54,1
-Beginner · LIME · Without Ontology,68.09,,68.09,68.09,8.27,,8.27,8.27,1
-Beginner · IG · With Ontology,76.11,,76.11,76.11,5.93,,5.93,5.93,1
-Expert · LIME · With Ontology,5.05,,5.05,5.05,19.82,,19.82,19.82,1
-Expert · LIME · Without Ontology,9.52,,9.52,9.52,19.05,,19.05,19.05,1
-Expert · IG · With Ontology,8.9,,8.9,8.9,19.72,,19.72,19.72,1
