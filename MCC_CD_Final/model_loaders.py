@@ -92,28 +92,36 @@ def load_llm():
     tokenizer = AutoTokenizer.from_pretrained(LLM_MODEL_NAME)
     # Attempt to load the model in 4-bit (bnb) quantized mode for reduced memory.
     # If that fails (missing bitsandbytes or incompatible model), fall back to float16.
-    try:
-        bnb_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type="nf4",
-        )
-        model = AutoModelForCausalLM.from_pretrained(
-            LLM_MODEL_NAME,
-            quantization_config=bnb_config,
-            device_map="auto",
-            trust_remote_code=True,
-        )
-        print("[Loader] LLM loaded in 4-bit quantized mode (bitsandbytes).")
-    except Exception as e:
-        print(f"[Loader] 4-bit quantized load failed: {e}\n[Loader] Falling back to float16 load.")
-        model = AutoModelForCausalLM.from_pretrained(
-            LLM_MODEL_NAME,
-            torch_dtype=torch.float16,
-            device_map="auto",
-            trust_remote_code=True,
-        )
+    # try:
+    #     bnb_config = BitsAndBytesConfig(
+    #         load_in_4bit=True,
+    #         bnb_4bit_compute_dtype=torch.float16,
+    #         bnb_4bit_use_double_quant=True,
+    #         bnb_4bit_quant_type="nf4",
+    #     )
+    #     model = AutoModelForCausalLM.from_pretrained(
+    #         LLM_MODEL_NAME,
+    #         quantization_config=bnb_config,
+    #         device_map="auto",
+    #         trust_remote_code=True,
+    #     )
+    #     print("[Loader] LLM loaded in 4-bit quantized mode (bitsandbytes).")
+    # except Exception as e:
+    #     print(f"[Loader] 4-bit quantized load failed: {e}\n[Loader] Falling back to float16 load.")
+    #     model = AutoModelForCausalLM.from_pretrained(
+    #         LLM_MODEL_NAME,
+    #         torch_dtype=torch.float16,
+    #         device_map="auto",
+    #         trust_remote_code=True,
+    #     )
+    
+    model = AutoModelForCausalLM.from_pretrained(
+        LLM_MODEL_NAME,
+        torch_dtype=torch.float16,
+        device_map="auto",
+        trust_remote_code=True,
+    )
+
     print("[Loader] LLM ready.\n")
     return tokenizer, model
 

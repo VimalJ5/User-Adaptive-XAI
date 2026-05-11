@@ -421,8 +421,14 @@ def build_prompt(
             word  = item["feature_word"]
             chain = " → ".join(item["ancestors"]) if item.get("ancestors") else "N/A"
             onto_lines.append(f'  • "{word}" | Concept hierarchy: {chain}')
- 
-    onto_block = "\n".join(onto_lines) if onto_lines else "  (no ontology context available)"
+
+    # onto_lines = ""
+
+    onto_block = "\n".join(onto_lines) if onto_lines else (
+        "No ontology context was resolved for these tokens.\n"
+        "Reason about their medical relevance from the tokens themselves and\n"
+        "the predicted class."
+    )
  
     # ── Full prompt ───────────────────────────────────────────────────────────
     prompt = f"""A biomedical abstract was classified by a machine learning model. \
@@ -430,8 +436,8 @@ Your task is to explain WHY the model made this prediction to the specified read
  
 ---
 TASK TYPE: Multi-class medical abstract classification
-MODEL INPUT (abstract excerpt):
-\"\"\"{text[:600]}\"\"\"
+MODEL INPUT:
+\"\"\"{text}\"\"\"
  
 MODEL PREDICTION: {predicted_class}
 WHAT THIS MEANS: {class_desc}
@@ -441,19 +447,16 @@ KEY TOKENS RESPONSIBLE (from {XAI_METHOD} feature attribution):
  
 ONTOLOGY CONTEXT FOR EACH TOKEN:
 {onto_block}
-
+---
+USER CATEGORY: {user_category}
+AUDIENCE INSTRUCTION: {audience_instruction}
  
 ---
 INSTRUCTIONS:
 1. Explain which words or phrases drove the model's prediction and WHY they \
 are medically relevant to the predicted class.
-2. Weave at least 3 of the key tokens naturally into your explanation — do \
-not list them mechanically.
-3. Use the ontology context to reason about what each token represents \
-conceptually, not just literally.
-4. Write 4 to 6 sentences as a single coherent paragraph. No bullet points.
-5. Do NOT simply restate the abstract. Explain the model's reasoning.
-6. Do NOT open with "The model predicted…" — write naturally from the reader's \
+2. Do NOT simply restate the abstract. Explain the model's reasoning.
+3. Do NOT open with "The model predicted…" — write naturally from the reader's \
 perspective.
  
 Generate the explanation now:"""
