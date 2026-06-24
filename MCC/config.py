@@ -1,0 +1,175 @@
+"""
+config.py
+=========
+Central configuration for the User-Adaptive XAI Pipeline.
+Edit paths and hyperparameters here — nowhere else.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ QUICK-START: Scroll to EXPERIMENT RUN CONFIG below
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
+
+import json
+from pathlib import Path
+
+# ─────────────────────────────────────────────
+# Word lists (loaded from word_lists.json)
+# ─────────────────────────────────────────────
+_WL_PATH = Path(__file__).parent / "word_lists.json"
+_wl = json.loads(_WL_PATH.read_text(encoding="utf-8"))
+
+COMMON_WORDS: set        = set(_wl["common_words"])
+BIOMEDICAL_WHITELIST: set = set(_wl["biomedical_whitelist"])
+CLAUSE_MARKERS: set       = set(_wl["clause_markers"])
+DALE_CHALL_FAMILIAR: set  = COMMON_WORDS | set(_wl["dale_chall_extra"])
+
+# ─────────────────────────────────────────────
+# Paths
+# ─────────────────────────────────────────────
+
+# Model paths  ← update these for your machine
+CLASSIFIER_MODEL_PATH = (
+    "C:/Users/vimal/OneDrive/Documents/Uni/BTP/"
+    "User-Adaptive-XAI/Models/my_medical_model"
+)
+LLM_MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
+
+# Task prompt defaults. Override these when testing other datasets or tasks.
+TASK_NAME = "biomedical abstract classification"
+TASK_DESCRIPTION = (
+    "Explain why the model assigned the predicted biomedical label to the "
+    "provided input, using only the input text, the prediction, and the "
+    "supplied feature attributions."
+)
+
+# ─────────────────────────────────────────────
+# Classification label map
+# ─────────────────────────────────────────────
+
+LABEL_TO_CLASS = {
+    "Class_0": "Neoplasms",
+    "Class_1": "Digestive system diseases",
+    "Class_2": "Nervous system diseases",
+    "Class_3": "Cardiovascular diseases",
+    "Class_4": "General pathological conditions",
+}
+
+CLASS_NAMES = list(LABEL_TO_CLASS.values())
+
+# ─────────────────────────────────────────────
+# LIME hyperparameters
+# ─────────────────────────────────────────────
+
+LIME_NUM_FEATURES = 6
+LIME_NUM_SAMPLES  = 300
+
+# ─────────────────────────────────────────────
+# XAI method selection  ← change this to swap
+# ─────────────────────────────────────────────
+# Options: "LIME" | "IG"
+#   LIME  — Local Interpretable Model-agnostic Explanations (default)
+#   IG    — Integrated Gradients at embedding level (requires captum)
+#
+XAI_METHOD = "LIME"
+
+# Shared budget — LIME: num_samples  |  IG: ignored (50 steps fixed)
+XAI_NUM_FEATURES = LIME_NUM_FEATURES   # top-k features returned by XAI and passed to Stage 2
+XAI_NUM_SAMPLES  = LIME_NUM_SAMPLES    # perturbation budget
+
+# ─────────────────────────────────────────────
+# LLM generation
+# ─────────────────────────────────────────────
+
+LLM_MAX_NEW_TOKENS   = 180
+LLM_TEMPERATURE      = 0.1
+LLM_REPETITION_PENALTY = 1.1
+
+# Enable constrained decoding path in Stage 3 generation.
+USE_CONSTRAINED_DECODING = True
+
+# Beam search settings for constrained decoding.
+NUM_BEAMS = 4
+MIN_NEW_TOKENS = 80
+
+# λ values by audience.
+LAMBDA_MAP = {
+    "BEGINNER": 5.0,
+    "INTERMEDIATE": 0.5,
+    "EXPERT": 0.00,
+}
+
+LAMBDA_SWEEP_VALUES = [0.01, 0.05, 1.0, 3.0, 5.0, 7.5]
+
+# Hardness feature weights (must sum to 1.0).
+HARDNESS_WEIGHTS = {
+    "length": 0.25,       # reduced — sentence_len now adds a separate length signal
+    "polysyllabic": 0.25, # NEW: words >= POLYSYLLABIC_THRESHOLD syllables (SMOG/Fog signal)
+    "dale_chall": 0.20,   # REPLACES "rare" — unfamiliar word rate (Dale-Chall signal)
+    "clause": 0.10,
+    "syllable": 0.08,     # kept but reduced — complemented by polysyllabic
+    "sentence_len": 0.07, # NEW: avg words per sentence in prefix
+    "char_per_word": 0.05,# NEW: ARI/Coleman-Liau signal
+}
+
+# Thresholds / soft caps for new signals.
+POLYSYLLABIC_THRESHOLD = 3   # SMOG/Fog: words with >= this many syllables count as hard
+SENTENCE_LEN_CAP = 25.0      # soft cap for avg sentence length normalization
+CHAR_PER_WORD_CAP = 9.0      # soft cap for avg characters per word normalization
+
+# Soft caps used to normalize features into [0, 1].
+HARDNESS_CAPS = {
+    "length_words": 60.0,
+    "polysyllabic_words": 10.0,
+    "dale_chall_unfamiliar": 8.0,
+    "clause_markers": 4.0,
+    "avg_syllables_per_word": 4.0,
+    "avg_sentence_length": 25.0,
+    "avg_chars_per_word": 9.0,
+}
+
+
+
+
+# ══════════════════════════════════════════════
+# EXPERIMENT RUN CONFIG  ← edit this section
+# ══════════════════════════════════════════════
+#
+# This is the only section you need to edit before
+# running experiment.ipynb.
+
+# ── Inputs ────────────────────────────────────
+# List of medical abstracts to explain (one result row per entry).
+# Set to None to load ALL non-empty lines from test_data.txt.
+INPUT_TEXTS = [
+    "Endometriosis associated with massive ascites and absence of pelvic peritoneum. Although massive ascites associated with endometriosis has been reported in rare cases, this patient was also noted to have massive destruction of the pelvic peritoneum. Failure of medical suppression necessitated total abdominal hysterectomy and bilateral salpingo-oophorectomy. Several months after surgery ascites resolved, possibly with reestablishment of the pelvic peritoneum. ",
+    "Ultrasound-Doppler diagnosis of Budd-Chiari syndrome. We report a case of apparently idiopathic Budd-Chiari syndrome, diagnosed by ultrasound and Doppler sonography, in a patient with latent myeloproliferative disease. This case proves that Doppler sonography shows in the hepatic veins a flow pattern suggestive of partial thrombotic obstruction. Moreover, we suggest that the search for a latent myeloproliferative disorder, by means of the spontaneous erythroid colonies formation in culture of bone marrow or blood mononuclear cells, should be routinely included in the diagnostic evaluation of each case of hepatic vein thrombosis without other recognizable causes. ",
+    "Neurogenic inflammation of the rat trachea: fate of neutrophils that adhere to venules. The goal of this study was to determine whether neutrophils that adhere to the vascular endothelium in association with neurogenic inflammation in the respiratory tract migrate out of the blood vessels or whether they detach and reenter the circulation. We also sought to determine whether the fate of the neutrophils is influenced by neutral endopeptidase (NEP), an enzyme that degrades the tachykinins that produce neurogenic inflammation. Neutrophils in the tracheal mucosa of anesthetized pathogen-free rats were examined 5 min or 4 h after neurogenic inflammation was produced by an injection of capsaicin (100 or 200 micrograms/kg iv). In whole mounts of these tracheae stained histochemically for myeloperoxidase, adherent intravascular neutrophils had a spherical or teardrop (regular) shape and migrating neutrophils had a polarized amoeboid (irregular) shape. The number of regular neutrophils in the tracheae was increased at both times, but the increase at 4 h was only half that present at 5 min. The reduction between 5 min and 4 h was not offset by an appreciable increase in the number of irregular neutrophils, unless NEP was inhibited by phosphoramidon. We interpret these results as indicating that the rapid adherence of neutrophils to the vascular endothelium after an injection of capsaicin is followed by a gradual reentry of the neutrophils into the circulation and comparatively little neutrophil migration. However, when the effect of the stimulus is increased and/or prolonged by inhibition of NEP, some of the adherent neutrophils migrate out of the vessels. Thus the activity of NEP can regulate both the magnitude of the neutrophil adherence and the fate of the adherent cells. ",
+    "Aberrant regeneration in a case of syringobulbia: selective co-activation of abducens and facial nerves during saccades. A patient suffering from syringobulbia and syringomyelia exhibited a phasic contraction of the ipsilateral facial muscles, mainly the levator labii, whenever he looked to the left or right. Facial muscle twitches occurred exclusively with saccades. The selective co-activation of abducens and facial nerves is interpreted as the result of bilateral misrouting of regenerating neurons from the parapontine reticular formation to the facial nerve in the tegmentum pontis. ",
+    "Germ cell tumor of testis in a patient with von Hippel-Lindau disease. Germ cell testicular tumor is a previously undescribed entity in association with von Hippel-Lindau disease. This case exemplifies the variety of pathologic entities encountered in von Hippel-Lindau disease and stresses the importance of thorough evaluation of the patient, as well as careful follow-up, to ensure early detection of potentially malignant lesions. ",
+    "Failure of hepatitis B immunization in liver transplant recipients: results of a prospective trial. Twenty patients with advanced liver disease, in need of transplantation, were given three injections of 20 micrograms and three injections of 40 micrograms hepatitis B vaccine to see if an antibody response could be obtained. Only 20% of patients developed measurable anti-HBs. One who failed to develop anti-HBs developed chronic hepatitis B after exposure to her infected sexual partner. Type of liver disease in the native liver, age, sex, sexual preference, timing of immunization (before or after transplantation), and dosage of hepatitis B vaccine did not seem to explain the lack of immunologic response to hepatitis B vaccine. It is presumed that immunosuppression, both from the underlying disease and from immunosuppressive medications, best explains our findings. Liver transplantation patients infrequently benefit from hepatitis B vaccine. It is possible that other vaccines given to prevent viral and bacterial illness may also fail to elicit immunologic response in such patients. ",
+    "Spontaneous rupture of an aortic aneurysm into the left renal vein. A diagnostic challenge. Rupture of an aortic aneurysm into a renal vein presents a rare and difficult diagnostic problem. Often, therapy is delayed because the patient is thought to have a urologic problem. In this instance, CT scan provided useful clues leading to the diagnosis of this entity, and its rapid treatment. To our knowledge, this is the first CT scan done in a patient with aorto-renal vein fistula. ",
+    "Imaging of a parapharyngeal hemangiopericytoma. Radioimmunoscintigraphy (SPECT) with indium-111-labeled anti-CEA antibody, and comparison to digital subtraction angiography, computed tomography, and immunohistochemistry. A 27-year-old male patient with a parapharyngeal hemangiopericytoma was investigated radiologically with orthopantomography, computed tomography, and digital subtraction angiography before the operation. Because a malignancy was suspected, the patient was imaged with gamma camera using radiolabeled monoclonal anticarcinoembryonal antigen antibody including single photon emission computed tomography. The radioantibody accumulated strongly into the neoplasm. Tumor to background ratio was 2.2. Samples of the excised tumor were stained immunohistochemically for desmin, vimentin, muscle actin, cytokeratin, CEA (carcinoembryonic antigen), and factor VIII. They showed that the antibody uptake was of unspecific nature and not due to CEA expression in the tumor. ",
+    "Clinicopathological features of elevated lesions of the duodenal bulb. We present here our findings on patients with an elevated lesion of the duodenal bulb. All these patients were treated in our clinics between the years 1984 and 1988. These lesions were present in 36 of 8,802 patients who underwent upper gastrointestinal pan-endoscopy. Two patients had a duodenal carcinoma, 2 an adenoma, and 1 a Brunner's gland adenoma. There were 15 with a hyperplastic polyp, 3 with a heterogenic gastric mucosa, 3 with Brunner's gland hyperplasia, 6 with duodenitis, and 4 with regenerative mucosa. Among these 36 lesions, only 69% (25 lesions) were evident on the upper gastrointestinal X-ray series. Adenoma and Brunner's gland adenoma were of a pedunculated form of the gross type and had an irregular surface mucosa. Both duodenal carcinomas were detected by endoscopic biopsy and were resected. Histologically, these lesions were limited to the submucosal layer and were of the non-pedunculated polypoid form, but there were no other characteristic endoscopic features, in comparison with other elevated lesions. Thus, upper gastrointestinal endoscopy with routine observations of the duodenal bulb plus endoscopic biopsy will lead to a definite diagnosis of these elevated lesions and to the early detection and treatment of this rare malignant lesion. ",
+    "Magnetic resonance imaging for assessment of vena caval tumor thrombi: a comparative study with venacavography and computerized tomography scanning. We assessed the accuracy of magnetic resonance imaging in demonstrating the presence and extent of vena caval tumor thrombi. The study group included 20 patients with vena caval thrombi from renal cell carcinoma (18), renal pelvic transitional cell carcinoma (1) and adrenal pheochromocytoma (1). Preoperative diagnostic studies included magnetic resonance imaging in all patients, inferior venacavography in 16 and computerized tomography scanning in 15. All patients underwent an operation in which the presence and extent of the vena caval thrombus were confirmed. Magnetic resonance imaging accurately delineated the presence and extent of the thrombus in all 20 patients (100%). Venacavography was accurate in 15 patients (94%) but 8 (50%) required a retrograde and antegrade study. Computerized tomography scanning demonstrated the presence of a tumor thrombus in all 15 patients but accurately delineated the cephalad extent of the thrombus in only 5 (33%). In patients with vena caval tumor thrombi magnetic resonance imaging can provide accurate information regarding the extent of vena caval involvement while avoiding the need for an invasive contrast imaging study. ",
+
+]
+
+# Back-compat alias — not used by the notebook any more.
+INPUT_TEXT = INPUT_TEXTS[0] if INPUT_TEXTS else None
+
+# ── Audience ──────────────────────────────────
+# Options: "BEGINNER" | "INTERMEDIATE" | "EXPERT"
+USER_CATEGORY = "BEGINNER"
+
+# ── Constrained decoding ──────────────────────
+# Already defined above; override here if needed.
+# USE_CONSTRAINED_DECODING = True
+
+# ── Experiment tag ────────────────────────────
+# Used as a filename suffix for the saved CSV result.
+# E.g. "expert_lime", "beginner_ig"
+EXPERIMENT_TAG = f"{USER_CATEGORY.lower()}_{XAI_METHOD.lower()}"
+
+# ── Output path (auto-derived) ─────────────────
+# The final CSV is saved to:  results/<EXPERIMENT_TAG>.csv
+EXPERIMENT_RESULTS_PATH = Path("results") / f"{EXPERIMENT_TAG}.csv"
