@@ -19,7 +19,7 @@ _WL_PATH = Path(__file__).parent / "word_lists.json"
 _wl = json.loads(_WL_PATH.read_text(encoding="utf-8"))
 
 COMMON_WORDS: set        = set(_wl["common_words"])
-BIOMEDICAL_WHITELIST: set = set(_wl["biomedical_whitelist"])
+# BIOMEDICAL_WHITELIST: set = set(_wl["biomedical_whitelist"])
 CLAUSE_MARKERS: set       = set(_wl["clause_markers"])
 DALE_CHALL_FAMILIAR: set  = COMMON_WORDS | set(_wl["dale_chall_extra"])
 

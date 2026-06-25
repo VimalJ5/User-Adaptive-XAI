@@ -1,0 +1,4 @@
+tier,fk_grade_mean,fk_grade_std,smog_mean,smog_std,gunning_fog_mean,gunning_fog_std,dale_chall_mean,dale_chall_std,poly_pct_mean,poly_pct_std,rouge_l_mean,rouge_l_std,bertscore_p_mean,bertscore_p_std,bertscore_r_mean,bertscore_r_std,bertscore_f1_mean,bertscore_f1_std
+BEGINNER,3.8735,1.2329,5.1357,1.9006,6.4221,1.5074,6.4632,1.6961,1.531,1.8749,0.1401,0.0658,0.7448,0.0381,0.7442,0.0337,0.7437,0.0241
+INTERMEDIATE,9.5438,1.9652,12.0293,2.1161,12.4757,2.8691,10.486,0.9918,14.559,6.6248,0.1206,0.0449,0.7142,0.043,0.7372,0.0371,0.7251,0.0359
+EXPERT,14.7678,1.3255,13.0015,1.2228,13.7536,1.3965,10.726,1.1582,16.592,4.5501,0.1259,0.0383,0.7197,0.0347,0.7335,0.0332,0.7262,0.0295
