@@ -1,4 +1,5 @@
 {
+    "python.defaultInterpreterPath": "c:\\Users\\vimal\\gpu_env\\Scripts\\python.exe",
     "python.analysis.extraPaths": [
         "./MCC",
         "./NER",

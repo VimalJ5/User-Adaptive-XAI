@@ -1,0 +1,312 @@
+[
+  {
+    "idx": 0,
+    "sentence": "This combined with foreign investments creates interesting opportunities for Solteq .",
+    "true_label": "positive",
+    "predicted_label": "positive",
+    "confidence": 0.8494797945022583,
+    "attributions": [
+      {
+        "token": "Solteq",
+        "score": 0.22494365833267935
+      },
+      {
+        "token": "combined",
+        "score": 0.22175161763689208
+      },
+      {
+        "token": "for",
+        "score": 0.20374606193533976
+      },
+      {
+        "token": "opportunities",
+        "score": 0.16836437942801166
+      },
+      {
+        "token": "investments",
+        "score": 0.14354515952986222
+      }
+    ],
+    "user_level": "BEGINNER",
+    "explanation": "The model predicted a positive sentiment based on key words like \"Soltech,\" \"combined,\" \"for,\" \"opportunity,\" and \"in-investments.\" These words suggest a favorable outlook, as \"Soltec\" (a company) is linked to \"opportunites,\" which are generally viewed positively. \"Combined\" and \"for Soltec\" imply a beneficial situation, while \"investments\" carry a neutral-to-positive connotation, as foreign investments are often seen as a means to growth."
+  },
+  {
+    "idx": 1,
+    "sentence": "For the first nine months of 2010 , the company 's net profit rose to EUR41m from EUR30m for the corresponding period of 2009 .",
+    "true_label": "positive",
+    "predicted_label": "positive",
+    "confidence": 0.9487900733947754,
+    "attributions": [
+      {
+        "token": "rose",
+        "score": 0.2777050928275052
+      },
+      {
+        "token": "from",
+        "score": 0.16572564070235793
+      },
+      {
+        "token": "to",
+        "score": 0.12401062401094001
+      },
+      {
+        "token": "EUR41m",
+        "score": 0.08391691901716725
+      },
+      {
+        "token": "EUR30m",
+        "score": 0.07208303455341422
+      }
+    ],
+    "user_level": "BEGINNER",
+    "explanation": "The model predicted a positive sentiment based on the phrase \"rose,\" which indicates an increase. The word \"from,\" though weak, still supports the idea of a rise. \"To\" and \"EUR\" (as part of \"to EUR\") also support the positive sentiment, albeit weakly. \"EUR40m\" being higher than \"EUR3m\" clearly indicates a profit increase."
+  },
+  {
+    "idx": 2,
+    "sentence": "Under the terms of this agreement Lextel Group has committed to an opening order of EUR3 .75 m for Benefon mobile units to be co-branded with Capitel for the China market .",
+    "true_label": "neutral",
+    "predicted_label": "positive",
+    "confidence": 0.8910640478134155,
+    "attributions": [
+      {
+        "token": "committed",
+        "score": 0.21642893530063226
+      },
+      {
+        "token": "EUR3",
+        "score": 0.2109978670711254
+      },
+      {
+        "token": "order",
+        "score": 0.1963498165085738
+      },
+      {
+        "token": "agreement",
+        "score": 0.15785853725556415
+      },
+      {
+        "token": "to",
+        "score": 0.14497901121587298
+      }
+    ],
+    "user_level": "BEGINNER",
+    "explanation": "The model predicted a positive sentiment based on key words like 'committed', 'EUR3', 'order', 'agreement', and 'to'. These words suggest a strong, positive action (commitment, order, agreement) and a specific amount (EUR3), indicating a clear, confident decision. The word 'to' also implies a direct action towards a goal (co-branding), which further supports a positive outlook."
+  },
+  {
+    "idx": 3,
+    "sentence": "At the end of the review period , Nordic Aluminium 's order book stood at EUR 8.77 mn compared to EUR 7.04 in 2005 .",
+    "true_label": "positive",
+    "predicted_label": "negative",
+    "confidence": 0.6988260746002197,
+    "attributions": [
+      {
+        "token": "compared",
+        "score": 0.41329672037839504
+      },
+      {
+        "token": "to",
+        "score": 0.16217523948163184
+      },
+      {
+        "token": "mn",
+        "score": 0.11837217573117215
+      },
+      {
+        "token": "7",
+        "score": 0.054344809599632345
+      },
+      {
+        "token": "77",
+        "score": 0.05243000117763649
+      }
+    ],
+    "user_level": "BEGINNER",
+    "explanation": "The model predicted a negative sentiment based on the key word \"comared,\" which implies a comparison between two values. In this case, \"EUR 8,77 mn\" (current value) is higher than \"EUR7,04\" (past value), indicating a rise in value, which could be seen as less favorable. The word \"mn,\" short for \"million,\" along with \"7,\" \"77,\" and \"04\" allude to a significant increase, which, in the context of a company's order book value, could be interpreted negatively, as it might suggest a less favorable market position."
+  },
+  {
+    "idx": 4,
+    "sentence": "Finnish food industry companies are interested in the opportunities provided by Ukraine .",
+    "true_label": "neutral",
+    "predicted_label": "positive",
+    "confidence": 0.8085553646087646,
+    "attributions": [
+      {
+        "token": "opportunities",
+        "score": 0.30770090723329685
+      },
+      {
+        "token": "provided",
+        "score": 0.19205069503465924
+      },
+      {
+        "token": "Ukraine",
+        "score": 0.15631050455473627
+      },
+      {
+        "token": "interested",
+        "score": 0.15173668776032445
+      },
+      {
+        "token": "in",
+        "score": 0.1293171369004576
+      }
+    ],
+    "user_level": "BEGINNER",
+    "explanation": "The model predicted a positive sentiment because key words like 'opportunities', 'provided', 'Ukraine', 'interested', and 'in' suggest a favorable outlook. 'Opportunities' and 'provided' indicate a beneficial situation, while 'interest' implies a positive engagement. 'Ukraine' being part of the context, along with 'in', 'interest', 'opportunity', 'provides', 'positive', 'growth', 'prosper', 'expansion', 'success', 'benefit', 'advantage', 'improve', 'better', 'good', 'great', 'increase', 'up', 'rise', 'high', 'more', 'much', 'many', 'large', 'big', 'larger', 'most', 'best', 'top', 'first', 'leading', 'superior', 'strong', 'powerful', 'efficient', 'effective', 'quick', 'fast', 'rapid', 'faster', 'speed', 'swift', 'smooth', 'easy', 'easier', 'simple', 'simplicity', 'simplify', 'clear', 'clean', 'fresh', 'new', 'old', 'used', 're-used', 'reuse', 'renew', 'refresh', 'revive', 'restore', 'repair', 'fix', 'treat', 'cure', 'heal', 'recover', 'rescue', 'save', 'protect', 'defend', 'support', 'help', '"
+  },
+  {
+    "idx": 5,
+    "sentence": "According to Sweden 's Minister for Local Government and Financial Markets , Mats Odell , the decision to sell the State 's shares in telecom group TeliaSonera can only be carried out in cooperation with the State of Finland .",
+    "true_label": "neutral",
+    "predicted_label": "neutral",
+    "confidence": 0.9450938105583191,
+    "attributions": [
+      {
+        "token": "only",
+        "score": 0.04253280526055508
+      },
+      {
+        "token": "be",
+        "score": 0.024036800885375107
+      },
+      {
+        "token": "in",
+        "score": 0.02189376623760866
+      },
+      {
+        "token": "cooperation",
+        "score": -0.01440023752425895
+      },
+      {
+        "token": "with",
+        "score": -0.013707736755005183
+      }
+    ],
+    "user_level": "BEGINNER",
+    "explanation": "The model predicted a neutral sentiment based on the sentence's context. Key words like \"only,\" \"be,\" and \"in,\" which all support the prediction (with strengths 0,043, 0,.024, and 0.,022, respectively), suggest a neutral tone. However, words like “cooperation” and “with,” which contradict the neutral prediction (each with a strength of -0,014), also play a role, but they don't change the overall neutral sentiment."
+  },
+  {
+    "idx": 6,
+    "sentence": "Finnish steel maker Rautaruukki Oyj ( Ruukki ) said on July 7 , 2008 that it won a 9.0 mln euro ( $ 14.1 mln ) contract to supply and install steel superstructures for Partihallsforbindelsen bridge project in Gothenburg , western Sweden .",
+    "true_label": "positive",
+    "predicted_label": "positive",
+    "confidence": 0.9457278847694397,
+    "attributions": [
+      {
+        "token": "won",
+        "score": 0.26551692984780456
+      },
+      {
+        "token": "contract",
+        "score": 0.17332925231903246
+      },
+      {
+        "token": "9",
+        "score": 0.11947967411225145
+      },
+      {
+        "token": "to",
+        "score": 0.10290777236323652
+      },
+      {
+        "token": "a",
+        "score": 0.10157535035711061
+      }
+    ],
+    "user_level": "BEGINNER",
+    "explanation": "The model predicted a positive sentiment based on key words like \"won,\" \"contract,\" \"9,\" \"to,\" and \"a,\" which all support a positive outlook. \"Won\" and \"contract \"indicate a successful outcome and a deal, respectively, both of which are favorable. \"9 million euro\" (9) suggests a large-scale deal, which is often seen as a positive sign. \"To\" (to) implies a move towards a goal, which again, is positive. \"A\" (a) is neutral, but it's part of the phrase \"a 9-million-euro contract,\" which, along with the other words, contributes to the positive sentiment."
+  },
+  {
+    "idx": 7,
+    "sentence": "The main strength of the cooperation project lies in merging the know-how of two large companies .",
+    "true_label": "positive",
+    "predicted_label": "positive",
+    "confidence": 0.49655768275260925,
+    "attributions": [
+      {
+        "token": "strength",
+        "score": 0.18756785895859193
+      },
+      {
+        "token": "main",
+        "score": -0.12361091075082321
+      },
+      {
+        "token": "cooperation",
+        "score": 0.1012022887277122
+      },
+      {
+        "token": "merging",
+        "score": 0.10087342405787514
+      },
+      {
+        "token": "the",
+        "score": 0.1008187081695615
+      }
+    ],
+    "user_level": "BEGINNER",
+    "explanation": "The model predicted a positive sentiment based on key words like \"strength,\" \"merger,\" \"co-operation,\" and \"the,\" which all support the idea that the project's main strength is a positive factor. Words like \"main,\" \"lies,\" \"in,\" \"of,\" \"two,\" \"large,\" \"companies,\" \"know-how,\" \"and,\" \"are,\" \"not,\" \"only,\" \"but,\" \"also,\" \"have,\" \"their,\" \"own,\" \"skills,\" \"which,\" \"can,\" \"be,\" \"combined,\" \"to,\" \"create,\" \"a,\" \"new,\" \"synergy,\" \"that,\" \"will,\" \"lead,\" \"towards,\" \"greater,\" \"efficiency,\" \"innovation,\" \"growth,\" \"success,\" \"for,\" \"both,\" \"firms,\" \"as,\" \"they,\" \"work,\" \"together,\" \"leveraging,\" \"each,\" \"firm's,\" \"unique,\" \"assets,\" \"while,\" \"minimizing,\" \"risks,\" \"associated,\" \"with,\" \"such,\" \"alliances,\" \"or,\" \"partnerships,\" \"like,\" \"this,\" \"one,\" \"where,\" \"it's,\" \"crucially,\" \"important,\" \"is,\" \"how,\" \"well,\" \"these,\" \"diverse,\" \"expertise,\" \"teams,\" \"collaborate,\" \"effectively,\" \"sharing,\" \"best,\" \"practices,\" \"across,\" \"the"
+  },
+  {
+    "idx": 8,
+    "sentence": "Cash Flow from Operations for the most recent quarter also reached a eight year low .",
+    "true_label": "negative",
+    "predicted_label": "negative",
+    "confidence": 0.9756292700767517,
+    "attributions": [
+      {
+        "token": "low",
+        "score": 0.799651561603004
+      },
+      {
+        "token": "quarter",
+        "score": 0.05338870786890296
+      },
+      {
+        "token": "a",
+        "score": 0.029413880459132284
+      },
+      {
+        "token": "Cash",
+        "score": 0.020321508605854088
+      },
+      {
+        "token": "Operations",
+        "score": 0.01656082082554109
+      }
+    ],
+    "user_level": "BEGINNER",
+    "explanation": "The model predicted a negative sentiment based on the key word \"low,\" which strongly supports the prediction with a high strength value (0.8). The word \"quarter,\" while having a very low strength value, still contributes to the negative sentiment. Other key words like \"a,\" \"Cash,\" \"Operations,\" and \"a eight year\" also play a role, though their individual strengths are much lower. Together, these words create a clear picture of a negative financial event, leading the model to predict a negative outlook."
+  },
+  {
+    "idx": 9,
+    "sentence": "Sales in Finland decreased by 2.0 % , and international sales decreased by 9.3 % in terms of euros , and by 15.1 % in terms of local currencies .",
+    "true_label": "negative",
+    "predicted_label": "negative",
+    "confidence": 0.9731278419494629,
+    "attributions": [
+      {
+        "token": "decreased",
+        "score": 0.8931910585959095
+      },
+      {
+        "token": "Sales",
+        "score": 0.031530005225508424
+      },
+      {
+        "token": "by",
+        "score": 0.02254133495928088
+      },
+      {
+        "token": "sales",
+        "score": 0.022179938547106485
+      },
+      {
+        "token": "and",
+        "score": 0.016644003866221092
+      }
+    ],
+    "user_level": "BEGINNER",
+    "explanation": "The model predicted a negative sentiment based on the word \"decrease,\" which directly indicates a negative trend. The word \"Sales,\" which is part of the company's name, also supports the negative sentiment, albeit with a very low strength, as it's a key part of a well-known company's name. Additionally, \"by,\" \"and,\" \"sales,\" and \"in terms of\" (the last part of \"by\") all play a minor role in reinforcing the negative prediction, though their impact is much weaker."
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "idx": 0,
+    "sentence": "On the basis of competitive bidding OOO Kitai Stroi , the Russian subsidiary of China State Construction Engineering Corporation , a construction company owned by China State , has been selected as the main constructor .",
+    "true_label": "neutral",
+    "predicted_label": "positive",
+    "confidence": 0.5506172776222229,
+    "attributions": [
+      {
+        "token": "bidding",
+        "score": 0.13319695356335606
+      },
+      {
+        "token": "selected",
+        "score": 0.11624333297762834
+      },
+      {
+        "token": "competitive",
+        "score": 0.09732652225598766
+      },
+      {
+        "token": "of",
+        "score": 0.09562824065240441
+      },
+      {
+        "token": "constructor",
+        "score": 0.06914246594895596
+      }
+    ],
+    "explanations": {
+      "BEGINNER": "You are an AI assistant that explains financial sentiment predictions in plain, accurate language. Use only the evidence provided. Do not speculate beyond what the evidence shows.Sentence: \"On the basis of competitive bidding OOO Kitai Stroi , the Russian subsidiary of China State Construction Engineering Corporation , a construction company owned by China State , has been selected as the main constructor .\"\n\nA financial sentiment model predicted: POSITIVE (confidence: 55.1%).\n\nKey words that influenced this prediction:\n  - \"bidding\" (supports the prediction, strength 0.133)\n  - \"selected\" (supports the prediction, strength 0.116)\n  - \"competitive\" (supports the prediction, strength 0.097)\n  - \"of\" (supports the prediction, strength 0.096)\n  - \"constructor\" (supports the prediction, strength 0.069)\n\nExplain in 2-4 sentences why the model made this prediction, referring to the key words above.The model predicted a positive sentiment because key words such as \"selected,\" \"competitive,\" and \"constructor,\" which all imply a favorable outcome, were present. \"Bidding\" and \"of,\" while less strong, still support the idea of a positive result, as \"bids\" often lead to \"selection\" in a competitive process. \"Constructor\" further reinforces the positive sentiment, as it suggests a successful role in a project.",
+      "INTERMEDIATE": "You are an AI assistant that explains financial sentiment predictions in plain, accurate language. Use only the evidence provided. Do not speculate beyond what the evidence shows.Sentence: \"On the basis of competitive bidding OOO Kitai Stroi , the Russian subsidiary of China State Construction Engineering Corporation , a construction company owned by China State , has been selected as the main constructor .\"\n\nA financial sentiment model predicted: POSITIVE (confidence: 55.1%).\n\nKey words that influenced this prediction:\n  - \"bidding\" (supports the prediction, strength 0.133)\n  - \"selected\" (supports the prediction, strength 0.116)\n  - \"competitive\" (supports the prediction, strength 0.097)\n  - \"of\" (supports the prediction, strength 0.096)\n  - \"constructor\" (supports the prediction, strength 0.069)\n\nExplain in 2-4 sentences why the model made this prediction, referring to the key words above.The model predicted a positive sentiment because it identified key words that indicate a favorable outcome. \"Bidding\" and \"selected,\" along with \"competitive,\" \"of,\" and \"constructor,\" all contribute to a sense of achievement and success. The fact that a company has been chosen as a main constructor, especially through a competitive process, suggests a positive development for the company, leading to the positive sentiment prediction.",
+      "EXPERT": "You are an AI assistant that explains financial sentiment predictions in plain, accurate language. Use only the evidence provided. Do not speculate beyond what the evidence shows.Sentence: \"On the basis of competitive bidding OOO Kitai Stroi , the Russian subsidiary of China State Construction Engineering Corporation , a construction company owned by China State , has been selected as the main constructor .\"\n\nA financial sentiment model predicted: POSITIVE (confidence: 55.1%).\n\nKey words that influenced this prediction:\n  - \"bidding\" (supports the prediction, strength 0.133)\n  - \"selected\" (supports the prediction, strength 0.116)\n  - \"competitive\" (supports the prediction, strength 0.097)\n  - \"of\" (supports the prediction, strength 0.096)\n  - \"constructor\" (supports the prediction, strength 0.069)\n\nExplain in 2-4 sentences why the model made this prediction, referring to the key words above.The model predicted a positive financial sentiment because the sentence indicates that the Russian company, OOO Kitiastroi, has been chosen as the primary constructor through a competitive bidding process. The key words such as \"selected,\" \"competitive,\" \"constructor,\" and the context of a bidding process suggest a favorable outcome for the company, leading to the positive sentiment prediction. The word \"of,\" while not directly contributing to the sentiment, helps to establish the relationship between the company and its parent corporation, reinforcing the positive context."
+    }
+  }
+]
